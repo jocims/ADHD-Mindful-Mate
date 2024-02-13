@@ -11,108 +11,293 @@
 11    <uses-permission android:name="android.permission.INTERNET" />
 11-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:3:5-67
 11-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:3:22-64
-12    <!--
-13    This manifest file is used only by Gradle to configure debug-only capabilities
-14    for React Native Apps.
-15    -->
-16    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-16-->[com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:16:5-78
-16-->[com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:16:22-75
-17    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-17-->[com.facebook.flipper:flipper:0.201.0] C:\Users\Joci\.gradle\caches\transforms-3\9b2c28bd5719adb7e465469e2ca76c12\transformed\jetified-flipper-0.201.0\AndroidManifest.xml:14:5-76
-17-->[com.facebook.flipper:flipper:0.201.0] C:\Users\Joci\.gradle\caches\transforms-3\9b2c28bd5719adb7e465469e2ca76c12\transformed\jetified-flipper-0.201.0\AndroidManifest.xml:14:22-73
-18
-19    <permission
-19-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
-20        android:name="com.myapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-20-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
-21        android:protectionLevel="signature" />
-21-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
-22
-23    <uses-permission android:name="com.myapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-23-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
-23-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
-24
-25    <application
-25-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:5:5-24:19
-26        android:name="com.myapp.MainApplication"
-26-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:6:7-38
-27        android:allowBackup="false"
-27-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:10:7-34
-28        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-28-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
-29        android:debuggable="true"
-30        android:extractNativeLibs="true"
-31        android:icon="@mipmap/ic_launcher"
-31-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:8:7-41
-32        android:label="@string/app_name"
-32-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:7:7-39
-33        android:roundIcon="@mipmap/ic_launcher_round"
-33-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:9:7-52
-34        android:theme="@style/AppTheme"
-34-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:11:7-38
-35        android:usesCleartextTraffic="true" >
-35-->D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml:6:9-44
-36        <activity
-36-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:12:7-23:18
-37            android:name="com.myapp.MainActivity"
-37-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:13:9-37
-38            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
-38-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:15:9-118
-39            android:exported="true"
-39-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:18:9-32
-40            android:label="@string/app_name"
-40-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:14:9-41
-41            android:launchMode="singleTask"
-41-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:16:9-40
-42            android:windowSoftInputMode="adjustResize" >
-42-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:17:9-51
-43            <intent-filter>
-43-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:19:9-22:25
-44                <action android:name="android.intent.action.MAIN" />
-44-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:20:13-65
-44-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:20:21-62
-45
-46                <category android:name="android.intent.category.LAUNCHER" />
-46-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:21:13-73
-46-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:21:23-70
-47            </intent-filter>
-48        </activity>
-49        <activity
-49-->[com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:19:9-21:40
-50            android:name="com.facebook.react.devsupport.DevSettingsActivity"
-50-->[com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:20:13-77
-51            android:exported="false" />
-51-->[com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:21:13-37
+12    <uses-permission android:name="android.permission.WAKE_LOCK" />
+12-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-68
+12-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:22-65
+13    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+13-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-79
+13-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-76
+14    <!--
+15    This manifest file is used only by Gradle to configure debug-only capabilities
+16    for React Native Apps.
+17    -->
+18    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+18-->[com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:16:5-78
+18-->[com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:16:22-75
+19    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+19-->[com.facebook.flipper:flipper:0.201.0] C:\Users\Joci\.gradle\caches\transforms-3\9b2c28bd5719adb7e465469e2ca76c12\transformed\jetified-flipper-0.201.0\AndroidManifest.xml:14:5-76
+19-->[com.facebook.flipper:flipper:0.201.0] C:\Users\Joci\.gradle\caches\transforms-3\9b2c28bd5719adb7e465469e2ca76c12\transformed\jetified-flipper-0.201.0\AndroidManifest.xml:14:22-73
+20    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+20-->[com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\Joci\.gradle\caches\transforms-3\9ac012c98eb4d200956ad529f83958aa\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:9:5-98
+20-->[com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\Joci\.gradle\caches\transforms-3\9ac012c98eb4d200956ad529f83958aa\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:9:22-95
+21
+22    <permission
+22-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+23        android:name="com.myapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+23-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+24        android:protectionLevel="signature" />
+24-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+25
+26    <uses-permission android:name="com.myapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+26-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+26-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+27
+28    <application
+28-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:5:5-24:19
+29        android:name="com.myapp.MainApplication"
+29-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:6:7-38
+30        android:allowBackup="false"
+30-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:10:7-34
+31        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+31-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+32        android:debuggable="true"
+33        android:extractNativeLibs="true"
+34        android:icon="@mipmap/ic_launcher"
+34-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:8:7-41
+35        android:label="@string/app_name"
+35-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:7:7-39
+36        android:roundIcon="@mipmap/ic_launcher_round"
+36-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:9:7-52
+37        android:theme="@style/AppTheme"
+37-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:11:7-38
+38        android:usesCleartextTraffic="true" >
+38-->D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml:6:9-44
+39        <activity
+39-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:12:7-23:18
+40            android:name="com.myapp.MainActivity"
+40-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:13:9-37
+41            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+41-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:15:9-118
+42            android:exported="true"
+42-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:18:9-32
+43            android:label="@string/app_name"
+43-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:14:9-41
+44            android:launchMode="singleTask"
+44-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:16:9-40
+45            android:windowSoftInputMode="adjustResize" >
+45-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:17:9-51
+46            <intent-filter>
+46-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:19:9-22:25
+47                <action android:name="android.intent.action.MAIN" />
+47-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:20:13-65
+47-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:20:21-62
+48
+49                <category android:name="android.intent.category.LAUNCHER" />
+49-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:21:13-73
+49-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:21:23-70
+50            </intent-filter>
+51        </activity>
 52
-53        <provider
-53-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
-54            android:name="androidx.startup.InitializationProvider"
-54-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
-55            android:authorities="com.myapp.androidx-startup"
-55-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
-56            android:exported="false" >
-56-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
-57            <meta-data
-57-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
-58                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-58-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
-59                android:value="androidx.startup" />
-59-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
-60            <meta-data
-60-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
-61                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-61-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
-62                android:value="androidx.startup" />
-62-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
-63        </provider>
-64
-65        <meta-data
-65-->[com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:12:9-14:37
-66            android:name="com.facebook.soloader.enabled"
-66-->[com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:13:13-57
-67            android:value="false" />
-67-->[com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:14:13-34
-68    </application>
-69
-70</manifest>
+53        <meta-data
+53-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:9-11:36
+54            android:name="app_data_collection_default_enabled"
+54-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:13-63
+55            android:value="true" />
+55-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-33
+56
+57        <service
+57-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:9-21:19
+58            android:name="com.google.firebase.components.ComponentDiscoveryService"
+58-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-84
+59            android:directBootAware="true"
+59-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-43
+60            android:exported="false" >
+60-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-37
+61            <meta-data
+61-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-20:85
+62                android:name="com.google.firebase.components:io.invertase.firebase.app.ReactNativeFirebaseAppRegistrar"
+62-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:19:17-120
+63                android:value="com.google.firebase.components.ComponentRegistrar" />
+63-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:20:17-82
+64            <meta-data
+64-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:69:13-71:85
+65                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+65-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:70:17-109
+66                android:value="com.google.firebase.components.ComponentRegistrar" />
+66-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:71:17-82
+67            <meta-data
+67-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\562e7a6c405debe3e5c43ad3373d9bd1\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:12:13-14:85
+68                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar"
+68-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\562e7a6c405debe3e5c43ad3373d9bd1\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:13:17-116
+69                android:value="com.google.firebase.components.ComponentRegistrar" />
+69-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\562e7a6c405debe3e5c43ad3373d9bd1\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:14:17-82
+70            <meta-data
+70-->[com.google.firebase:firebase-common:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\4428d254c9d0b6dfb3bd7070fb67fe23\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:35:13-37:85
+71                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+71-->[com.google.firebase:firebase-common:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\4428d254c9d0b6dfb3bd7070fb67fe23\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:36:17-109
+72                android:value="com.google.firebase.components.ComponentRegistrar" />
+72-->[com.google.firebase:firebase-common:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\4428d254c9d0b6dfb3bd7070fb67fe23\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:37:17-82
+73        </service>
+74
+75        <provider
+75-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:23:9-27:38
+76            android:name="io.invertase.firebase.app.ReactNativeFirebaseAppInitProvider"
+76-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:24:13-88
+77            android:authorities="com.myapp.reactnativefirebaseappinitprovider"
+77-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:25:13-86
+78            android:exported="false"
+78-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:13-37
+79            android:initOrder="99" />
+79-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:13-35
+80
+81        <activity
+81-->[com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:19:9-21:40
+82            android:name="com.facebook.react.devsupport.DevSettingsActivity"
+82-->[com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:20:13-77
+83            android:exported="false" />
+83-->[com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:21:13-37
+84        <activity
+84-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:29:9-46:20
+85            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+85-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:30:13-80
+86            android:excludeFromRecents="true"
+86-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:31:13-46
+87            android:exported="true"
+87-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:32:13-36
+88            android:launchMode="singleTask"
+88-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:33:13-44
+89            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+89-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:34:13-72
+90            <intent-filter>
+90-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:35:13-45:29
+91                <action android:name="android.intent.action.VIEW" />
+91-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:36:17-69
+91-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:36:25-66
+92
+93                <category android:name="android.intent.category.DEFAULT" />
+93-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:38:17-76
+93-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:38:27-73
+94                <category android:name="android.intent.category.BROWSABLE" />
+94-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:39:17-78
+94-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:39:27-75
+95
+96                <data
+96-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:41:17-44:51
+97                    android:host="firebase.auth"
+97-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:42:21-49
+98                    android:path="/"
+98-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:43:21-37
+99                    android:scheme="genericidp" />
+99-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:44:21-48
+100            </intent-filter>
+101        </activity>
+102        <activity
+102-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:47:9-64:20
+103            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+103-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:48:13-79
+104            android:excludeFromRecents="true"
+104-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:49:13-46
+105            android:exported="true"
+105-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:50:13-36
+106            android:launchMode="singleTask"
+106-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:51:13-44
+107            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+107-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:52:13-72
+108            <intent-filter>
+108-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:53:13-63:29
+109                <action android:name="android.intent.action.VIEW" />
+109-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:36:17-69
+109-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:36:25-66
+110
+111                <category android:name="android.intent.category.DEFAULT" />
+111-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:38:17-76
+111-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:38:27-73
+112                <category android:name="android.intent.category.BROWSABLE" />
+112-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:39:17-78
+112-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:39:27-75
+113
+114                <data
+114-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:41:17-44:51
+115                    android:host="firebase.auth"
+115-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:42:21-49
+116                    android:path="/"
+116-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:43:21-37
+117                    android:scheme="recaptcha" />
+117-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:44:21-48
+118            </intent-filter>
+119        </activity>
+120        <activity
+120-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Joci\.gradle\caches\transforms-3\0f355983a543250e8e6ddcc9d2731a04\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:23:9-27:75
+121            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+121-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Joci\.gradle\caches\transforms-3\0f355983a543250e8e6ddcc9d2731a04\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:24:13-93
+122            android:excludeFromRecents="true"
+122-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Joci\.gradle\caches\transforms-3\0f355983a543250e8e6ddcc9d2731a04\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:25:13-46
+123            android:exported="false"
+123-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Joci\.gradle\caches\transforms-3\0f355983a543250e8e6ddcc9d2731a04\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:26:13-37
+124            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+124-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Joci\.gradle\caches\transforms-3\0f355983a543250e8e6ddcc9d2731a04\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:27:13-72
+125        <!--
+126            Service handling Google Sign-In user revocation. For apps that do not integrate with
+127            Google Sign-In, this service will never be started.
+128        -->
+129        <service
+129-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Joci\.gradle\caches\transforms-3\0f355983a543250e8e6ddcc9d2731a04\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:33:9-37:51
+130            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+130-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Joci\.gradle\caches\transforms-3\0f355983a543250e8e6ddcc9d2731a04\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:34:13-89
+131            android:exported="true"
+131-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Joci\.gradle\caches\transforms-3\0f355983a543250e8e6ddcc9d2731a04\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:35:13-36
+132            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+132-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Joci\.gradle\caches\transforms-3\0f355983a543250e8e6ddcc9d2731a04\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:36:13-107
+133            android:visibleToInstantApps="true" />
+133-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Joci\.gradle\caches\transforms-3\0f355983a543250e8e6ddcc9d2731a04\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:37:13-48
+134
+135        <activity
+135-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Joci\.gradle\caches\transforms-3\5fd09da4e3ebb73eb4f507c78659d4b6\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+136            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+136-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Joci\.gradle\caches\transforms-3\5fd09da4e3ebb73eb4f507c78659d4b6\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:19-85
+137            android:exported="false"
+137-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Joci\.gradle\caches\transforms-3\5fd09da4e3ebb73eb4f507c78659d4b6\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+138            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+138-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Joci\.gradle\caches\transforms-3\5fd09da4e3ebb73eb4f507c78659d4b6\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+139
+140        <provider
+140-->[com.google.firebase:firebase-common:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\4428d254c9d0b6dfb3bd7070fb67fe23\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:23:9-28:39
+141            android:name="com.google.firebase.provider.FirebaseInitProvider"
+141-->[com.google.firebase:firebase-common:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\4428d254c9d0b6dfb3bd7070fb67fe23\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:24:13-77
+142            android:authorities="com.myapp.firebaseinitprovider"
+142-->[com.google.firebase:firebase-common:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\4428d254c9d0b6dfb3bd7070fb67fe23\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:25:13-72
+143            android:directBootAware="true"
+143-->[com.google.firebase:firebase-common:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\4428d254c9d0b6dfb3bd7070fb67fe23\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:26:13-43
+144            android:exported="false"
+144-->[com.google.firebase:firebase-common:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\4428d254c9d0b6dfb3bd7070fb67fe23\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:27:13-37
+145            android:initOrder="100" />
+145-->[com.google.firebase:firebase-common:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\4428d254c9d0b6dfb3bd7070fb67fe23\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:28:13-36
+146
+147        <meta-data
+147-->[com.google.android.gms:play-services-basement:18.2.0] C:\Users\Joci\.gradle\caches\transforms-3\68162890c105b1624553f01ae691581f\transformed\jetified-play-services-basement-18.2.0\AndroidManifest.xml:21:9-23:69
+148            android:name="com.google.android.gms.version"
+148-->[com.google.android.gms:play-services-basement:18.2.0] C:\Users\Joci\.gradle\caches\transforms-3\68162890c105b1624553f01ae691581f\transformed\jetified-play-services-basement-18.2.0\AndroidManifest.xml:22:13-58
+149            android:value="@integer/google_play_services_version" />
+149-->[com.google.android.gms:play-services-basement:18.2.0] C:\Users\Joci\.gradle\caches\transforms-3\68162890c105b1624553f01ae691581f\transformed\jetified-play-services-basement-18.2.0\AndroidManifest.xml:23:13-66
+150
+151        <provider
+151-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+152            android:name="androidx.startup.InitializationProvider"
+152-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
+153            android:authorities="com.myapp.androidx-startup"
+153-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
+154            android:exported="false" >
+154-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
+155            <meta-data
+155-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+156                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+156-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+157                android:value="androidx.startup" />
+157-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
+158            <meta-data
+158-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+159                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+159-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+160                android:value="androidx.startup" />
+160-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+161        </provider>
+162
+163        <meta-data
+163-->[com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:12:9-14:37
+164            android:name="com.facebook.soloader.enabled"
+164-->[com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:13:13-57
+165            android:value="false" />
+165-->[com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:14:13-34
+166    </application>
+167
+168</manifest>
