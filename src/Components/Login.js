@@ -1,46 +1,76 @@
+//Login.js
+
 import React, { Component, useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
+import {
+  View,
+  Text,
+  StyleSheet,
   Image,
-  TouchableOpacity, 
+  TouchableOpacity,
   TextInput,
   ScrollView
- } from 'react-native';
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { auth, db, signInWithEmailAndPassword } from '../config/firebase'; // Adjust the import
+import { doc, getDoc } from 'firebase/firestore';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
- import { auth, signInWithEmailAndPassword } from '../config/firebase'; // Adjust the import
 
- const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
-  
-    const signIn = async () => {
-      setLoading(true);
-      try {
-        const response = await signInWithEmailAndPassword(auth, email, password);
-        console.log(response);
-        alert('User logged-in successfully');
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        alert(error.message);
-        setLoading(false);
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const navigation = useNavigation();
+
+
+  const signIn = async () => {
+    setLoading(true);
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+
+      // Retrieve user data from Firestore based on the user's UID
+      const docRef = doc(db, 'users', response.user.uid);
+
+      const userDoc = await getDoc(docRef);
+      const userData = userDoc.data();
+      console.log('User Role:', userData.role);
+
+
+      // Store user authentication token and role in AsyncStorage
+      await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
+      await ReactNativeAsyncStorage.setItem('userRole', userData.role);
+
+
+
+      // Navigate to the appropriate dashboard based on the user's role
+      if (userData.role === 'patient') {
+        navigation.navigate('PatientDashboard');
+      } else if (userData.role === 'doctor') {
+        navigation.navigate('DoctorDashboard');
       }
-    };
-  
 
-    
-    return (
-      
-      <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false} >
+      alert('User logged-in successfully');
+      setLoading(false);
+
+    } catch (error) {
+      console.log(error);
+      alert(error.message);
+      setLoading(false);
+    }
+  };
+
+
+
+  return (
+
+    <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} >
 
         <Image
           source={require('../logo3.png')}
           style={styles.img}
-          />
+        />
 
 
         <Text style={styles.introduction}>Hello There! </Text>
@@ -50,44 +80,44 @@ import {
 
           <Text style={styles.label}>Username: </Text>
 
-          <TextInput 
+          <TextInput
             placeholder="Enter your Email Address"
             style={styles.input}
             onChangeText={(text) => setEmail(text)}
-          />  
+          />
 
           <Text style={styles.label}> Password: </Text>
 
-          <TextInput 
-          placeholder="Enter your password" 
-          secureTextEntry
-          style={styles.input}
-            onChangeText={(text) => setPassword(text)} 
-          />  
+          <TextInput
+            placeholder="Enter your password"
+            secureTextEntry
+            style={styles.input}
+            onChangeText={(text) => setPassword(text)}
+          />
 
           <View style={styles.resetArea}>
-          <TouchableOpacity style={styles.resetBtn}>
+            <TouchableOpacity style={styles.resetBtn}>
 
 
-          <Text style={styles.resetText}>Forgot your Password?</Text>
-          </TouchableOpacity>
+              <Text style={styles.resetText}>Forgot your Password?</Text>
+            </TouchableOpacity>
 
           </View>
 
 
 
           <TouchableOpacity style={styles.btn} onPress={signIn}>
-        <View style={styles.btnArea}>
-          <Text style={styles.btnText}>Login</Text>
-        </View>
-      </TouchableOpacity>
+            <View style={styles.btnArea}>
+              <Text style={styles.btnText}>Login</Text>
+            </View>
+          </TouchableOpacity>
 
         </View>
-        </ScrollView>
+      </ScrollView>
 
 
-      </View>
-    );
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -110,7 +140,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    
+
   },
   form: {
     paddingTop: 20,
@@ -121,15 +151,15 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     color: 'black',
-    marginBottom : 10,
+    marginBottom: 10,
     fontWeight: 'bold',
   },
-  input: { 
-    borderWidth: 1.5, 
+  input: {
+    borderWidth: 1.5,
     width: 300,
-    borderColor: 'black', 
-    padding: 10, 
-    borderRadius: 7, 
+    borderColor: 'black',
+    padding: 10,
+    borderRadius: 7,
     marginBottom: 15,
   },
   btn: {
@@ -157,8 +187,8 @@ const styles = StyleSheet.create({
   resetArea: {
     alignSelf: 'flex-end', // Align the container to the end of its parent
     flexDirection: 'row', // Set the direction of the container to row
-    flexDirection:'row', 
-    justifyContent:'space-between',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 
