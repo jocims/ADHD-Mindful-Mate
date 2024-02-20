@@ -1,7 +1,7 @@
 //firebase.js
 
 import { initializeApp } from 'firebase/app';
-import { signInWithEmailAndPassword, onAuthStateChanged, initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged, initializeAuth, getReactNativePersistence, sendPasswordResetEmail } from 'firebase/auth';
 import { getFirestore, doc } from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -31,5 +31,5 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-export { auth, db, signInWithEmailAndPassword, doc, getReactNativePersistence };
+export { auth, db, signInWithEmailAndPassword, doc, getReactNativePersistence, sendPasswordResetEmail };
 export default app;

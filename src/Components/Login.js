@@ -16,13 +16,13 @@ import { doc, getDoc } from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
-
 
   const signIn = async () => {
     setLoading(true);
@@ -96,7 +96,7 @@ const Login = () => {
           />
 
           <View style={styles.resetArea}>
-            <TouchableOpacity style={styles.resetBtn}>
+            <TouchableOpacity style={styles.resetBtn} onPress={() => navigation.navigate('ResetPassword')}>
 
 
               <Text style={styles.resetText}>Forgot your Password?</Text>
@@ -104,19 +104,12 @@ const Login = () => {
 
           </View>
 
-
-
           <TouchableOpacity style={styles.btn} onPress={signIn}>
-            <View style={styles.btnArea}>
-              <Text style={styles.btnText}>Login</Text>
-            </View>
+            <Text style={styles.btnText}>Login</Text>
           </TouchableOpacity>
-
         </View>
-      </ScrollView>
-
-
-    </View>
+      </ScrollView >
+    </View >
   );
 }
 
@@ -181,6 +174,7 @@ const styles = StyleSheet.create({
     color: 'black',
     marginBottom: 50,
     fontStyle: 'italic',
+    textDecorationLine: 'underline',
     alignSelf: 'flex-end', // Align the text to the end of its container
     textAlign: 'right', // Align the text to the right within its container
   },

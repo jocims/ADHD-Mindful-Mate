@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './src/Components/Login';
 import DoctorDashboard from './src/Components/DoctorDashboard';
 import PatientDashboard from './src/Components/PatientDashboard';
+import ResetPassword from './src/Components/ResetPassword';
 
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -61,6 +62,7 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
         <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );
