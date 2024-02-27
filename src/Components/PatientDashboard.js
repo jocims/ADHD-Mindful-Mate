@@ -1,11 +1,17 @@
 // PatientDashboard.js
 
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { useUserData } from './UserDataManager';
 
-class PatientDashboard extends Component {
+
+const PatientDashboard = () => {
+
+  const navigation = useNavigation();
+  const { userData } = useUserData();
+
   // Function to handle log out
   handleLogout = async () => {
     // Clear user token and role from AsyncStorage
@@ -16,20 +22,30 @@ class PatientDashboard extends Component {
     this.props.navigation.navigate('Login');
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
+  return (
+
+    <View style={styles.container}>
+      <TouchableOpacity onPress={this.handleLogout} style={styles.logout}>
+        <Image
+          source={require('../logout.png')}
+          style={styles.logoutImg}
+        />
+      </TouchableOpacity>
+      <View style={styles.contentContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Text>Patient Dashboard</Text>
-          {/* Log out button */}
-          <TouchableOpacity style={styles.logoutButton} onPress={this.handleLogout}>
-            <Text style={styles.logoutButtonText}>Log Out</Text>
-          </TouchableOpacity>
+
+          <Image
+            source={require('../logo3.png')}
+            style={styles.img}
+          />
+          <Text>Hello {userData ? userData.firstName + '!' : '!'}</Text>
+
+
         </ScrollView>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -39,15 +55,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 15,
   },
-  logoutButton: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: '#052458',
-    borderRadius: 7,
+  contentContainer: {
+    flex: 1,
   },
-  logoutButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+  img: {
+    width: 250,
+    height: 250,
+    marginBottom: 20,
+    alignSelf: 'center',
+  },
+  logout: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+  logoutImg: {
+    width: 50,
+    height: 50,
   },
 });
 

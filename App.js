@@ -7,6 +7,8 @@ import Login from './src/Components/Login';
 import DoctorDashboard from './src/Components/DoctorDashboard';
 import PatientDashboard from './src/Components/PatientDashboard';
 import ResetPassword from './src/Components/ResetPassword';
+import PatientRegistration from './src/Components/PatientRegistration';
+import { UserDataProvider } from './src/Components/UserDataManager';
 
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -53,17 +55,21 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-        initialRouteName={userUid && userRole ? getDashboardRoute(userRole) : 'Login'}
-      >
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
-        <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
-        <Stack.Screen name="ResetPassword" component={ResetPassword} />
-      </Stack.Navigator>
+      <UserDataProvider>
+
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          initialRouteName={userUid && userRole ? getDashboardRoute(userRole) : 'Login'}
+        >
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
+          <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
+          <Stack.Screen name="ResetPassword" component={ResetPassword} />
+          <Stack.Screen name="PatientRegistration" component={PatientRegistration} />
+        </Stack.Navigator>
+      </UserDataProvider>
     </NavigationContainer>
   );
 }

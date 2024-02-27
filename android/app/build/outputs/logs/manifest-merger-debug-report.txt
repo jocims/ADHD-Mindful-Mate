@@ -11,6 +11,7 @@ MERGED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_m
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-30:12
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:react-native-vector-icons] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-vector-icons\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:2:1-24:12
 MERGED from [com.facebook.fresco:flipper-fresco-plugin:3.1.3] C:\Users\Joci\.gradle\caches\transforms-3\2b5ba21ddda073e33e012f0d689623c6\transformed\jetified-flipper-fresco-plugin-3.1.3\AndroidManifest.xml:8:1-13:12
 MERGED from [com.facebook.fresco:flipper:3.1.3] C:\Users\Joci\.gradle\caches\transforms-3\78a2f7f2f5ffb04c17532765310fabea\transformed\jetified-flipper-3.1.3\AndroidManifest.xml:2:1-7:12
@@ -235,6 +236,8 @@ MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\myApp\no
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-vector-icons] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-vector-icons\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-vector-icons] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-vector-icons\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:10:5-44
 MERGED from [com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:10:5-44
 MERGED from [com.facebook.fresco:flipper-fresco-plugin:3.1.3] C:\Users\Joci\.gradle\caches\transforms-3\2b5ba21ddda073e33e012f0d689623c6\transformed\jetified-flipper-fresco-plugin-3.1.3\AndroidManifest.xml:11:5-44

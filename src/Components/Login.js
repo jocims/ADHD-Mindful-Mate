@@ -14,8 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { auth, db, signInWithEmailAndPassword } from '../config/firebase'; // Adjust the import
 import { doc, getDoc } from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
-
-
+import { useUserData } from './UserDataManager';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -23,6 +22,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
+  const { updateUserData } = useUserData(); // Get the updateUserData function from the context
+
 
   const signIn = async () => {
     setLoading(true);
@@ -41,13 +42,15 @@ const Login = () => {
       await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
       await ReactNativeAsyncStorage.setItem('userRole', userData.role);
 
+      // Update user data in the context
+      updateUserData(response.user.uid);
 
 
       // Navigate to the appropriate dashboard based on the user's role
       if (userData.role === 'patient') {
-        navigation.navigate('PatientDashboard');
+        navigation.navigate('PatientDashboard', { userData });
       } else if (userData.role === 'doctor') {
-        navigation.navigate('DoctorDashboard');
+        navigation.navigate('DoctorDashboard', { userData });
       }
 
       alert('User logged-in successfully');
@@ -89,7 +92,7 @@ const Login = () => {
           <Text style={styles.label}> Password: </Text>
 
           <TextInput
-            placeholder="Enter your password"
+            placeholder="Enter your Password"
             secureTextEntry
             style={styles.input}
             onChangeText={(text) => setPassword(text)}
@@ -97,11 +100,8 @@ const Login = () => {
 
           <View style={styles.resetArea}>
             <TouchableOpacity style={styles.resetBtn} onPress={() => navigation.navigate('ResetPassword')}>
-
-
               <Text style={styles.resetText}>Forgot your Password?</Text>
             </TouchableOpacity>
-
           </View>
 
           <TouchableOpacity style={styles.btn} onPress={signIn}>
