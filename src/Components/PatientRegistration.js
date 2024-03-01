@@ -1,27 +1,67 @@
-import React, { useState, useRef } from 'react';
-import { View, TextInput, StyleSheet, ScrollView, Text, TouchableOpacity, Image } from 'react-native';
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+//PatientRegistration.js
+
+import React, { useState, useEffect } from 'react';
+import {
+    View,
+    TextInput,
+    StyleSheet,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    Image,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { auth, db, signInWithEmailAndPassword } from '../config/firebase'; // Adjust the import
-import { doc, getDoc } from 'firebase/firestore';
-import { useUserData } from './UserDataManager';
+import { auth, db } from '../config/firebase';
+import { collection, doc, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PatientRegistration = () => {
-
     const navigation = useNavigation();
-    const { userData } = useUserData();
 
-    const [patientName, setPatientName] = React.useState('');
-    const [patientSurname, setpatientSurname] = React.useState('');
-    const [patientDOB, setpatientDOB] = React.useState('');
-    const [patientGender, setpatientGender] = React.useState('');
-    const [patientWeight, setpatientWeight] = React.useState('');
-    const [patientMobileNo, setpatientMobileNo] = React.useState('');
-    const [patientEmail, setpatientEmail] = React.useState('');
-    const [provisionalPassword, setprovisionalPassword] = React.useState('');
+    const [patientName, setPatientName] = useState('');
+    const [patientSurname, setPatientSurname] = useState('');
+    const [patientDOB, setPatientDOB] = useState('');
+    const [patientGender, setPatientGender] = useState('');
+    const [patientWeight, setPatientWeight] = useState('');
+    const [patientMobileNo, setPatientMobileNo] = useState('');
+    const [patientEmail, setPatientEmail] = useState('');
+    const [provisionalPassword, setProvisionalPassword] = useState('');
+    const [doctorUid, setDoctorUid] = useState(null); // Add doctorUid state
+
+    useEffect(() => {
+        // Get doctor's UID from AsyncStorage
+        const getDoctorUid = async () => {
+            try {
+                const storedDoctorUid = await AsyncStorage.getItem('userToken');
+                setDoctorUid(storedDoctorUid);
+            } catch (error) {
+                console.error('Error reading doctor UID from AsyncStorage:', error);
+            }
+        };
+
+        getDoctorUid();
+    }, []); // Empty dependency array to run the effect only once
 
     const handleAddPatient = async () => {
+
+        const storedUserToken = await AsyncStorage.getItem('userToken');
+        console.log('storedUserToken:', storedUserToken);
+
         try {
+            if (!doctorUid) {
+                console.error('Doctor UID is not available.');
+                return;
+            }
+
+            // Step 1: Create a user in Firebase Authentication
+            const authUser = await createUserWithEmailAndPassword(
+                auth,
+                patientEmail,
+                provisionalPassword
+            );
+
+            // Step 2: Add patient data to Firestore
             const patientData = {
                 name: patientName,
                 surname: patientSurname,
@@ -31,15 +71,26 @@ const PatientRegistration = () => {
                 mobileNo: patientMobileNo,
                 email: patientEmail,
                 provisionalPassword: provisionalPassword,
-                doctorId: userData.uid
+                doctorId: doctorUid, // Use the doctor's UID as the doctorId
+                role: 'patient',
             };
 
-            const patientRef = doc(db, 'patients', patientData.email);
-            await setDoc(patientRef, patientData);
+            const patientsCollection = collection(db, 'users');
+            await setDoc(doc(patientsCollection, authUser.user.uid), patientData);
+
             alert('Patient added successfully');
+
+
+
+            // Update userToken only if it hasn't been set already
+            console.log('storedUserToken after registration:', storedUserToken);
+
+            if (storedUserToken === null || storedUserToken === undefined) {
+                await AsyncStorage.setItem('userToken', doctorUid);
+            }
+
             navigation.navigate('DoctorDashboard');
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Error adding patient: ', error);
         }
     };
@@ -64,43 +115,43 @@ const PatientRegistration = () => {
                         style={styles.input}
                         placeholder="Surname"
                         value={patientSurname}
-                        onChangeText={setpatientSurname}
+                        onChangeText={setPatientSurname}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Date of Birth"
                         value={patientDOB}
-                        onChangeText={setpatientDOB}
+                        onChangeText={setPatientDOB}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Gender"
                         value={patientGender}
-                        onChangeText={setpatientGender}
+                        onChangeText={setPatientGender}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Weight"
                         value={patientWeight}
-                        onChangeText={setpatientWeight}
+                        onChangeText={setPatientWeight}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Mobile Number"
                         value={patientMobileNo}
-                        onChangeText={setpatientMobileNo}
+                        onChangeText={setPatientMobileNo}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Email"
                         value={patientEmail}
-                        onChangeText={setpatientEmail}
+                        onChangeText={setPatientEmail}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Provisional Password"
                         value={provisionalPassword}
-                        onChangeText={setprovisionalPassword}
+                        onChangeText={setProvisionalPassword}
                     />
                 </View>
                 <TouchableOpacity style={styles.btn} onPress={handleAddPatient}>

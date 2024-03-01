@@ -22,8 +22,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
-  const { updateUserData } = useUserData(); // Get the updateUserData function from the context
 
+  const { updateUserData } = useUserData();
 
   const signIn = async () => {
     setLoading(true);
@@ -37,20 +37,20 @@ const Login = () => {
       const userData = userDoc.data();
       console.log('User Role:', userData.role);
 
+      // Update user data context
+      updateUserData({ uid: response.user.uid });
 
-      // Store user authentication token and role in AsyncStorage
+      // Store user authentication token, role, and display name in AsyncStorage
       await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
       await ReactNativeAsyncStorage.setItem('userRole', userData.role);
 
-      // Update user data in the context
-      updateUserData(response.user.uid);
-
-
       // Navigate to the appropriate dashboard based on the user's role
       if (userData.role === 'patient') {
-        navigation.navigate('PatientDashboard', { userData });
+        console.log('Navigating to PatientDashboard');
+        navigation.navigate('PatientDashboard');
       } else if (userData.role === 'doctor') {
-        navigation.navigate('DoctorDashboard', { userData });
+        console.log('Navigating to DoctorDashboard');
+        navigation.navigate('DoctorDashboard');
       }
 
       alert('User logged-in successfully');
@@ -62,7 +62,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-
 
 
   return (
@@ -92,24 +91,34 @@ const Login = () => {
           <Text style={styles.label}> Password: </Text>
 
           <TextInput
-            placeholder="Enter your Password"
+            placeholder="Enter your password"
             secureTextEntry
             style={styles.input}
             onChangeText={(text) => setPassword(text)}
           />
 
           <View style={styles.resetArea}>
-            <TouchableOpacity style={styles.resetBtn} onPress={() => navigation.navigate('ResetPassword')}>
+            <TouchableOpacity style={styles.resetBtn}>
+
+
               <Text style={styles.resetText}>Forgot your Password?</Text>
             </TouchableOpacity>
+
           </View>
 
+
+
           <TouchableOpacity style={styles.btn} onPress={signIn}>
-            <Text style={styles.btnText}>Login</Text>
+            <View style={styles.btnArea}>
+              <Text style={styles.btnText}>Login</Text>
+            </View>
           </TouchableOpacity>
+
         </View>
-      </ScrollView >
-    </View >
+      </ScrollView>
+
+
+    </View>
   );
 }
 
@@ -174,7 +183,6 @@ const styles = StyleSheet.create({
     color: 'black',
     marginBottom: 50,
     fontStyle: 'italic',
-    textDecorationLine: 'underline',
     alignSelf: 'flex-end', // Align the text to the end of its container
     textAlign: 'right', // Align the text to the right within its container
   },

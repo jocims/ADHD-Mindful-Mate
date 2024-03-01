@@ -14,10 +14,6 @@ import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
-const getDashboardRoute = (userRole) => {
-  return userRole === 'doctor' ? 'DoctorDashboard' : 'PatientDashboard';
-};
-
 export default function App() {
   const [initializing, setInitializing] = useState(true);
   const [userUid, setUserUid] = useState(null);
@@ -56,12 +52,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <UserDataProvider>
-
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName={userUid && userRole ? getDashboardRoute(userRole) : 'Login'}
+          initialRouteName={userRole === 'doctor' ? 'DoctorDashboard' : 'Login'}
         >
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />

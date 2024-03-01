@@ -29,10 +29,30 @@ export const UserDataProvider = ({ children }) => {
         checkUserData();
     }, []);
 
+
     const updateUserData = async (newData) => {
         try {
-            setUserData(newData);
+            console.log('Updating user data:', newData);
+
+            if (!newData) {
+                console.warn('No user data provided for update.');
+                return;
+            }
+
+            // Fetch user data from Firestore
+            const docRef = doc(db, 'users', newData.uid);
+            const userDoc = await getDoc(docRef);
+            const updatedUserData = userDoc.data();
+
+            console.log('Fetched user data from Firestore:', updatedUserData);
+
+            // Update the context with the fetched data
+            setUserData(updatedUserData);
+
+            // Store user token in AsyncStorage
             await AsyncStorage.setItem('userToken', newData.uid);
+
+            console.log('User data updated successfully.');
         } catch (error) {
             console.error('Error updating user data:', error);
         }

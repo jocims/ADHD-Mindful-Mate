@@ -1,16 +1,43 @@
 // DoctorDashboard.js
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useUserData } from './UserDataManager';
-import { PatientRegistration } from './PatientRegistration';
 
 const DoctorDashboard = () => {
-
   const navigation = useNavigation();
   const { userData } = useUserData();
+  const [storedUserToken, setStoredUserToken] = useState(null);
+
+  useEffect(() => {
+    const checkUserToken = async () => {
+      try {
+        const storedToken = await ReactNativeAsyncStorage.getItem('userToken');
+        setStoredUserToken(storedToken);
+
+        if (storedToken === null && userData && userData.role === 'doctor') {
+          await ReactNativeAsyncStorage.setItem('userToken', userData.uid);
+          setStoredUserToken(userData.uid);
+        }
+      } catch (error) {
+        console.error('Error checking or setting user token:', error);
+      }
+    };
+
+    checkUserToken();
+  }, [userData]);
+
+  useEffect(() => {
+    console.log('User Data Changed:', userData);
+
+    // Check if the storedUserToken is updated before logging
+    if (storedUserToken !== null) {
+      console.log('Stored User Token in DoctorDashboard:', storedUserToken);
+    }
+  }, [userData, storedUserToken]);
+
 
 
   const patients = [
@@ -38,7 +65,7 @@ const DoctorDashboard = () => {
     await ReactNativeAsyncStorage.removeItem('userRole');
 
     // Navigate back to the login screen
-    this.props.navigation.navigate('Login');
+    navigation.navigate('Login');
   };
 
   return (
