@@ -38,8 +38,8 @@ const PatientDashboard = () => {
             source={require('../logo3.png')}
             style={styles.img}
           />
-          <Text>Hello {userData ? userData.firstName + '!' : '!'}</Text>
 
+          <Text>Hello {userData ? userData.firstName + '!' : '!'}</Text>
 
         </ScrollView>
       </View>

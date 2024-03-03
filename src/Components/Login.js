@@ -28,6 +28,7 @@ const Login = () => {
   const signIn = async () => {
     setLoading(true);
     try {
+      console.log('Signing in');
       const response = await signInWithEmailAndPassword(auth, email, password);
 
       // Retrieve user data from Firestore based on the user's UID
@@ -40,8 +41,10 @@ const Login = () => {
       // Update user data context
       updateUserData({ uid: response.user.uid });
 
+
       // Store user authentication token, role, and display name in AsyncStorage
       await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
+      console.log('User Token saved!');
       await ReactNativeAsyncStorage.setItem('userRole', userData.role);
 
       // Navigate to the appropriate dashboard based on the user's role

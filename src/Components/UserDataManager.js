@@ -49,9 +49,6 @@ export const UserDataProvider = ({ children }) => {
             // Update the context with the fetched data
             setUserData(updatedUserData);
 
-            // Store user token in AsyncStorage
-            await AsyncStorage.setItem('userToken', newData.uid);
-
             console.log('User data updated successfully.');
         } catch (error) {
             console.error('Error updating user data:', error);

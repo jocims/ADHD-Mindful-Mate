@@ -23,13 +23,13 @@ const auth = initializeAuth(app, {
 const db = getFirestore(app);
 
 // Listen for changes in auth state and store the user token in AsyncStorage
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    ReactNativeAsyncStorage.setItem('userToken', user.uid);
-  } else {
-    ReactNativeAsyncStorage.removeItem('userToken');
-  }
-});
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//     ReactNativeAsyncStorage.setItem('userToken', user.uid);
+//   } else {
+//     ReactNativeAsyncStorage.removeItem('userToken');
+//   }
+// });
 
 export { auth, db, signInWithEmailAndPassword, doc, getReactNativePersistence, sendPasswordResetEmail };
 export default app;
