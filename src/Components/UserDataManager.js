@@ -14,9 +14,15 @@ export const UserDataProvider = ({ children }) => {
         const checkUserData = async () => {
             try {
                 const userToken = await AsyncStorage.getItem('userToken');
+                const userRole = await AsyncStorage.getItem('userRole');
+                console.log('userToken in UserDataManager:', userToken);
 
                 if (userToken) {
-                    const docRef = doc(db, 'users', userToken);
+                    // Adjust the collection based on the user type (patient or doctor)
+                    const collectionName = userRole;
+                    console.log('collectionName:', collectionName);
+
+                    const docRef = doc(db, collectionName, userToken);
                     const userDoc = await getDoc(docRef);
                     const userData = userDoc.data();
                     setUserData(userData);
@@ -29,7 +35,6 @@ export const UserDataProvider = ({ children }) => {
         checkUserData();
     }, []);
 
-
     const updateUserData = async (newData) => {
         try {
             console.log('Updating user data:', newData);
@@ -39,8 +44,11 @@ export const UserDataProvider = ({ children }) => {
                 return;
             }
 
+            // Adjust the collection based on the user type (patient or doctor)
+            const collectionName = newData.uid.startsWith('patient') ? 'patient' : 'doctor';
+
             // Fetch user data from Firestore
-            const docRef = doc(db, 'users', newData.uid);
+            const docRef = doc(db, collectionName, newData.uid);
             const userDoc = await getDoc(docRef);
             const updatedUserData = userDoc.data();
 

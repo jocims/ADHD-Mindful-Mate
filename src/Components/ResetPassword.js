@@ -57,10 +57,9 @@ const ResetPassword = () => {
                     </TouchableOpacity>
 
                     <View style={styles.resetArea}>
-                        <TouchableOpacity style={styles.resetBtn} onPress={() => navigation.navigate('Login')}>
-                            <Text style={styles.resetText}>Back to Login</Text>
+                        <TouchableOpacity style={styles.resetBtn} onPress={() => navigation.navigate('FirstScreen')}>
+                            <Text style={styles.resetText}>Back to Home Screen</Text>
                         </TouchableOpacity>
-
                     </View>
 
                 </View>
@@ -127,18 +126,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         opacity: 0.9,
     },
-
     resetText: {
         fontSize: 14,
         color: 'black',
-        marginTop: 30,
+        marginTop: 100,
         fontStyle: 'italic',
         textDecorationLine: 'underline',
-        alignSelf: 'flex-start', // Align the text to the end of its container
         textAlign: 'center', // Align the text to the right within its container
     },
     resetArea: {
-        alignSelf: 'flex-end', // Align the container to the end of its parent
         flexDirection: 'row', // Set the direction of the container to row
         justifyContent: 'space-between',
     },

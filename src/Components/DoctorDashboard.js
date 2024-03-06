@@ -1,7 +1,7 @@
 // DoctorDashboard.js
 
-import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Image, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useUserData } from './UserDataManager';
@@ -17,7 +17,7 @@ const DoctorDashboard = () => {
         const storedToken = await ReactNativeAsyncStorage.getItem('userToken');
         setStoredUserToken(storedToken);
 
-        if (storedToken === null && userData && userData.role === 'doctor') {
+        if (storedToken === null && userData && userData.isDoctor) {
           await ReactNativeAsyncStorage.setItem('userToken', userData.uid);
           setStoredUserToken(userData.uid);
         }
@@ -38,61 +38,32 @@ const DoctorDashboard = () => {
     }
   }, [userData, storedUserToken]);
 
-
-
-  const patients = [
-    { id: 1, name: 'Patient 1' },
-    { id: 2, name: 'Patient 2' },
-    { id: 3, name: 'Patient 3' },
-    { id: 4, name: 'Patient 4' },
-    { id: 5, name: 'Patient 5' },
-    { id: 6, name: 'Patient 6' },
-    { id: 7, name: 'Patient 7' },
-    { id: 8, name: 'Patient 8' },
-    { id: 9, name: 'Patient 9' },
-  ];
-
-  const renderPatient = ({ item, index }) => (
-    <TouchableOpacity style={[styles.list, index === patients.length - 1 && patients.length % 2 !== 0 ? { width: 305 } : null]}>
-      <Text style={styles.btnText}>{item.name}</Text>
-    </TouchableOpacity>
-  );
-
   // Function to handle log out
-  handleLogout = async () => {
+  const handleLogout = async () => {
     // Clear user token and role from AsyncStorage
     await ReactNativeAsyncStorage.removeItem('userToken');
     await ReactNativeAsyncStorage.removeItem('userRole');
 
     // Navigate back to the login screen
-    navigation.navigate('Login');
+    navigation.navigate('FirstScreen');
   };
 
   return (
     <View style={styles.container}>
-
-
-      <FlatList showsVerticalScrollIndicator={false}
-        data={patients}
-        numColumns={2}
-        renderItem={renderPatient}
-        keyExtractor={(item) => item.id.toString()}
-        ListHeaderComponent={() => (
-          <>
-            <TouchableOpacity onPress={handleLogout} style={styles.logout}>
-              <Image source={require('../logout.png')} style={styles.logoutImg} />
-            </TouchableOpacity>
-            <Image source={require('../logo3.png')} style={styles.img} />
-            <Text style={styles.introduction}>Hello {userData ? userData.firstName + '!' : '!'}</Text>
-            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PatientRegistration')}>
-              <Text style={styles.btnText}>Register new Patient</Text>
-            </TouchableOpacity>
-          </>
-        )}
-      />
+      <TouchableOpacity onPress={handleLogout} style={styles.logout}>
+        <Image source={require('../logout.png')} style={styles.logoutImg} />
+      </TouchableOpacity>
+      <Image source={require('../logo3.png')} style={styles.img} />
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.properContent}>
+        <Text style={styles.introduction}>Hello {userData ? userData.firstName + '!' : '!'}</Text>
+        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PatientRegistration')}>
+          <Text style={styles.btnText}>Register new Patient</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -101,20 +72,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   img: {
+    position: 'absolute',
     width: 250,
     height: 250,
-    marginBottom: 10,
     alignSelf: 'center',
-    marginTop: -50,
+    top: 1,
   },
   logout: {
-    position: 'relative',
+    position: 'absolute',
     top: 15,
-    right: -260,
+    right: 15, // Adjust the right position as needed
   },
   logoutImg: {
     width: 50,
     height: 50,
+  },
+  properContent: {
+    marginTop: 250,
+  },
+  properContent: {
+    marginTop: 255,
   },
   btn: {
     backgroundColor: '#AF3E76',

@@ -26,6 +26,7 @@ const PatientRegistration = () => {
     const [patientWeight, setPatientWeight] = useState('');
     const [patientMobileNo, setPatientMobileNo] = useState('');
     const [patientEmail, setPatientEmail] = useState('');
+    const [isPatient, setIsPatient] = useState('');
     const [provisionalPassword, setProvisionalPassword] = useState('');
     const [doctorUid, setDoctorUid] = useState(null); // Add doctorUid state
 
@@ -63,19 +64,18 @@ const PatientRegistration = () => {
 
             // Step 2: Add patient data to Firestore
             const patientData = {
-                name: patientName,
-                surname: patientSurname,
+                firstName: patientName,
+                lastName: patientSurname,
                 dob: patientDOB,
                 gender: patientGender,
                 weight: patientWeight,
                 mobileNo: patientMobileNo,
                 email: patientEmail,
-                provisionalPassword: provisionalPassword,
+                isPatient: true,
                 doctorId: doctorUid, // Use the doctor's UID as the doctorId
-                role: 'patient',
             };
 
-            const patientsCollection = collection(db, 'users');
+            const patientsCollection = collection(db, 'patient');
             await setDoc(doc(patientsCollection, authUser.user.uid), patientData);
 
             alert('Patient added successfully');

@@ -3,11 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Login from './src/Components/Login';
 import DoctorDashboard from './src/Components/DoctorDashboard';
 import PatientDashboard from './src/Components/PatientDashboard';
 import ResetPassword from './src/Components/ResetPassword';
 import PatientRegistration from './src/Components/PatientRegistration';
+import FirstScreen from './src/Components/FirstScreen';
+import LoginDoctor from './src/Components/LoginDoctor';
+import LoginPatient from './src/Components/LoginPatient';
 import { UserDataProvider } from './src/Components/UserDataManager';
 
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,6 +22,7 @@ export default function App() {
   const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
+    // Retrieving user role in App.js
     const checkUserToken = async () => {
       console.log('Checking user token...');
       try {
@@ -27,20 +30,19 @@ export default function App() {
         const role = await ReactNativeAsyncStorage.getItem('userRole');
 
         console.log('User token from AsyncStorage:', userToken);
-        console.log('Role from AsyncStorage:', role);
+        console.log('User role from AsyncStorage:', role);
 
         if (userToken && role) {
           setUserUid(userToken);
           setUserRole(role);
-          console.log('User token and role found in AsyncStorage:', userToken, role);
+          console.log('User token found in AsyncStorage:', userToken);
         }
       } catch (error) {
-        console.error('Error reading user token or role from AsyncStorage:', error);
+        console.error('Error reading user token from AsyncStorage:', error);
       } finally {
         setInitializing(false);
       }
     };
-
     checkUserToken();
   }, []);
 
@@ -56,9 +58,15 @@ export default function App() {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName={userRole === 'doctor' ? 'DoctorDashboard' : 'Login'}
+          initialRouteName={
+            userRole === 'doctor' ? 'DoctorDashboard' :
+              userRole === 'patient' ? 'PatientDashboard' :
+                'FirstScreen'
+          }
         >
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="FirstScreen" component={FirstScreen} />
+          <Stack.Screen name="LoginDoctor" component={LoginDoctor} />
+          <Stack.Screen name="LoginPatient" component={LoginPatient} />
           <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
           <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
           <Stack.Screen name="ResetPassword" component={ResetPassword} />
