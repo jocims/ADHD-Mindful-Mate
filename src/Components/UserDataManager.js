@@ -25,6 +25,7 @@ export const UserDataProvider = ({ children }) => {
                     const docRef = doc(db, collectionName, userToken);
                     const userDoc = await getDoc(docRef);
                     const userData = userDoc.data();
+                    console.log('Fetched user data from Firestore USERDATA:', userData);
                     setUserData(userData);
                 }
             } catch (error) {
@@ -37,6 +38,8 @@ export const UserDataProvider = ({ children }) => {
 
     const updateUserData = async (newData) => {
         try {
+            const userRole = await AsyncStorage.getItem('userRole');
+
             console.log('Updating user data:', newData);
 
             if (!newData) {
@@ -45,7 +48,8 @@ export const UserDataProvider = ({ children }) => {
             }
 
             // Adjust the collection based on the user type (patient or doctor)
-            const collectionName = newData.uid.startsWith('patient') ? 'patient' : 'doctor';
+            const collectionName = userRole;
+            console.log('collectionName:', collectionName);
 
             // Fetch user data from Firestore
             const docRef = doc(db, collectionName, newData.uid);

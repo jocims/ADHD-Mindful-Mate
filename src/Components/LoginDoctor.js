@@ -1,4 +1,4 @@
-//Login.js
+//LoginDoctor.js
 
 import React, { Component, useState } from 'react';
 import {
@@ -37,13 +37,15 @@ const LoginDoctor = () => {
       const userDoc = await getDoc(docRef);
       const userData = userDoc.data();
 
-      // Update user data context
-      updateUserData({ uid: response.user.uid });
-
       // Store user authentication token, role, and display name in AsyncStorage
       await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
       await ReactNativeAsyncStorage.setItem('userRole', 'doctor');
       console.log('User Token saved!');
+
+      // Update user data context
+      updateUserData({ uid: response.user.uid });
+
+
 
       console.log('userData.isDoctor:', userData.isDoctor);
 

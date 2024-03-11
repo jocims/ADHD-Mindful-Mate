@@ -1,4 +1,4 @@
-//Login.js
+//LoginPatient.js
 
 import React, { Component, useState } from 'react';
 import {
@@ -45,12 +45,14 @@ const LoginPatient = () => {
             await ReactNativeAsyncStorage.setItem('userRole', 'patient');
             console.log('User Token saved!');
 
+            console.log('userData.isDoctor:', userData.isDoctor);
+
             // Check if the user is a patient
-            if (userData && userData.isPatient) {
+            if (userData && !userData.isDoctor) {
                 navigation.navigate('PatientDashboard');
                 alert('User logged-in successfully');
             } else {
-                alert('You are not authorized to log in as a patient.');
+                alert('You are not authorized to log in as a Patient.');
 
                 // Clear user token and role from AsyncStorage
                 await ReactNativeAsyncStorage.removeItem('userToken');
@@ -65,9 +67,6 @@ const LoginPatient = () => {
             setLoading(false);
         }
     };
-
-
-
     return (
 
         <View style={styles.container}>

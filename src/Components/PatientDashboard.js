@@ -1,6 +1,6 @@
 // PatientDashboard.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -17,7 +17,7 @@ const PatientDashboard = () => {
         const storedToken = await ReactNativeAsyncStorage.getItem('userToken');
         setStoredUserToken(storedToken);
 
-        if (storedToken === null && userData && userData.isPatient) {
+        if (storedToken === null && userData && !userData.isDoctor) {
           await ReactNativeAsyncStorage.setItem('userToken', userData.uid);
           setStoredUserToken(userData.uid);
         }
@@ -89,6 +89,9 @@ const styles = StyleSheet.create({
   },
   properContent: {
     marginTop: 250,
+  },
+  properContent: {
+    marginTop: 255,
   },
   btn: {
     backgroundColor: '#AF3E76',

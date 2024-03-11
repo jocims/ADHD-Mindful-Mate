@@ -26,7 +26,7 @@ const PatientRegistration = () => {
     const [patientWeight, setPatientWeight] = useState('');
     const [patientMobileNo, setPatientMobileNo] = useState('');
     const [patientEmail, setPatientEmail] = useState('');
-    const [isPatient, setIsPatient] = useState('');
+    const [isDoctor, setIsDoctor] = useState('');
     const [provisionalPassword, setProvisionalPassword] = useState('');
     const [doctorUid, setDoctorUid] = useState(null); // Add doctorUid state
 
@@ -71,7 +71,7 @@ const PatientRegistration = () => {
                 weight: patientWeight,
                 mobileNo: patientMobileNo,
                 email: patientEmail,
-                isPatient: true,
+                isDoctor: false,
                 doctorId: doctorUid, // Use the doctor's UID as the doctorId
             };
 
