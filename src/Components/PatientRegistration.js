@@ -34,8 +34,8 @@ const PatientRegistration = () => {
     const [patientSurname, setPatientSurname] = useState('');
     const [patientDOB, setPatientDOB] = useState(new Date()); // Initialize with the current date
     const [patientGender, setPatientGender] = useState('');
-    const [patientWeight, setPatientWeight] = useState('');
-    const [patientMobileNo, setPatientMobileNo] = useState('');
+    const [patientWeight, setPatientWeight] = useState(0);
+    const [patientMobileNo, setPatientMobileNo] = useState("");
     const [patientEmail, setPatientEmail] = useState('');
     const [provisionalPassword, setProvisionalPassword] = useState('');
     const [doctorUid, setDoctorUid] = useState(null);
@@ -135,7 +135,7 @@ const PatientRegistration = () => {
         if (patientGender === '') {
             setWarningMessages((prevMessages) => ({
                 ...prevMessages,
-                patientGender: 'Please select a Gender',
+                patientGender: 'Please select a Gender.',
             }));
             isValid = false;
         } else {
@@ -145,12 +145,44 @@ const PatientRegistration = () => {
             }));
         }
 
+        // Validate weight
+        const numericWeight = parseFloat(patientWeight);
+        if (isNaN(numericWeight) || numericWeight <= 0 || numericWeight > 500) {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                patientWeight: 'Please enter a valid weight between 0 and 500 kg.',
+            }));
+            isValid = false;
+        } else {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                patientWeight: '',
+            }));
+        }
+
+        // Validate mobile number format
+        const mobileNoRegex = /^(083|085|086|087)\d{7}$/;
+        if (!mobileNoRegex.test(patientMobileNo)) {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                patientMobileNo: 'Please enter a valid 10-digit number Eg. 0831234567.',
+            }));
+            isValid = false;
+        } else {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                patientMobileNo: '',
+            }));
+        }
+
+
+
         // Validate email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(patientEmail)) {
             setWarningMessages((prevMessages) => ({
                 ...prevMessages,
-                patientEmail: 'Invalid email format. Please enter a valid email address.',
+                patientEmail: 'Please enter a valid email address.',
             }));
             isValid = false;
         } else {
@@ -160,7 +192,21 @@ const PatientRegistration = () => {
             }));
         }
 
-        return isValid;
+        // Validate provisional password
+        if (provisionalPassword.length < 6) {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                provisionalPassword: 'Password must be at least 6 characters long.',
+            }));
+            isValid = false;
+        } else {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                provisionalPassword: '',
+            }));
+        }
+
+        return { isValid };
     };
 
     const handleBlur = (fieldName) => {
@@ -184,6 +230,35 @@ const PatientRegistration = () => {
                     setWarningMessages((prevMessages) => ({
                         ...prevMessages,
                         [fieldName]: 'Invalid surname. Please enter letters only.',
+                    }));
+                } else {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: '',
+                    }));
+                }
+                break;
+
+            case 'patientWeight':
+                if (isNaN(patientWeight) || patientWeight <= 0 || patientWeight > 500) {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        patientWeight: 'Please enter a valid weight.',
+                    }));
+                } else {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        patientWeight: '',
+                    }));
+                }
+                break;
+
+            case 'patientMobileNo':
+                const mobileRegex = /^(083|085|086|087)\d{7}$/;
+                if (!mobileRegex.test(patientMobileNo)) {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: 'Please enter a valid 10-digit number Eg. 0831234567.',
                     }));
                 } else {
                     setWarningMessages((prevMessages) => ({
@@ -407,20 +482,25 @@ const PatientRegistration = () => {
                         <TextInput
                             style={styles.input}
                             placeholder="Kg"
-                            value={patientWeight}
                             onChangeText={setPatientWeight}
+                            onBlur={() => handleBlur('patientWeight')}
                         />
+                        {warningMessages.patientWeight && <Text style={styles.warningMessage}>{warningMessages.patientWeight}</Text>}
                     </View>
 
                     <View>
                         <Text style={styles.fieldLabel}>Mobile Number</Text>
                         <TextInput
                             style={styles.input}
-                            placeholder="Eg. 083 123 4567"
+                            placeholder="Eg. 0831234567"
                             value={patientMobileNo}
                             onChangeText={setPatientMobileNo}
+                            onBlur={() => handleBlur('patientMobileNo')}
+                            maxLength={10} // Restrict input length to 10 characters
                         />
+                        {warningMessages.patientMobileNo && <Text style={styles.warningMessage}>{warningMessages.patientMobileNo}</Text>}
                     </View>
+
 
                     <View>
                         <Text style={styles.fieldLabel}>Email</Text>
@@ -440,9 +520,13 @@ const PatientRegistration = () => {
                             style={styles.input}
                             placeholder="Provisional Password"
                             value={provisionalPassword}
-                            onChangeText={setProvisionalPassword}
+                            onChangeText={(text) => setProvisionalPassword(text)}
+                            onBlur={() => handleBlur('provisionalPassword')}
+                            secureTextEntry={true} // Hide the entered text
                         />
+                        {warningMessages.provisionalPassword && <Text style={styles.warningMessage}>{warningMessages.provisionalPassword}</Text>}
                     </View>
+
                 </View>
                 <TouchableOpacity style={styles.btn} onPress={handleAddPatient}>
                     <Text style={styles.btnText}>Add Patient</Text>
