@@ -18,6 +18,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DatePicker from 'react-native-date-picker';
 import { Picker } from '@react-native-picker/picker';
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 
 const PatientRegistration = () => {
@@ -334,6 +335,8 @@ const PatientRegistration = () => {
                 patientEmail,
                 provisionalPassword
             );
+
+            await sendPasswordResetEmail(auth, patientEmail);
 
             // Step 2: Add patient data to Firestore
             const patientData = {
