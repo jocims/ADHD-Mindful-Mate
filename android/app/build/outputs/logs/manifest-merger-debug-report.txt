@@ -7,8 +7,10 @@ INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManif
 INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.react:flipper-integration:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\1af6da98205d2b9904caa399785386e9\transformed\jetified-flipper-integration-0.73.4-debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-async-storage_async-storage] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:react-native-community_datetimepicker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\datetimepicker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-30:12
+MERGED from [:react-native-date-picker] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-vector-icons] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-vector-icons\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
@@ -96,6 +98,8 @@ MERGED from [androidx.print:print:1.0.0] C:\Users\Joci\.gradle\caches\transforms
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\Joci\.gradle\caches\transforms-3\efce1b44886555346c024fcbf6fda611\transformed\jetified-annotation-experimental-1.3.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.facebook.fbjni:fbjni:0.5.1] C:\Users\Joci\.gradle\caches\transforms-3\057fda56c2cfc52d70a46042a30c6944\transformed\jetified-fbjni-0.5.1\AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:2:1-17:12
+MERGED from [com.github.henninghall:numberpickerview:v1.1.5] C:\Users\Joci\.gradle\caches\transforms-3\3f6772329cfbab4f6ff8401651a6093b\transformed\jetified-numberpickerview-v1.1.5\AndroidManifest.xml:2:1-11:12
+MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\Joci\.gradle\caches\transforms-3\3cce91eec9bc0def73f35cc73acf6a85\transformed\jetified-time4j-android-4.8-2021a\AndroidManifest.xml:2:1-13:12
 MERGED from [com.android.ndk.thirdparty:openssl:1.1.1l-beta-1] C:\Users\Joci\.gradle\caches\transforms-3\9293682cb53936b0e929c86eac194797\transformed\jetified-openssl-1.1.1l-beta-1\AndroidManifest.xml:1:1-3:12
 	package
 		INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml
@@ -124,6 +128,8 @@ ADDED from D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.
 MERGED from D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:5:5-24:19
 MERGED from D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:5:5-24:19
 INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml:5:5-8:50
+MERGED from [:react-native-community_datetimepicker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\datetimepicker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-20
+MERGED from [:react-native-community_datetimepicker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\datetimepicker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-20
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-28:19
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-28:19
 MERGED from [com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:18:5-22:19
@@ -168,6 +174,8 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Jo
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\5b9668a697a30efe2c2676a2ef171ba3\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
 MERGED from [com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:11:5-15:19
 MERGED from [com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:11:5-15:19
+MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\Joci\.gradle\caches\transforms-3\3cce91eec9bc0def73f35cc73acf6a85\transformed\jetified-time4j-android-4.8-2021a\AndroidManifest.xml:11:5-20
+MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\Joci\.gradle\caches\transforms-3\3cce91eec9bc0def73f35cc73acf6a85\transformed\jetified-time4j-android-4.8-2021a\AndroidManifest.xml:11:5-20
 	android:extractNativeLibs
 		INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml
 	android:appComponentFactory
@@ -228,10 +236,14 @@ MERGED from [com.facebook.react:flipper-integration:0.73.4] C:\Users\Joci\.gradl
 MERGED from [com.facebook.react:flipper-integration:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\1af6da98205d2b9904caa399785386e9\transformed\jetified-flipper-integration-0.73.4-debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-async-storage_async-storage] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-async-storage_async-storage] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-community_datetimepicker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\datetimepicker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-community_datetimepicker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\datetimepicker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-44
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-44
+MERGED from [:react-native-date-picker] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-date-picker] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
@@ -406,6 +418,10 @@ MERGED from [com.facebook.fbjni:fbjni:0.5.1] C:\Users\Joci\.gradle\caches\transf
 MERGED from [com.facebook.fbjni:fbjni:0.5.1] C:\Users\Joci\.gradle\caches\transforms-3\057fda56c2cfc52d70a46042a30c6944\transformed\jetified-fbjni-0.5.1\AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.henninghall:numberpickerview:v1.1.5] C:\Users\Joci\.gradle\caches\transforms-3\3f6772329cfbab4f6ff8401651a6093b\transformed\jetified-numberpickerview-v1.1.5\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.henninghall:numberpickerview:v1.1.5] C:\Users\Joci\.gradle\caches\transforms-3\3f6772329cfbab4f6ff8401651a6093b\transformed\jetified-numberpickerview-v1.1.5\AndroidManifest.xml:7:5-9:41
+MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\Joci\.gradle\caches\transforms-3\3cce91eec9bc0def73f35cc73acf6a85\transformed\jetified-time4j-android-4.8-2021a\AndroidManifest.xml:7:5-9:41
+MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\Joci\.gradle\caches\transforms-3\3cce91eec9bc0def73f35cc73acf6a85\transformed\jetified-time4j-android-4.8-2021a\AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.ndk.thirdparty:openssl:1.1.1l-beta-1] C:\Users\Joci\.gradle\caches\transforms-3\9293682cb53936b0e929c86eac194797\transformed\jetified-openssl-1.1.1l-beta-1\AndroidManifest.xml:2:2-70
 MERGED from [com.android.ndk.thirdparty:openssl:1.1.1l-beta-1] C:\Users\Joci\.gradle\caches\transforms-3\9293682cb53936b0e929c86eac194797\transformed\jetified-openssl-1.1.1l-beta-1\AndroidManifest.xml:2:2-70
 	tools:overrideLibrary

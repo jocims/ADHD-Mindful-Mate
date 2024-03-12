@@ -9,29 +9,77 @@ import {
     Text,
     TouchableOpacity,
     Image,
+    Modal,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../config/firebase';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DatePicker from 'react-native-date-picker';
 
 const PatientRegistration = () => {
-    const navigation = useNavigation();
+    const [warningMessages, setWarningMessages] = useState({
+        patientName: '',
+        patientSurname: '',
+        patientEmail: '',
+        patientDOB: '',  // Added warning message for DOB
+        // Add more fields as needed
+        // ...
+    });
 
     const [patientName, setPatientName] = useState('');
     const [patientSurname, setPatientSurname] = useState('');
-    const [patientDOB, setPatientDOB] = useState('');
+    const [patientDOB, setPatientDOB] = useState(new Date()); // Initialize with the current date
     const [patientGender, setPatientGender] = useState('');
     const [patientWeight, setPatientWeight] = useState('');
     const [patientMobileNo, setPatientMobileNo] = useState('');
     const [patientEmail, setPatientEmail] = useState('');
-    const [isDoctor, setIsDoctor] = useState('');
     const [provisionalPassword, setProvisionalPassword] = useState('');
-    const [doctorUid, setDoctorUid] = useState(null); // Add doctorUid state
+    const [doctorUid, setDoctorUid] = useState(null);
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [error, setError] = useState(null);
+    const [formattedDate, setFormattedDate] = useState('Select Date');
+    const [touchableOpacityText, setTouchableOpacityText] = useState(new Date());
+    const [age, setAge] = useState(0);
+
+
+    const navigation = useNavigation();
+
+    const handleDatePress = () => {
+        setError(null);
+        setShowDatePicker(true);
+    };
+
+
+    const hideDatePicker = () => {
+        setShowDatePicker(false);
+        onChangeDOB(touchableOpacityText);
+
+        if (age < 18) {
+            setError("You must be at least 18 years old.");
+            return;
+        }
+    };
+
+    const onChangeDOB = (selectedDate) => {
+        console.log("Entering onChangeDOB");
+
+        const today = new Date();
+        const newAge = today.getFullYear() - selectedDate.getFullYear();
+
+        // Handle the selected date
+        console.log("Selected Date:", selectedDate);
+        setAge(newAge);
+        setTouchableOpacityText(selectedDate);
+        setFormattedDate(selectedDate.toLocaleDateString('en-GB'));
+        setPatientDOB(selectedDate);
+
+        console.log("Exiting onChangeDOB");
+    };
+
 
     useEffect(() => {
-        // Get doctor's UID from AsyncStorage
         const getDoctorUid = async () => {
             try {
                 const storedDoctorUid = await AsyncStorage.getItem('userToken');
@@ -42,10 +90,133 @@ const PatientRegistration = () => {
         };
 
         getDoctorUid();
-    }, []); // Empty dependency array to run the effect only once
+    }, []);
+
+    // Function to validate input fields
+    const validateInputs = () => {
+        let isValid = true;
+
+        const validateName = (name, fieldName) => {
+            if (!/^[A-Za-z\s']{1,50}$/.test(name)) {
+                setWarningMessages((prevMessages) => ({
+                    ...prevMessages,
+                    [fieldName]: `Invalid ${fieldName.toLowerCase()}. Please enter letters only`,
+                }));
+                isValid = false;
+            } else {
+                setWarningMessages((prevMessages) => ({
+                    ...prevMessages,
+                    [fieldName]: '',
+                }));
+            }
+        };
+
+        // Validate other fields similarly
+
+        // Validate name and surname
+        validateName(patientName, 'patientName');
+        validateName(patientSurname, 'patientSurname');
+
+        // Validate date of birth
+        if (age < 18) {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                patientDOB: 'You must be at least 18 years old.',
+            }));
+            isValid = false;
+        } else {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                patientDOB: '',
+            }));
+        }
+
+        // Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(patientEmail)) {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                patientEmail: 'Invalid email format. Please enter a valid email address.',
+            }));
+            isValid = false;
+        } else {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                patientEmail: '',
+            }));
+        }
+
+        // Additional validation logic for other fields
+
+        return isValid;
+    };
+
+    const handleBlur = (fieldName) => {
+        switch (fieldName) {
+            case 'patientName':
+                if (!/^[A-Za-z\s']{1,50}$/.test(patientName)) {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: 'Invalid name. Please enter letters only',
+                    }));
+                } else {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: '',
+                    }));
+                }
+                break;
+
+            case 'patientSurname':
+                if (!/^[A-Za-z\s']{1,50}$/.test(patientSurname)) {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: 'Invalid surname. Please enter letters only.',
+                    }));
+                } else {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: '',
+                    }));
+                }
+                break;
+
+            case 'patientEmail':
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+                if (!emailRegex.test(patientEmail)) {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: 'Invalid email format. Please enter a valid email address.',
+                    }));
+                } else {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: '',
+                    }));
+                }
+                break;
+
+            default:
+                break;
+        }
+    };
+
+    useEffect(() => {
+        // You can add any additional logic or side effects here if needed
+    }, [warningMessages]); // Run the effect whenever warningMessages change
+
+
+    // Utility function to format names
+    const formatName = (name) => {
+        return name
+            .toLowerCase()
+            .split(' ')
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    };
+
 
     const handleAddPatient = async () => {
-
         const storedUserToken = await AsyncStorage.getItem('userToken');
         console.log('storedUserToken:', storedUserToken);
 
@@ -54,6 +225,21 @@ const PatientRegistration = () => {
                 console.error('Doctor UID is not available.');
                 return;
             }
+
+            console.log('Age:', age);
+            console.log('ValidInputs:', validateInputs());
+
+            // Check if a valid date of birth is selected
+            if (age < 18) {
+                setError("Please select a valid date of birth.");
+                return;
+            }
+
+            // Step 1: Validate inputs
+            if (!validateInputs()) {
+                return;
+            }
+
 
             // Step 1: Create a user in Firebase Authentication
             const authUser = await createUserWithEmailAndPassword(
@@ -64,23 +250,22 @@ const PatientRegistration = () => {
 
             // Step 2: Add patient data to Firestore
             const patientData = {
-                firstName: patientName,
-                lastName: patientSurname,
-                dob: patientDOB,
+                firstName: formatName(patientName),
+                lastName: formatName(patientSurname),
+                dob: patientDOB.toISOString(),
                 gender: patientGender,
                 weight: patientWeight,
                 mobileNo: patientMobileNo,
                 email: patientEmail,
                 isDoctor: false,
                 doctorId: doctorUid, // Use the doctor's UID as the doctorId
+                provisionalPassword: true,
             };
 
             const patientsCollection = collection(db, 'patient');
             await setDoc(doc(patientsCollection, authUser.user.uid), patientData);
 
             alert('Patient added successfully');
-
-
 
             // Update userToken only if it hasn't been set already
             console.log('storedUserToken after registration:', storedUserToken);
@@ -96,69 +281,148 @@ const PatientRegistration = () => {
     };
 
     return (
-
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Image
-                    source={require('../logo3.png')}
-                    style={styles.img}
-                />
+                <Image source={require('../logo3.png')} style={styles.img} />
                 <Text style={styles.title}>Register New Patient</Text>
                 <View style={styles.inputContainer}>
+                    <Text style={styles.fieldLabel}>Name</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Name"
                         value={patientName}
-                        onChangeText={setPatientName}
+                        onChangeText={(text) => {
+                            if (text.length <= 50) {
+                                setPatientName(text);
+                                setWarningMessages((prevMessages) => ({
+                                    ...prevMessages,
+                                    patientName: '',
+                                }));
+                            } else {
+                                setWarningMessages((prevMessages) => ({
+                                    ...prevMessages,
+                                    patientName: 'Name cannot exceed 50 characters.',
+                                }));
+                            }
+                        }}
+                        onBlur={() => handleBlur('patientName')}
+                        maxLength={50}
                     />
+                    {warningMessages.patientName && <Text style={styles.warningMessage}>{warningMessages.patientName}</Text>}
+                </View>
+
+                <View>
+                    <Text style={styles.fieldLabel}>Surname</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Surname"
                         value={patientSurname}
-                        onChangeText={setPatientSurname}
+                        onChangeText={(text) => {
+                            if (text.length <= 50) {
+                                setPatientSurname(text);
+                                setWarningMessages((prevMessages) => ({
+                                    ...prevMessages,
+                                    patientSurname: '',
+                                }));
+                            } else {
+                                setWarningMessages((prevMessages) => ({
+                                    ...prevMessages,
+                                    patientSurname: 'Surname cannot exceed 50 characters.',
+                                }));
+                            }
+                        }}
+                        onBlur={() => handleBlur('patientSurname')}
+                        maxLength={50}
                     />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Date of Birth"
-                        value={patientDOB}
-                        onChangeText={setPatientDOB}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Gender"
-                        value={patientGender}
-                        onChangeText={setPatientGender}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Weight"
-                        value={patientWeight}
-                        onChangeText={setPatientWeight}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Mobile Number"
-                        value={patientMobileNo}
-                        onChangeText={setPatientMobileNo}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Email"
-                        value={patientEmail}
-                        onChangeText={setPatientEmail}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Provisional Password"
-                        value={provisionalPassword}
-                        onChangeText={setProvisionalPassword}
-                    />
+                    {warningMessages.patientSurname && <Text style={styles.warningMessage}>{warningMessages.patientSurname}</Text>}
+
+                </View>
+
+                <View>
+                    <Text style={styles.fieldLabel}>Date of Birth</Text>
+                    <TouchableOpacity onPress={handleDatePress}>
+                        <Text style={styles.input}>{formattedDate}</Text>
+                    </TouchableOpacity>
+
+                    {showDatePicker && (
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={showDatePicker}
+                            onRequestClose={hideDatePicker}
+                        >
+                            <View style={styles.modalContainer}>
+                                <View style={styles.modalContent}>
+                                    <DatePicker
+                                        date={touchableOpacityText}
+                                        onDateChange={onChangeDOB}
+                                        mode="date"
+                                        maximumDate={new Date()} // Set maximumDate to today's date
+                                    />
+                                    <TouchableOpacity onPress={hideDatePicker}>
+                                        <Text>Done</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+                    )}
+
+                    {error && <Text style={styles.warningMessage}>{error}</Text>}
+                    <View>
+                        <Text style={styles.fieldLabel}>Gender</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Gender"
+                            value={patientGender}
+                            onChangeText={setPatientGender}
+                        />
+                    </View>
+
+                    <View>
+                        <Text style={styles.fieldLabel}>Weight</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Kg"
+                            value={patientWeight}
+                            onChangeText={setPatientWeight}
+                        />
+                    </View>
+
+                    <View>
+                        <Text style={styles.fieldLabel}>Mobile Number</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Eg. 083 123 4567"
+                            value={patientMobileNo}
+                            onChangeText={setPatientMobileNo}
+                        />
+                    </View>
+
+                    <View>
+                        <Text style={styles.fieldLabel}>Email</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="joe@gmail.com"
+                            value={patientEmail}
+                            onChangeText={setPatientEmail}
+                            onBlur={() => handleBlur('patientEmail')}
+                        />
+                        {warningMessages.patientEmail && <Text style={styles.warningMessage}>{warningMessages.patientEmail}</Text>}
+                    </View>
+
+                    <View>
+                        <Text style={styles.fieldLabel}>Provisional Password</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Provisional Password"
+                            value={provisionalPassword}
+                            onChangeText={setProvisionalPassword}
+                        />
+                    </View>
                 </View>
                 <TouchableOpacity style={styles.btn} onPress={handleAddPatient}>
                     <Text style={styles.btnText}>Add Patient</Text>
                 </TouchableOpacity>
-            </ScrollView>
-        </View>
+            </ScrollView >
+        </View >
     );
 }
 
@@ -233,6 +497,26 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    warningMessage: {
+        color: 'red',
+        fontSize: 12,
+        marginBottom: 5,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 16,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        width: '100%',
+    },
 });
 
 export default PatientRegistration;
+

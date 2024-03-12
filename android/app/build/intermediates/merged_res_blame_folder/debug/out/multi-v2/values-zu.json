@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.myapp-mergeDebugResources-39:/values-zu/values-zu.xml",
+            "outputFile": "com.myapp-mergeDebugResources-40:/values-zu/values-zu.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\13659b94c66de92d98d7f8af61234b95\\transformed\\core-1.9.0\\res\\values-zu\\values-zu.xml",
