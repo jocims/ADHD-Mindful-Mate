@@ -44,9 +44,9 @@ com.myapp-merged_res-42 D:\Users\Joci\ReactNative\myApp\android\app\build\interm
 com.myapp-debug-43 D:\Users\Joci\ReactNative\myApp\android\app\src\debug\res
 com.myapp-main-44 D:\Users\Joci\ReactNative\myApp\android\app\src\main\res
 com.myapp-packaged_res-45 D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\packaged_res\debug
-com.myapp-packaged_res-46 D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\datetimepicker\android\build\intermediates\packaged_res\debug
-com.myapp-packaged_res-47 D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\packaged_res\debug
-com.myapp-packaged_res-48 D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\packaged_res\debug
+com.myapp-packaged_res-46 D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\packaged_res\debug
+com.myapp-packaged_res-47 D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\packaged_res\debug
+com.myapp-packaged_res-48 D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-picker\picker\android\build\intermediates\packaged_res\debug
 com.myapp-packaged_res-49 D:\Users\Joci\ReactNative\myApp\node_modules\react-native-date-picker\android\build\intermediates\packaged_res\debug
 com.myapp-packaged_res-50 D:\Users\Joci\ReactNative\myApp\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug
 com.myapp-packaged_res-51 D:\Users\Joci\ReactNative\myApp\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug

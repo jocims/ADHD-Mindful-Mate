@@ -17,6 +17,8 @@ import { collection, doc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DatePicker from 'react-native-date-picker';
+import { Picker } from '@react-native-picker/picker';
+
 
 const PatientRegistration = () => {
     const [warningMessages, setWarningMessages] = useState({
@@ -100,7 +102,7 @@ const PatientRegistration = () => {
             if (!/^[A-Za-z\s']{1,50}$/.test(name)) {
                 setWarningMessages((prevMessages) => ({
                     ...prevMessages,
-                    [fieldName]: `Invalid ${fieldName.toLowerCase()}. Please enter letters only`,
+                    [fieldName]: `Invalid entry. Please enter letters only`,
                 }));
                 isValid = false;
             } else {
@@ -110,8 +112,6 @@ const PatientRegistration = () => {
                 }));
             }
         };
-
-        // Validate other fields similarly
 
         // Validate name and surname
         validateName(patientName, 'patientName');
@@ -131,6 +131,20 @@ const PatientRegistration = () => {
             }));
         }
 
+        // Validate Gender
+        if (patientGender === '') {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                patientGender: 'Please select a Gender',
+            }));
+            isValid = false;
+        } else {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                patientGender: '',
+            }));
+        }
+
         // Validate email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(patientEmail)) {
@@ -145,8 +159,6 @@ const PatientRegistration = () => {
                 patientEmail: '',
             }));
         }
-
-        // Additional validation logic for other fields
 
         return isValid;
     };
@@ -284,8 +296,8 @@ const PatientRegistration = () => {
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Image source={require('../logo3.png')} style={styles.img} />
-                <Text style={styles.title}>Register New Patient</Text>
-                <View style={styles.inputContainer}>
+                <Text style={styles.introduction}>Register New Patient</Text>
+                <View >
                     <Text style={styles.fieldLabel}>Name</Text>
                     <TextInput
                         style={styles.input}
@@ -366,15 +378,29 @@ const PatientRegistration = () => {
                     )}
 
                     {error && <Text style={styles.warningMessage}>{error}</Text>}
-                    <View>
+
+                    <View >
                         <Text style={styles.fieldLabel}>Gender</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Gender"
-                            value={patientGender}
-                            onChangeText={setPatientGender}
-                        />
+                        <View style={[styles.input, styles.genderInput]}>
+                            <Picker
+                                selectedValue={patientGender}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    setPatientGender(itemValue);
+                                    setWarningMessages((prevMessages) => ({
+                                        ...prevMessages,
+                                        patientGender: '', // Clear the error message
+                                    }));
+                                }}
+                            >
+                                <Picker.Item label="Select Gender" value="" />
+                                <Picker.Item label="Male" value="Male" />
+                                <Picker.Item label="Female" value="Female" />
+                                <Picker.Item label="Other" value="Other" />
+                            </Picker>
+                        </View>
+                        {warningMessages.patientGender && <Text style={styles.warningMessage}>{warningMessages.patientGender}</Text>}
                     </View>
+
 
                     <View>
                         <Text style={styles.fieldLabel}>Weight</Text>
@@ -454,10 +480,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    label: {
-        fontSize: 16,
+    fieldLabel: {
+        fontSize: 14,
         color: 'black',
-        marginBottom: 10,
+        marginBottom: 1,
         fontWeight: 'bold',
     },
     input: {
@@ -466,7 +492,10 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         padding: 10,
         borderRadius: 7,
-        marginBottom: 15,
+        marginBottom: 10,
+        height: 50,
+        overflow: 'hidden', // Ensure border-radius works as expected
+        textAlignVertical: 'center', // For Android
     },
     btn: {
         width: 150,
@@ -516,7 +545,12 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         width: '100%',
     },
+    pickerContainer: {
+        overflow: 'hidden', // Ensure border-radius works as expected
+    },
+    genderInput: {
+        padding: 0,
+    },
 });
 
 export default PatientRegistration;
-

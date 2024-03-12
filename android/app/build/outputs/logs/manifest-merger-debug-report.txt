@@ -7,9 +7,9 @@ INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManif
 INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.react:flipper-integration:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\1af6da98205d2b9904caa399785386e9\transformed\jetified-flipper-integration-0.73.4-debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-async-storage_async-storage] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
-MERGED from [:react-native-community_datetimepicker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\datetimepicker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-30:12
+MERGED from [:react-native-picker_picker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-picker\picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-date-picker] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
@@ -128,8 +128,6 @@ ADDED from D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.
 MERGED from D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:5:5-24:19
 MERGED from D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:5:5-24:19
 INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml:5:5-8:50
-MERGED from [:react-native-community_datetimepicker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\datetimepicker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-20
-MERGED from [:react-native-community_datetimepicker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\datetimepicker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-20
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-28:19
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-28:19
 MERGED from [com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:18:5-22:19
@@ -236,12 +234,12 @@ MERGED from [com.facebook.react:flipper-integration:0.73.4] C:\Users\Joci\.gradl
 MERGED from [com.facebook.react:flipper-integration:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\1af6da98205d2b9904caa399785386e9\transformed\jetified-flipper-integration-0.73.4-debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-async-storage_async-storage] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-async-storage_async-storage] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:react-native-community_datetimepicker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\datetimepicker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:react-native-community_datetimepicker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\datetimepicker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-44
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-44
+MERGED from [:react-native-picker_picker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-picker\picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-picker_picker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-picker\picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-date-picker] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-date-picker] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
