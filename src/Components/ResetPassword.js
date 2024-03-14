@@ -26,7 +26,7 @@ const ResetPassword = () => {
             await sendPasswordResetEmail(auth, email);
             alert('Password reset email sent successfully');
             setLoading(false);
-            navigation.navigate('Login');
+            navigation.navigate('FirstScreen');
         } catch (error) {
             alert(error.message);
             setLoading(false);

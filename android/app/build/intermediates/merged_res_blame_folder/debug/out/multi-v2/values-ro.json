@@ -4,7 +4,7 @@
             "outputFile": "com.myapp-mergeDebugResources-40:/values-ro/values-ro.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\b3627ca143232ec2ceb6e319eb18971d\\transformed\\appcompat-1.6.1\\res\\values-ro\\values-ro.xml",
+                    "source": "C:\\Users\\joci_\\.gradle\\caches\\transforms-3\\b3627ca143232ec2ceb6e319eb18971d\\transformed\\appcompat-1.6.1\\res\\values-ro\\values-ro.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -21,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\5fd09da4e3ebb73eb4f507c78659d4b6\\transformed\\jetified-play-services-base-18.0.1\\res\\values-ro\\values.xml",
+                    "source": "C:\\Users\\joci_\\.gradle\\caches\\transforms-3\\095a0e95a3b97bffb68b6823a94aa0c4\\transformed\\browser-1.4.0\\res\\values-ro\\values-ro.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,162,264,379",
+                        "endColumns": "106,101,114,104",
+                        "endOffsets": "157,259,374,479"
+                    },
+                    "to": {
+                        "startLines": "64,67,68,69",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "6482,6750,6852,6967",
+                        "endColumns": "106,101,114,104",
+                        "endOffsets": "6584,6847,6962,7067"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\joci_\\.gradle\\caches\\transforms-3\\5fd09da4e3ebb73eb4f507c78659d4b6\\transformed\\jetified-play-services-base-18.0.1\\res\\values-ro\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -38,7 +55,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\d3a8a24834f295d8078f18b8298041f7\\transformed\\material-1.9.0\\res\\values-ro\\values-ro.xml",
+                    "source": "C:\\Users\\joci_\\.gradle\\caches\\transforms-3\\13659b94c66de92d98d7f8af61234b95\\transformed\\core-1.9.0\\res\\values-ro\\values-ro.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "141",
+                        "startColumns": "4",
+                        "startOffsets": "12689",
+                        "endColumns": "100",
+                        "endOffsets": "12785"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\joci_\\.gradle\\caches\\transforms-3\\d3a8a24834f295d8078f18b8298041f7\\transformed\\material-1.9.0\\res\\values-ro\\values-ro.xml",
                     "from": {
                         "startLines": "2,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -57,24 +91,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\13659b94c66de92d98d7f8af61234b95\\transformed\\core-1.9.0\\res\\values-ro\\values-ro.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "141",
-                        "startColumns": "4",
-                        "startOffsets": "12689",
-                        "endColumns": "100",
-                        "endOffsets": "12785"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\b4db2f23f2ab214a51186ce21dfe946e\\transformed\\jetified-react-android-0.73.4-debug\\res\\values-ro\\values-ro.xml",
+                    "source": "C:\\Users\\joci_\\.gradle\\caches\\transforms-3\\b4db2f23f2ab214a51186ce21dfe946e\\transformed\\jetified-react-android-0.73.4-debug\\res\\values-ro\\values-ro.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -91,24 +108,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\095a0e95a3b97bffb68b6823a94aa0c4\\transformed\\browser-1.4.0\\res\\values-ro\\values-ro.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,162,264,379",
-                        "endColumns": "106,101,114,104",
-                        "endOffsets": "157,259,374,479"
-                    },
-                    "to": {
-                        "startLines": "64,67,68,69",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "6482,6750,6852,6967",
-                        "endColumns": "106,101,114,104",
-                        "endOffsets": "6584,6847,6962,7067"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\68162890c105b1624553f01ae691581f\\transformed\\jetified-play-services-basement-18.2.0\\res\\values-ro\\values.xml",
+                    "source": "C:\\Users\\joci_\\.gradle\\caches\\transforms-3\\68162890c105b1624553f01ae691581f\\transformed\\jetified-play-services-basement-18.2.0\\res\\values-ro\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
