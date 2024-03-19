@@ -26,19 +26,23 @@ const PatientRegistration = () => {
         patientName: '',
         patientSurname: '',
         patientEmail: '',
-        patientDOB: '',  // Added warning message for DOB
-        // Add more fields as needed
-        // ...
+        patientDOB: '',
+        patientGender: '',
+        patientWeight: '',
+        patientMobileNo: '',
+        provisionalPassword: '',
+        repeatPassword: '',
     });
 
     const [patientName, setPatientName] = useState('');
     const [patientSurname, setPatientSurname] = useState('');
-    const [patientDOB, setPatientDOB] = useState(new Date()); // Initialize with the current date
+    const [patientDOB, setPatientDOB] = useState(new Date());
     const [patientGender, setPatientGender] = useState('');
-    const [patientWeight, setPatientWeight] = useState(0);
+    const [patientWeight, setPatientWeight] = useState('');
     const [patientMobileNo, setPatientMobileNo] = useState("");
     const [patientEmail, setPatientEmail] = useState('');
     const [provisionalPassword, setProvisionalPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
     const [doctorUid, setDoctorUid] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [error, setError] = useState(null);
@@ -147,11 +151,10 @@ const PatientRegistration = () => {
         }
 
         // Validate weight
-        const numericWeight = parseFloat(patientWeight);
-        if (isNaN(numericWeight) || numericWeight <= 0 || numericWeight > 500) {
+        if (isNaN(patientWeight) || patientWeight === '' || parseInt(patientWeight) > 500) {
             setWarningMessages((prevMessages) => ({
                 ...prevMessages,
-                patientWeight: 'Please enter a valid weight between 0 and 500 kg.',
+                patientWeight: 'Please enter a valid weight.',
             }));
             isValid = false;
         } else {
@@ -162,11 +165,11 @@ const PatientRegistration = () => {
         }
 
         // Validate mobile number format
-        const mobileNoRegex = /^(083|085|086|087)\d{7}$/;
+        const mobileNoRegex = /^(083|085|086|087|089)\d{7}$/;
         if (!mobileNoRegex.test(patientMobileNo)) {
             setWarningMessages((prevMessages) => ({
                 ...prevMessages,
-                patientMobileNo: 'Please enter a valid 10-digit number Eg. 0831234567.',
+                patientMobileNo: 'Valid Irish numbers should start with 083, 085, 086, 087 or 089.',
             }));
             isValid = false;
         } else {
@@ -176,14 +179,12 @@ const PatientRegistration = () => {
             }));
         }
 
-
-
         // Validate email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(patientEmail)) {
             setWarningMessages((prevMessages) => ({
                 ...prevMessages,
-                patientEmail: 'Please enter a valid email address.',
+                patientEmail: 'Please enter a valid email address (Eg. joe.doe@gmail.com)',
             }));
             isValid = false;
         } else {
@@ -204,6 +205,20 @@ const PatientRegistration = () => {
             setWarningMessages((prevMessages) => ({
                 ...prevMessages,
                 provisionalPassword: '',
+            }));
+        }
+
+        // Validate provisional password
+        if (repeatPassword !== provisionalPassword) {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                repeatPassword: 'Passwords do not match.',
+            }));
+            isValid = false;
+        } else {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                repeatPassword: '',
             }));
         }
 
@@ -241,25 +256,25 @@ const PatientRegistration = () => {
                 break;
 
             case 'patientWeight':
-                if (isNaN(patientWeight) || patientWeight <= 0 || patientWeight > 500) {
+                if (isNaN(patientWeight) || patientWeight === '' || parseInt(patientWeight) > 500) {
                     setWarningMessages((prevMessages) => ({
                         ...prevMessages,
-                        patientWeight: 'Please enter a valid weight.',
+                        [fieldName]: 'Please enter a valid weight.',
                     }));
                 } else {
                     setWarningMessages((prevMessages) => ({
                         ...prevMessages,
-                        patientWeight: '',
+                        [fieldName]: '',
                     }));
                 }
                 break;
 
             case 'patientMobileNo':
-                const mobileRegex = /^(083|085|086|087)\d{7}$/;
+                const mobileRegex = /^(083|085|086|087|089)\d{7}$/;
                 if (!mobileRegex.test(patientMobileNo)) {
                     setWarningMessages((prevMessages) => ({
                         ...prevMessages,
-                        [fieldName]: 'Please enter a valid 10-digit number Eg. 0831234567.',
+                        [fieldName]: 'Valid Irish numbers should start with 083, 085, 086, 087 or 089.',
                     }));
                 } else {
                     setWarningMessages((prevMessages) => ({
@@ -274,7 +289,35 @@ const PatientRegistration = () => {
                 if (!emailRegex.test(patientEmail)) {
                     setWarningMessages((prevMessages) => ({
                         ...prevMessages,
-                        [fieldName]: 'Invalid email format. Please enter a valid email address.',
+                        [fieldName]: 'Invalid email format. Please enter a valid email address (Eg. joe.doe@gmail.com).',
+                    }));
+                } else {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: '',
+                    }));
+                }
+                break;
+
+            case 'provisionalPassword':
+                if (provisionalPassword.length < 6) {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: 'Password must be at least 6 characters long.',
+                    }));
+                } else {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: '',
+                    }));
+                }
+                break;
+
+            case 'repeatPassword':
+                if (repeatPassword !== provisionalPassword) {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: 'Passwords do not match.',
                     }));
                 } else {
                     setWarningMessages((prevMessages) => ({
@@ -324,7 +367,8 @@ const PatientRegistration = () => {
             }
 
             // Step 1: Validate inputs
-            if (!validateInputs()) {
+            const { isValid } = validateInputs();
+            if (!isValid) {
                 return;
             }
 
@@ -336,7 +380,7 @@ const PatientRegistration = () => {
                 provisionalPassword
             );
 
-            await sendPasswordResetEmail(auth, patientEmail);
+            // await sendPasswordResetEmail(auth, patientEmail);
 
             // Step 2: Add patient data to Firestore
             const patientData = {
@@ -528,6 +572,19 @@ const PatientRegistration = () => {
                             secureTextEntry={true} // Hide the entered text
                         />
                         {warningMessages.provisionalPassword && <Text style={styles.warningMessage}>{warningMessages.provisionalPassword}</Text>}
+                    </View>
+
+                    <View>
+                        <Text style={styles.fieldLabel}>Repeat Password</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Repeat Password"
+                            value={repeatPassword}
+                            onChangeText={(text) => setRepeatPassword(text)}
+                            onBlur={() => handleBlur('repeatPassword')}
+                            secureTextEntry={true} // Hide the entered text
+                        />
+                        {warningMessages.repeatPassword && <Text style={styles.warningMessage}>{warningMessages.repeatPassword}</Text>}
                     </View>
 
                 </View>

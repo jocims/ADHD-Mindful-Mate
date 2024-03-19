@@ -59,6 +59,9 @@ const DoctorDashboard = () => {
         <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PatientRegistration')}>
           <Text style={styles.btnText}>Register new Patient</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.btn} >
+          <Text style={styles.btnText}>Patient's List</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );
