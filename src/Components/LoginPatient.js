@@ -1,6 +1,4 @@
-//LoginPatient.js
-
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -11,21 +9,56 @@ import {
     ScrollView
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { auth, db, signInWithEmailAndPassword } from '../config/firebase'; // Adjust the import
+import { auth, db, signInWithEmailAndPassword } from '../config/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useUserData } from './UserDataManager';
+import ChangePassword from './ChangePassword';
 
 const LoginPatient = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [provisionalPassword, setProvisionalPassword] = useState(false); // New state for provisional password
+
 
     const navigation = useNavigation();
 
     const { updateUserData } = useUserData();
 
+    const validateInputs = () => {
+        let isValid = true;
+
+        if (!email) {
+            setEmailError('Please enter your email. Eg. joe.doe@gmail.com');
+            isValid = false;
+        } else {
+            setEmailError('');
+        }
+
+        if (!password) {
+            setPasswordError(`Please enter your password containing:
+          - At least 8 characters with at least one of each of the following:
+            - Uppercase letter
+            - Lowercase letter
+            - Number
+            - Special character`);
+            isValid = false;
+        } else {
+            setPasswordError('');
+        }
+
+        return isValid;
+    };
+
+
     const signIn = async () => {
+        if (!validateInputs()) {
+            return;
+        }
+
         setLoading(true);
         try {
             console.log('Signing in as a patient');
@@ -40,13 +73,20 @@ const LoginPatient = () => {
             // Store user authentication token, role, and display name in AsyncStorage
             await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
             await ReactNativeAsyncStorage.setItem('userRole', 'patient');
+            await ReactNativeAsyncStorage.setItem('provisionalPassword', userData.provisionalPassword.toString());
             console.log('User Token saved!');
 
-            
             // Update user data context
             updateUserData({ uid: response.user.uid });
 
             console.log('userData.isDoctor:', userData.isDoctor);
+
+            // Check if it's the first time login with provisional password
+            if (userData.provisionalPassword) {
+                setProvisionalPassword(true);
+                setLoading(false);
+                return; // Stop further execution to navigate to ChangePasswordPatient
+            }
 
             // Check if the user is a patient
             if (userData && !userData.isDoctor) {
@@ -58,16 +98,35 @@ const LoginPatient = () => {
                 // Clear user token and role from AsyncStorage
                 await ReactNativeAsyncStorage.removeItem('userToken');
                 await ReactNativeAsyncStorage.removeItem('userRole');
+                await ReactNativeAsyncStorage.removeItem('provisionalPassword');
+
             }
 
             setLoading(false);
 
         } catch (error) {
-            console.log(error);
-            alert(error.message);
+
+            // Display alert messages based on the error code
+            if (error.code === 'auth/user-not-found') {
+                alert('User not found. Please check your email.');
+            } else if (error.code === 'auth/invalid-email') {
+                alert('Invalid email. Please enter a valid email address.');
+            } else if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+                alert('Invalid password. Please check your password.');
+            } else {
+                alert(error);
+            }
+
             setLoading(false);
         }
     };
+
+    if (provisionalPassword) {
+        return (
+            <ChangePassword setProvisionalPassword={setProvisionalPassword} />
+        );
+    }
+
     return (
 
         <View style={styles.container}>
@@ -91,6 +150,7 @@ const LoginPatient = () => {
                         style={styles.input}
                         onChangeText={(text) => setEmail(text)}
                     />
+                    {!!emailError && <Text style={styles.error}>{emailError}</Text>}
 
                     <Text style={styles.label}> Password: </Text>
 
@@ -100,6 +160,7 @@ const LoginPatient = () => {
                         style={styles.input}
                         onChangeText={(text) => setPassword(text)}
                     />
+                    {!!passwordError && <Text style={styles.error}>{passwordError}</Text>}
 
                     <View style={styles.resetArea}>
                         <TouchableOpacity style={styles.resetBtn} onPress={() => navigation.navigate('ResetPassword')} >
@@ -206,6 +267,12 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#052458',
         fontFamily: 'SourceCodePro-BlackItalic',
+    },
+    error: {
+        color: 'red',
+        fontSize: 12,
+        alignSelf: 'flex-start', // Align the text to the start of its container
+        marginLeft: 10, // Add some left margin to separate from the input field
     },
 });
 

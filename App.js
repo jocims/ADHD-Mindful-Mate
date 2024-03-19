@@ -1,5 +1,3 @@
-// App.js
-
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -10,6 +8,7 @@ import PatientRegistration from './src/Components/PatientRegistration';
 import FirstScreen from './src/Components/FirstScreen';
 import LoginDoctor from './src/Components/LoginDoctor';
 import LoginPatient from './src/Components/LoginPatient';
+import ChangePassword from './src/Components/ChangePassword';
 import { UserDataProvider } from './src/Components/UserDataManager';
 
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,6 +19,7 @@ export default function App() {
   const [initializing, setInitializing] = useState(true);
   const [userUid, setUserUid] = useState(null);
   const [userRole, setUserRole] = useState(null);
+  const [provisionalPassword, setProvisionalPassword] = useState(false);
 
   useEffect(() => {
     // Retrieving user role in App.js
@@ -37,6 +37,13 @@ export default function App() {
           setUserRole(role);
           console.log('User token found in AsyncStorage:', userToken);
         }
+
+        // Check if provisional password needs to be set
+        const provisionalPasswordValue = await ReactNativeAsyncStorage.getItem('provisionalPassword');
+        if (provisionalPasswordValue === 'true') {
+          setProvisionalPassword(true);
+        }
+
       } catch (error) {
         console.error('Error reading user token from AsyncStorage:', error);
       } finally {
@@ -60,7 +67,7 @@ export default function App() {
           }}
           initialRouteName={
             userRole === 'doctor' ? 'DoctorDashboard' :
-              userRole === 'patient' ? 'PatientDashboard' :
+              userRole === 'patient' ? (provisionalPassword ? 'ChangePassword' : 'PatientDashboard') :
                 'FirstScreen'
           }
         >
@@ -71,6 +78,9 @@ export default function App() {
           <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
           <Stack.Screen name="ResetPassword" component={ResetPassword} />
           <Stack.Screen name="PatientRegistration" component={PatientRegistration} />
+          <Stack.Screen name="ChangePassword">
+            {props => <ChangePassword {...props} setProvisionalPassword={setProvisionalPassword} />}
+          </Stack.Screen>
         </Stack.Navigator>
       </UserDataProvider>
     </NavigationContainer>

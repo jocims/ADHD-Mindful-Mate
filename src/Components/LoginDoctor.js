@@ -1,6 +1,4 @@
-//LoginDoctor.js
-
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db, signInWithEmailAndPassword } from '../config/firebase'; // Adjust the import
@@ -19,16 +17,51 @@ import { useUserData } from './UserDataManager';
 const LoginDoctor = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
 
   const { updateUserData } = useUserData();
 
+  const validateInputs = () => {
+    let isValid = true;
+
+    if (!email) {
+      setEmailError('Please enter your email. Eg. joe.doe@gmail.com');
+      isValid = false;
+    } else {
+      setEmailError('');
+    }
+
+    if (!password) {
+      setPasswordError(`Please enter your password containing:
+      - At least 8 characters with at least one of each of the following:
+        - Uppercase letter
+        - Lowercase letter
+        - Number
+        - Special character`);
+      isValid = false;
+    } else {
+      setPasswordError('');
+    }
+
+    return isValid;
+  };
+
   const signIn = async () => {
     setLoading(true);
+    setEmailError('');
+    setPasswordError('');
     try {
       console.log('Signing in as a doctor');
+
+      // Validate the email and password inputs
+      if (!validateInputs()) {
+        return;
+      }
+
       const response = await signInWithEmailAndPassword(auth, email, password);
 
       // Retrieve user data from Firestore based on the user's UID
@@ -45,11 +78,9 @@ const LoginDoctor = () => {
       // Update user data context
       updateUserData({ uid: response.user.uid });
 
-
-
       console.log('userData.isDoctor:', userData.isDoctor);
 
-      // Check if the user is a patient
+      // Check if the user is a doctor
       if (userData && userData.isDoctor) {
         navigation.navigate('DoctorDashboard');
         alert('User logged-in successfully');
@@ -62,73 +93,72 @@ const LoginDoctor = () => {
       }
 
       setLoading(false);
-
     } catch (error) {
-      console.log(error);
-      alert(error.message);
+      // console.error('Error signing in:', error);
+
+      // Display alert messages based on the error code
+      if (error.code === 'auth/user-not-found') {
+        alert('User not found. Please check your email.');
+      } else if (error.code === 'auth/invalid-email') {
+        alert('Invalid email. Please enter a valid email address.');
+      } else if (error.code === 'auth/wrong-password') {
+        alert('Invalid password. Please check your password.');
+      } else if (error.code === 'auth/invalid-credential') {
+        alert('Invalid Password. Please try again.');
+      } else {
+        alert('An unexpected error occurred. Please try again later.');
+      }
+
       setLoading(false);
     }
+
+
   };
 
-
   return (
-
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} >
-
-        <Image
-          source={require('../logo3.png')}
-          style={styles.img}
-        />
-
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Image source={require('../logo3.png')} style={styles.img} />
         <Text style={styles.introduction}>Hello Doctor!</Text>
-
-
         <View style={styles.form}>
-
           <Text style={styles.label}>Username: </Text>
-
           <TextInput
             placeholder="Enter your Email Address"
             style={styles.input}
             onChangeText={(text) => setEmail(text)}
           />
-
+          {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
           <Text style={styles.label}> Password: </Text>
-
           <TextInput
             placeholder="Enter your Password"
             secureTextEntry
             style={styles.input}
             onChangeText={(text) => setPassword(text)}
           />
-
+          {passwordError ? <Text style={styles.error}>{passwordError}</Text> : null}
           <View style={styles.resetArea}>
-            <TouchableOpacity style={styles.resetBtn} onPress={() => navigation.navigate('ResetPassword')} >
+            <TouchableOpacity
+              style={styles.resetBtn}
+              onPress={() => navigation.navigate('ResetPassword')}
+            >
               <Text style={styles.resetText}>Forgot your Password?</Text>
             </TouchableOpacity>
-
           </View>
-
           <TouchableOpacity style={styles.btn} onPress={signIn}>
             <View style={styles.btnArea}>
               <Text style={styles.btnText}>Login</Text>
             </View>
           </TouchableOpacity>
-
           <View style={styles.otherLoginArea}>
             <TouchableOpacity onPress={() => navigation.navigate('LoginPatient')}>
               <Text style={styles.otherLoginText}>Login as a Patient?</Text>
             </TouchableOpacity>
           </View>
-
         </View>
       </ScrollView>
-
-
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -208,6 +238,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#052458',
     fontFamily: 'SourceCodePro-BlackItalic',
+  },
+  error: {
+    color: 'red',
+    fontSize: 12,
+    alignSelf: 'flex-start', // Align the text to the start of its container
+    marginLeft: 10, // Add some left margin to separate from the input field
   },
 });
 
