@@ -9,6 +9,7 @@ const PatientDashboard = () => {
   const { userData } = useUserData();
   const [storedUserToken, setStoredUserToken] = useState(null);
   const [feelGoodMessage, setFeelGoodMessage] = useState('');
+  const [selectedEmoji, setSelectedEmoji] = useState('');
 
   useEffect(() => {
     const fetchFeelGoodMessage = async () => {
@@ -43,6 +44,23 @@ const PatientDashboard = () => {
 
     // Fetch the feel-good message when the component mounts
     fetchFeelGoodMessage();
+
+    // Check if there is a stored emoji for today
+    const fetchSelectedEmoji = async () => {
+      try {
+        const storedEmoji = await ReactNativeAsyncStorage.getItem('selectedEmoji');
+        const storedDate = await ReactNativeAsyncStorage.getItem('selectedEmojiDate');
+
+        // Check if there is a stored emoji for today
+        if (storedEmoji && storedDate === new Date().toISOString().split('T')[0]) {
+          setSelectedEmoji(storedEmoji);
+        }
+      } catch (error) {
+        console.error('Error fetching selected emoji:', error);
+      }
+    };
+
+    fetchSelectedEmoji();
   }, []);
 
   useEffect(() => {
@@ -54,7 +72,6 @@ const PatientDashboard = () => {
     }
   }, [userData, storedUserToken]);
 
-
   // Function to handle log out
   const handleLogout = async () => {
     // Clear user token and role from AsyncStorage
@@ -63,6 +80,14 @@ const PatientDashboard = () => {
 
     // Navigate back to the login screen
     navigation.navigate('FirstScreen');
+  };
+
+  // Function to handle emoji selection
+  const handleEmojiSelection = async (emoji) => {
+    setSelectedEmoji(emoji);
+    // Store the selected emoji and its date
+    await ReactNativeAsyncStorage.setItem('selectedEmoji', emoji);
+    await ReactNativeAsyncStorage.setItem('selectedEmojiDate', new Date().toISOString().split('T')[0]);
   };
 
   return (
@@ -75,6 +100,36 @@ const PatientDashboard = () => {
         <Text style={styles.introduction}>Hello {userData ? userData.firstName + '!' : '!'}</Text>
         <View style={styles.fellGoodMessageContainer}>
           <Text style={styles.feelGoodMessage}>{feelGoodMessage}</Text>
+        </View>
+        <View style={styles.emojiContainer}>
+          <TouchableOpacity
+            onPress={() => handleEmojiSelection('😢')}
+            style={[styles.emojiButton, selectedEmoji === '😢' && styles.selectedEmoji]}
+          >
+            <Text style={[styles.emoji, selectedEmoji === '😢' && styles.selectedEmojiText]}>😢</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleEmojiSelection('😔')}
+            style={[styles.emojiButton, selectedEmoji === '😔' && styles.selectedEmoji]}
+          >
+            <Text style={[styles.emoji, selectedEmoji === '😔' && styles.selectedEmojiText]}>😔</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleEmojiSelection('😐')}
+            style={[styles.emojiButton, selectedEmoji === '😐' && styles.selectedEmoji]}
+          >
+            <Text style={[styles.emoji, selectedEmoji === '😐' && styles.selectedEmojiText]}>😐</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleEmojiSelection('😊')}
+            style={[styles.emojiButton, selectedEmoji === '😊' && styles.selectedEmoji]}
+          >
+            <Text style={[styles.emoji, selectedEmoji === '😊' && styles.selectedEmojiText]}>😊</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleEmojiSelection('😄')}
+            style={[styles.emojiButton, selectedEmoji === '😄' && styles.selectedEmoji]}
+          >
+            <Text style={[styles.emoji, selectedEmoji === '😄' && styles.selectedEmojiText]}>😄</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.functionalities}>
           <TouchableOpacity style={[styles.btn, { marginRight: 10 }]} onPress={() => navigation.navigate('PatientRegistration')}>
@@ -184,6 +239,22 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  emojiContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  emojiButton: {
+    paddingHorizontal: 10,
+  },
+  emoji: {
+    fontSize: 30,
+  },
+  selectedEmoji: {
+    backgroundColor: 'gray',
+    borderRadius: 100,
+    elevation: 5, // Shadow effect
   },
 });
 
