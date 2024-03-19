@@ -1,9 +1,10 @@
+// ChangePassword.js
+
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { getAuth, updatePassword } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
-import { useUserData } from './UserDataManager';
-import { doc, updateDoc, collection, setDoc } from 'firebase/firestore'; // Import Firestore functions
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -14,7 +15,6 @@ const ChangePassword = ({ setProvisionalPassword }) => {
     const [loading, setLoading] = useState(false);
 
     const navigation = useNavigation();
-    const { userData } = useUserData(); // Access user data from context
 
     const handleChangePassword = async () => {
         setLoading(true);
@@ -62,8 +62,21 @@ const ChangePassword = ({ setProvisionalPassword }) => {
         setLoading(false);
     };
 
+    // Function to handle log out
+    const handleLogout = async () => {
+        // Clear user token and role from AsyncStorage
+        await ReactNativeAsyncStorage.removeItem('userToken');
+        await ReactNativeAsyncStorage.removeItem('userRole');
+
+        // Navigate back to the login screen
+        navigation.navigate('FirstScreen');
+    };
+
     return (
         <View style={styles.container}>
+            <TouchableOpacity onPress={handleLogout} style={styles.logout}>
+                <Image source={require('../logout.png')} style={styles.logoutImg} />
+            </TouchableOpacity>
             <Image source={require('../logo3.png')} style={styles.logo} />
             <Text style={styles.label}>Enter New Password:</Text>
             <TextInput
@@ -94,6 +107,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgrey',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    logout: {
+        position: 'absolute',
+        top: 15,
+        right: 15, // Adjust the right position as needed
+    },
+    logoutImg: {
+        width: 50,
+        height: 50,
     },
     logo: {
         width: 250,
