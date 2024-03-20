@@ -4,7 +4,7 @@ import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useUserData } from './UserDataManager';
 import { auth, db } from '../config/firebase';
-import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 
 
 // Get the width of the screen
@@ -185,7 +185,7 @@ const PatientDashboard = () => {
             <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
               <Image source={require('../tasks.png')} style={styles.btnImage} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Game')}>
               <Image source={require('../game.png')} style={styles.btnImage} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
