@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView, ImageBackground } from 'react-native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useUserData } from './UserDataManager';
+import { auth, db } from '../config/firebase';
+import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 const PatientDashboard = () => {
   const navigation = useNavigation();
   const { userData } = useUserData();
   const [storedUserToken, setStoredUserToken] = useState(null);
   const [feelGoodMessage, setFeelGoodMessage] = useState('');
-  const [selectedEmoji, setSelectedEmoji] = useState('');
+  const [isImageSelected, setIsImageSelected] = useState([false, false, false, false, false]);
 
   useEffect(() => {
     const fetchFeelGoodMessage = async () => {
@@ -19,7 +21,9 @@ const PatientDashboard = () => {
 
         // Check if there is a stored quote for today
         if (storedQuote && storedDate === new Date().toISOString().split('T')[0]) {
-          setFeelGoodMessage(storedQuote);
+          // Truncate the stored quote if it exceeds 100 characters
+          const truncatedQuote = storedQuote.slice(0, 100);
+          setFeelGoodMessage(truncatedQuote);
         } else {
           // Fetch the inspirational quote from the API
           const response = await fetch(`https://favqs.com/api/qotd`);
@@ -28,7 +32,9 @@ const PatientDashboard = () => {
           // Check if a quote is available for the date
           if (data.quote) {
             const quote = data.quote.body;
-            setFeelGoodMessage(quote);
+            // Truncate the fetched quote if it exceeds 100 characters
+            const truncatedQuote = quote.slice(0, 100);
+            setFeelGoodMessage(truncatedQuote);
             // Store the quote and its date
             await ReactNativeAsyncStorage.setItem('feelGoodQuote', quote);
             await ReactNativeAsyncStorage.setItem('feelGoodQuoteDate', new Date().toISOString().split('T')[0]);
@@ -45,26 +51,34 @@ const PatientDashboard = () => {
     // Fetch the feel-good message when the component mounts
     fetchFeelGoodMessage();
 
-    // Check if there is a stored emoji for today
     const fetchSelectedEmoji = async () => {
       try {
-        const storedEmoji = await ReactNativeAsyncStorage.getItem('selectedEmoji');
+        const storedIndex = await ReactNativeAsyncStorage.getItem('selectedEmoji');
         const storedDate = await ReactNativeAsyncStorage.getItem('selectedEmojiDate');
 
-        // Check if there is a stored emoji for today
-        if (storedEmoji && storedDate === new Date().toISOString().split('T')[0]) {
-          setSelectedEmoji(storedEmoji);
+        // Check if there is a stored index for today
+        if (storedIndex !== null && storedDate === new Date().toISOString().split('T')[0]) {
+          // Parse the stored index to an integer
+          const index = parseInt(storedIndex);
+          // Initialize a new array with all false values
+          const newSelectedState = Array(5).fill(false);
+          // Set the selected state for the retrieved index to true
+          newSelectedState[index] = true;
+          // Update the state
+          setIsImageSelected(newSelectedState);
         }
       } catch (error) {
         console.error('Error fetching selected emoji:', error);
       }
     };
 
+
     fetchSelectedEmoji();
   }, []);
 
+
   useEffect(() => {
-    console.log('User Data Changed:', userData);
+    // console.log('User Data Changed:', userData);
 
     // Check if the storedUserToken is updated before logging
     if (storedUserToken !== null) {
@@ -82,13 +96,50 @@ const PatientDashboard = () => {
     navigation.navigate('FirstScreen');
   };
 
-  // Function to handle emoji selection
-  const handleEmojiSelection = async (emoji) => {
-    setSelectedEmoji(emoji);
-    // Store the selected emoji and its date
-    await ReactNativeAsyncStorage.setItem('selectedEmoji', emoji);
-    await ReactNativeAsyncStorage.setItem('selectedEmojiDate', new Date().toISOString().split('T')[0]);
+  const handleImageSelection = async (index) => {
+    // Check if the image is already selected for today
+    if (!isImageSelected[index]) {
+      try {
+        // Create a reference to the user's document in the 'patient' collection
+        const userDocRef = doc(db, 'patient', auth.currentUser.uid);
+
+        // Define the mood data to be saved
+        const moodData = {
+          MoodTracker: {
+            [Date.now().toString()]: {
+              mood: index,
+              date: new Date().toISOString().split('T')[0], // Current date
+              time: new Date().toISOString(), // Current time
+              weekCommencing: getMonday(new Date()).toISOString().split('T')[0], // Monday date of the current week
+            },
+          },
+        };
+
+        // Add the mood data to the 'MoodTracker' map within the user's document
+        await setDoc(userDocRef, { MoodTracker: moodData }, { merge: true });
+
+        // Update the selected state of the image
+        setIsImageSelected((prevState) => {
+          const newState = prevState.map((selected, i) => (i === index ? !selected : false));
+          return newState;
+        });
+
+        // Store the selected emoji and its date
+        await ReactNativeAsyncStorage.setItem('selectedEmoji', index.toString());
+        await ReactNativeAsyncStorage.setItem('selectedEmojiDate', new Date().toISOString().split('T')[0]);
+      } catch (error) {
+        console.error('Error saving mood data:', error);
+      }
+    }
   };
+
+  // Function to get the Monday date of the current week
+  const getMonday = (date) => {
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+    return new Date(date.setDate(diff));
+  };
+
 
   return (
     <View style={styles.container}>
@@ -97,62 +148,49 @@ const PatientDashboard = () => {
       </TouchableOpacity>
       <Image source={require('../logo750-75.png')} style={styles.img} />
       <ScrollView showsVerticalScrollIndicator={false} style={styles.properContent}>
-        <Text style={styles.introduction}>Hello {userData ? userData.firstName + '!' : '!'}</Text>
-        <View style={styles.fellGoodMessageContainer}>
-          <Text style={styles.feelGoodMessage}>{feelGoodMessage}</Text>
-        </View>
+        <Text style={styles.introduction}>Hi {userData ? userData.User.firstName + '! How are you?' : ''}</Text>
         <View style={styles.emojiContainer}>
-          <TouchableOpacity
-            onPress={() => handleEmojiSelection('😢')}
-            style={[styles.emojiButton, selectedEmoji === '😢' && styles.selectedEmoji]}
-          >
-            <Text style={[styles.emoji, selectedEmoji === '😢' && styles.selectedEmojiText]}>😢</Text>
+          <TouchableOpacity onPress={() => handleImageSelection(0)}>
+            <Image source={isImageSelected[0] ? require('../red.png') : require('../red-clear.png')} style={styles.emojiButton} />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleEmojiSelection('😔')}
-            style={[styles.emojiButton, selectedEmoji === '😔' && styles.selectedEmoji]}
-          >
-            <Text style={[styles.emoji, selectedEmoji === '😔' && styles.selectedEmojiText]}>😔</Text>
+          <TouchableOpacity onPress={() => handleImageSelection(1)}>
+            <Image source={isImageSelected[1] ? require('../orange.png') : require('../orange-clear.png')} style={styles.emojiButton} />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleEmojiSelection('😐')}
-            style={[styles.emojiButton, selectedEmoji === '😐' && styles.selectedEmoji]}
-          >
-            <Text style={[styles.emoji, selectedEmoji === '😐' && styles.selectedEmojiText]}>😐</Text>
+          <TouchableOpacity onPress={() => handleImageSelection(2)}>
+            <Image source={isImageSelected[2] ? require('../yellow.png') : require('../yellow-clear.png')} style={styles.emojiButton} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleEmojiSelection('😊')}
-            style={[styles.emojiButton, selectedEmoji === '😊' && styles.selectedEmoji]}
-          >
-            <Text style={[styles.emoji, selectedEmoji === '😊' && styles.selectedEmojiText]}>😊</Text>
+          <TouchableOpacity onPress={() => handleImageSelection(3)}>
+            <Image source={isImageSelected[3] ? require('../green.png') : require('../green-clear.png')} style={styles.emojiButton} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleEmojiSelection('😄')}
-            style={[styles.emojiButton, selectedEmoji === '😄' && styles.selectedEmoji]}
-          >
-            <Text style={[styles.emoji, selectedEmoji === '😄' && styles.selectedEmojiText]}>😄</Text>
+          <TouchableOpacity onPress={() => handleImageSelection(4)}>
+            <Image source={isImageSelected[4] ? require('../dark-green.png') : require('../dark-green-clear.png')} style={styles.emojiButton} />
+          </TouchableOpacity>
+        </View>
+        <ImageBackground source={require('../message-350-94.png')} style={styles.fellGoodMessageContainer}>
+          <Text style={styles.feelGoodMessage}>{feelGoodMessage}</Text>
+        </ImageBackground>
+        <View style={styles.functionalities}>
+          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <Image source={require('../tasks.png')} style={styles.btnImage} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <Image source={require('../game.png')} style={styles.btnImage} />
           </TouchableOpacity>
         </View>
         <View style={styles.functionalities}>
-          <TouchableOpacity style={[styles.btn, { marginRight: 10 }]} onPress={() => navigation.navigate('PatientRegistration')}>
-            <Text style={styles.btnText}>Weekly Tasks</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <Image source={require('../meditation.png')} style={styles.btnImage} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PatientRegistration')}>
-            <Text style={styles.btnText}>Game</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.functionalities}>
-          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PatientRegistration')}>
-            <Text style={styles.btnText}>Meditation</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PatientRegistration')}>
-            <Text style={styles.btnText}>Deep Breathing</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <Image source={require('../deep-breathing.png')} style={styles.btnImage} />
           </TouchableOpacity>
         </View>
         <View style={styles.functionalities}>
-          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PatientRegistration')}>
-            <Text style={styles.btnText}>Journal</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <Image source={require('../journal.png')} style={styles.btnImage} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PatientRegistration')}>
-            <Text style={styles.btnText}>Report</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <Image source={require('../report.png')} style={styles.btnImage} />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -186,8 +224,14 @@ const styles = StyleSheet.create({
   },
   functionalities: {
     flexDirection: 'row',
-    justifyContent
-      : 'space-between',
+  },
+  btnImage: {
+    width: 175,
+    height: 175,
+  },
+  emojiButton: {
+    width: 50,
+    height: 50,
   },
   properContent: {
     marginTop: 85,
@@ -197,13 +241,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginTop: 15,
-    width: 150,
-    height: 150,
+    width: 100,
+    height: 100,
     justifyContent: 'center',
     alignItems: 'center',
   },
   btnText: {
-    fontSize: 20,
+    fontSize: 15,
     color: 'white',
     textAlign: 'center',
     fontFamily: 'SourceCodePro-Medium',
@@ -226,35 +270,24 @@ const styles = StyleSheet.create({
     fontFamily: 'SourceCodePro-Bold',
   },
   feelGoodMessage: {
-    fontSize: 12,
+    fontSize: 13,
     textAlign: 'center',
     color: '#E0E0E0',
     fontFamily: 'SourceCodePro-Regular',
+    padding: 15,
   },
   fellGoodMessageContainer: {
-    backgroundColor: '#5F6EB5',
-    padding: 10,
-    borderRadius: 5,
-    width: 315,
-    height: 100,
+    width: 350,
+    height: 94,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 15,
   },
   emojiContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 20,
-  },
-  emojiButton: {
-    paddingHorizontal: 10,
-  },
-  emoji: {
-    fontSize: 30,
-  },
-  selectedEmoji: {
-    backgroundColor: 'gray',
-    borderRadius: 100,
-    elevation: 5, // Shadow effect
+    marginTop: 10,
+    marginBottom: 15,
   },
 });
 

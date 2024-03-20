@@ -384,16 +384,18 @@ const PatientRegistration = () => {
 
             // Step 2: Add patient data to Firestore
             const patientData = {
-                firstName: formatName(patientName),
-                lastName: formatName(patientSurname),
-                dob: patientDOB.toISOString(),
-                gender: patientGender,
-                weight: patientWeight,
-                mobileNo: patientMobileNo,
-                email: patientEmail,
-                isDoctor: false,
-                doctorId: doctorUid, // Use the doctor's UID as the doctorId
-                provisionalPassword: true,
+                User: {
+                    firstName: formatName(patientName),
+                    lastName: formatName(patientSurname),
+                    dob: patientDOB.toISOString(),
+                    gender: patientGender,
+                    weight: patientWeight,
+                    mobileNo: patientMobileNo,
+                    email: patientEmail,
+                    isDoctor: false,
+                    doctorId: doctorUid, // Use the doctor's UID as the doctorId
+                    provisionalPassword: true,
+                },
             };
 
             const patientsCollection = collection(db, 'patient');
