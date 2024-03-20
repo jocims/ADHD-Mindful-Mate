@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView, ImageBackground } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView, ImageBackground, Dimensions } from 'react-native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useUserData } from './UserDataManager';
 import { auth, db } from '../config/firebase';
 import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore';
+
+
+// Get the width of the screen
+const screenWidth = Dimensions.get('window').width;
+
+// Dynamically calculate the width of the message container based on the screen width
+const messageContainerWidth = screenWidth - 40; // Subtracting padding from both sides
+
 
 const PatientDashboard = () => {
   const navigation = useNavigation();
@@ -12,6 +20,7 @@ const PatientDashboard = () => {
   const [storedUserToken, setStoredUserToken] = useState(null);
   const [feelGoodMessage, setFeelGoodMessage] = useState('');
   const [isImageSelected, setIsImageSelected] = useState([false, false, false, false, false]);
+
 
   useEffect(() => {
     const fetchFeelGoodMessage = async () => {
@@ -142,67 +151,73 @@ const PatientDashboard = () => {
 
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={handleLogout} style={styles.logout}>
-        <Image source={require('../logout.png')} style={styles.logoutImg} />
-      </TouchableOpacity>
-      <Image source={require('../logo750-75.png')} style={styles.img} />
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.properContent}>
-        <Text style={styles.introduction}>Hi {userData ? userData.User.firstName + '! How are you?' : ''}</Text>
-        <View style={styles.emojiContainer}>
-          <TouchableOpacity onPress={() => handleImageSelection(0)}>
-            <Image source={isImageSelected[0] ? require('../red.png') : require('../red-clear.png')} style={styles.emojiButton} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleImageSelection(1)}>
-            <Image source={isImageSelected[1] ? require('../orange.png') : require('../orange-clear.png')} style={styles.emojiButton} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleImageSelection(2)}>
-            <Image source={isImageSelected[2] ? require('../yellow.png') : require('../yellow-clear.png')} style={styles.emojiButton} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleImageSelection(3)}>
-            <Image source={isImageSelected[3] ? require('../green.png') : require('../green-clear.png')} style={styles.emojiButton} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleImageSelection(4)}>
-            <Image source={isImageSelected[4] ? require('../dark-green.png') : require('../dark-green-clear.png')} style={styles.emojiButton} />
-          </TouchableOpacity>
-        </View>
-        <ImageBackground source={require('../message-350-94.png')} style={styles.fellGoodMessageContainer}>
-          <Text style={styles.feelGoodMessage}>{feelGoodMessage}</Text>
-        </ImageBackground>
-        <View style={styles.functionalities}>
-          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
-            <Image source={require('../tasks.png')} style={styles.btnImage} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
-            <Image source={require('../game.png')} style={styles.btnImage} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.functionalities}>
-          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
-            <Image source={require('../meditation.png')} style={styles.btnImage} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
-            <Image source={require('../deep-breathing.png')} style={styles.btnImage} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.functionalities}>
-          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
-            <Image source={require('../journal.png')} style={styles.btnImage} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
-            <Image source={require('../report.png')} style={styles.btnImage} />
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </View>
+    <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
+      <View style={styles.container}>
+        <TouchableOpacity onPress={handleLogout} style={styles.logout}>
+          <Image source={require('../logout.png')} style={styles.logoutImg} />
+        </TouchableOpacity>
+        <Image source={require('../logotop.png')} style={styles.img} />
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.properContent}>
+          <Text style={styles.introduction}>
+            Hi {userData ? userData.User.firstName + '!\nHow are you?' : ''}
+          </Text>
+          <View style={styles.emojiContainer}>
+            <TouchableOpacity onPress={() => handleImageSelection(0)}>
+              <Image source={isImageSelected[0] ? require('../red.png') : require('../red-clear.png')} style={styles.emojiButton} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleImageSelection(1)}>
+              <Image source={isImageSelected[1] ? require('../orange.png') : require('../orange-clear.png')} style={styles.emojiButton} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleImageSelection(2)}>
+              <Image source={isImageSelected[2] ? require('../yellow.png') : require('../yellow-clear.png')} style={styles.emojiButton} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleImageSelection(3)}>
+              <Image source={isImageSelected[3] ? require('../green.png') : require('../green-clear.png')} style={styles.emojiButton} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleImageSelection(4)}>
+              <Image source={isImageSelected[4] ? require('../dark-green.png') : require('../dark-green-clear.png')} style={styles.emojiButton} />
+            </TouchableOpacity>
+          </View>
+          <ImageBackground source={require('../message-350-94.png')} style={styles.fellGoodMessageContainer}>
+            <Text style={styles.feelGoodMessage}>{feelGoodMessage}</Text>
+          </ImageBackground>
+          <View style={styles.functionalities}>
+            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+              <Image source={require('../tasks.png')} style={styles.btnImage} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+              <Image source={require('../game.png')} style={styles.btnImage} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+              <Image source={require('../meditation.png')} style={styles.btnImage} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.functionalities}>
+            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+              <Image source={require('../deep-breathing.png')} style={styles.btnImage} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+              <Image source={require('../journal.png')} style={styles.btnImage} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+              <Image source={require('../report.png')} style={styles.btnImage} />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
+    </ImageBackground>
   );
 };
 
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover', // or 'stretch' if you want to stretch the image to fit
+  },
   container: {
     flex: 1,
-    backgroundColor: 'lightgrey',
+    backgroundColor: 'transparent', // Set background color to transparent so that the image background is visible
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -224,10 +239,11 @@ const styles = StyleSheet.create({
   },
   functionalities: {
     flexDirection: 'row',
+    padding: 10,
   },
   btnImage: {
-    width: 175,
-    height: 175,
+    width: (screenWidth / 3) - 10,
+    height: (screenWidth / 3) - 10,
   },
   emojiButton: {
     width: 50,
@@ -235,33 +251,6 @@ const styles = StyleSheet.create({
   },
   properContent: {
     marginTop: 85,
-  },
-  btn: {
-    backgroundColor: '#AF3E76',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 15,
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnText: {
-    fontSize: 15,
-    color: 'white',
-    textAlign: 'center',
-    fontFamily: 'SourceCodePro-Medium',
-  },
-  list: {
-    backgroundColor: '#5F6EB5',
-    padding: 10,
-    borderRadius: 5,
-    width: 150,
-    height: 80,
-    margin: 2,
-    marginBottom: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   introduction: {
     fontSize: 25,
@@ -278,14 +267,15 @@ const styles = StyleSheet.create({
   },
   fellGoodMessageContainer: {
     width: 350,
-    height: 94,
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: 94, // Fixed height
+    left: (screenWidth - 350) / 2.5, // Center horizontally
+    justifyContent: 'center', // Align items horizontally in the center
+    alignItems: 'center', // Align items vertically in the center
     marginBottom: 15,
   },
   emojiContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     marginTop: 10,
     marginBottom: 15,
   },
