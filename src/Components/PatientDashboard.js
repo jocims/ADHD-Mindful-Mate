@@ -114,13 +114,11 @@ const PatientDashboard = () => {
 
         // Define the mood data to be saved
         const moodData = {
-          MoodTracker: {
-            [Date.now().toString()]: {
-              mood: index,
-              date: new Date().toISOString().split('T')[0], // Current date
-              time: new Date().toISOString(), // Current time
-              weekCommencing: getMonday(new Date()).toISOString().split('T')[0], // Monday date of the current week
-            },
+          [Date.now().toString()]: {
+            mood: index,
+            date: new Date().toISOString().split('T')[0], // Current date
+            time: new Date().toISOString(), // Current time
+            weekCommencing: getMonday(new Date()).toISOString().split('T')[0], // Monday date of the current week
           },
         };
 
