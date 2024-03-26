@@ -10,6 +10,7 @@ import LoginDoctor from './src/Components/LoginDoctor';
 import LoginPatient from './src/Components/LoginPatient';
 import ChangePassword from './src/Components/ChangePassword';
 import Game from './src/Components/Game';
+import DeepBreathing from './src/Components/DeepBreathing';
 import { UserDataProvider } from './src/Components/UserDataManager';
 
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
@@ -83,6 +84,7 @@ export default function App() {
             {props => <ChangePassword {...props} setProvisionalPassword={setProvisionalPassword} />}
           </Stack.Screen>
           <Stack.Screen name="Game" component={Game} />
+          <Stack.Screen name="DeepBreathing" component={DeepBreathing} />
         </Stack.Navigator>
       </UserDataProvider>
     </NavigationContainer>
