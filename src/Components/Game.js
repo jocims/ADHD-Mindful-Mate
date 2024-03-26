@@ -154,7 +154,7 @@ const Game = () => {
                     // Show scores in an alert
                     Alert.alert(
                         'Game Over',
-                        `Your score: ${smallestTime}s\nBest score: ${bestScore}`
+                        `Your score: ${smallestTime}s\nBest score: ${bestScore}s`
                     );
                 } else {
                     Alert.alert(
