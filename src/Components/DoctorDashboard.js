@@ -55,7 +55,7 @@ const DoctorDashboard = () => {
       </TouchableOpacity>
       <Image source={require('../logo3.png')} style={styles.img} />
       <ScrollView showsVerticalScrollIndicator={false} style={styles.properContent}>
-        <Text style={styles.introduction}>Hello {userData ? userData.firstName + '!' : '!'}</Text>
+        <Text style={styles.introduction}>Hello {userData ? userData.User.firstName + '!' : '!'}</Text>
         <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PatientRegistration')}>
           <Text style={styles.btnText}>Register new Patient</Text>
         </TouchableOpacity>

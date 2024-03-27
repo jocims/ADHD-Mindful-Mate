@@ -73,23 +73,23 @@ const LoginPatient = () => {
             // Store user authentication token, role, and display name in AsyncStorage
             await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
             await ReactNativeAsyncStorage.setItem('userRole', 'patient');
-            await ReactNativeAsyncStorage.setItem('provisionalPassword', userData.provisionalPassword.toString());
+            await ReactNativeAsyncStorage.setItem('provisionalPassword', userData.User.provisionalPassword.toString());
             console.log('User Token saved!');
 
             // Update user data context
             updateUserData({ uid: response.user.uid });
 
-            console.log('userData.isDoctor:', userData.isDoctor);
+            console.log('userData.isDoctor:', userData.User.isDoctor);
 
             // Check if it's the first time login with provisional password
-            if (userData.provisionalPassword) {
+            if (userData.User.provisionalPassword) {
                 setProvisionalPassword(true);
                 setLoading(false);
                 return; // Stop further execution to navigate to ChangePasswordPatient
             }
 
             // Check if the user is a patient
-            if (userData && !userData.isDoctor) {
+            if (userData && !userData.User.isDoctor) {
                 navigation.navigate('PatientDashboard');
                 alert('User logged-in successfully');
             } else {

@@ -23,6 +23,15 @@ const ChangePassword = ({ setProvisionalPassword }) => {
 
             const userToken = await ReactNativeAsyncStorage.getItem('userToken');
 
+            // Validate new password
+            if (!isPasswordValid(newPassword)) {
+                Alert.alert(
+                    'Invalid Password',
+                    'Password must have at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.'
+                );
+                setLoading(false);
+                return;
+            }
 
             if (newPassword !== confirmPassword) {
                 Alert.alert('Passwords do not match');
@@ -46,7 +55,7 @@ const ChangePassword = ({ setProvisionalPassword }) => {
             const userDatas = doc(db, 'patient', userToken); // Ensure userData is defined
             console.log('userDatas **************************:', userDatas);
             await updateDoc(userDatas, {
-                provisionalPassword: false
+                'User.provisionalPassword': false // Path to the provisionalPassword field
             });
 
             // Update local state to reflect the change
@@ -60,6 +69,12 @@ const ChangePassword = ({ setProvisionalPassword }) => {
             Alert.alert('Error', 'Failed to change password. Please try again later.');
         }
         setLoading(false);
+    };
+
+    // Password validation function
+    const isPasswordValid = (password) => {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;?/><.,])[\w!@#$%^&*()_+}{":;?/><.,]{8,}$/;
+        return passwordRegex.test(password);
     };
 
     // Function to handle log out

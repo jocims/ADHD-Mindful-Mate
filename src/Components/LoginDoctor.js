@@ -78,10 +78,10 @@ const LoginDoctor = () => {
       // Update user data context
       updateUserData({ uid: response.user.uid });
 
-      console.log('userData.isDoctor:', userData.isDoctor);
+      console.log('userData.isDoctor:', userData.User.isDoctor);
 
       // Check if the user is a doctor
-      if (userData && userData.isDoctor) {
+      if (userData && userData.User.isDoctor) {
         navigation.navigate('DoctorDashboard');
         alert('User logged-in successfully');
       } else {
@@ -111,8 +111,6 @@ const LoginDoctor = () => {
 
       setLoading(false);
     }
-
-
   };
 
   return (

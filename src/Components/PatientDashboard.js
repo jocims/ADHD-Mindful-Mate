@@ -157,7 +157,7 @@ const PatientDashboard = () => {
         <Image source={require('../logotop.png')} style={styles.img} />
         <ScrollView showsVerticalScrollIndicator={false} style={styles.properContent}>
           <Text style={styles.introduction}>
-            Hi {userData ? userData.User.firstName + '!\nHow are you?' : ''}
+            Hi {userData ? userData.User.firstName + '!\nHow are you today?' : ''}
           </Text>
           <View style={styles.emojiContainer}>
             <TouchableOpacity onPress={() => handleImageSelection(0)}>
