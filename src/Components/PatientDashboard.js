@@ -194,7 +194,7 @@ const PatientDashboard = () => {
             <TouchableOpacity onPress={() => navigation.navigate('DeepBreathing')}>
               <Image source={require('../deep-breathing.png')} style={styles.btnImage} />
             </TouchableOpacity>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => navigation.navigate('Journaling')}>
               <Image source={require('../journal.png')} style={styles.btnImage} />
             </TouchableOpacity>
             <TouchableOpacity >

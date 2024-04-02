@@ -4,6 +4,7 @@ import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import breathingGif from '../breathing.gif';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -39,7 +40,7 @@ const DeepBreathing = () => {
             const userDocRef = doc(db, 'patient', auth.currentUser.uid);
             const data = {
                 [Date.now().toString()]: {
-                    duration: duration.toFixed(2),
+                    timeDurationOfPractice: duration.toFixed(2),
                     date: new Date().toISOString().split('T')[0],
                     weekCommencing: getMonday(new Date()).toISOString().split('T')[0],
                 },
@@ -82,7 +83,7 @@ const DeepBreathing = () => {
                             <Image source={breathingGif} resizeMode="contain" style={styles.shape} />
                         </View>
 
-                        <View style={styles.buttonContainer}>
+                        <View>
                             <TouchableOpacity style={styles.button} onPress={handleEnd}>
                                 <Text style={styles.buttonText}>End</Text>
                             </TouchableOpacity>
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         alignItems: 'center',
-        marginBottom: '25%',
+        marginBottom: '40%',
     },
     text: {
         fontSize: 16,

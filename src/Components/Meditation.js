@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground } from 'react-native';
-import { db } from '../config/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { auth, db } from '../config/firebase';
+import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const windowWidth = Dimensions.get('window').width;
 
 const Meditation = () => {
     const [start, setStart] = useState(false);
+    const [startTimer, setStartTimer] = useState(0);
     const [meditations, setMeditations] = useState([]);
     const [selectedMeditation, setSelectedMeditation] = useState(null);
     const navigation = useNavigation();
@@ -81,6 +84,7 @@ const Meditation = () => {
     const handleMeditationStart = async (meditation) => {
         setSelectedMeditation(meditation);
         setStart(true);
+        setStartTimer(new Date().getTime());
         console.log('Starting meditation:', meditation);
         try {
             await TrackPlayer.reset();
@@ -99,8 +103,21 @@ const Meditation = () => {
     // Function to end the meditation
     const handleMeditationEnd = async () => {
         setStart(false);
+        const endTime = new Date().getTime();
+        const duration = (endTime - startTimer) / 1000;
         try {
             await TrackPlayer.stop();
+            const userDocRef = doc(db, 'patient', auth.currentUser.uid);
+            const data = {
+                [Date.now().toString()]: {
+                    timeDurationOfPractice: duration.toFixed(2),
+                    date: new Date().toISOString().split('T')[0],
+                    weekCommencing: getMonday(new Date()).toISOString().split('T')[0],
+                },
+            };
+
+            await setDoc(userDocRef, { Meditation: data }, { merge: true });
+
         } catch (error) {
             console.error('Error stopping meditation:', error);
         }
@@ -115,6 +132,14 @@ const Meditation = () => {
         cleanup();
         navigation.navigate('PatientDashboard');
     };
+
+    // Function to get the Monday of the current week
+    const getMonday = (date) => {
+        const day = date.getDay();
+        const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+        return new Date(date.setDate(diff));
+    };
+
 
     return (
         <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
