@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.myapp-mergeDebugResources-40:/values-v23/values-v23.xml",
+            "outputFile": "com.myapp-mergeDebugResources-48:/values-v23/values-v23.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\d3a8a24834f295d8078f18b8298041f7\\transformed\\material-1.9.0\\res\\values-v23\\values-v23.xml",

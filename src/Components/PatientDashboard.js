@@ -180,13 +180,13 @@ const PatientDashboard = () => {
             <Text style={styles.feelGoodMessage}>{feelGoodMessage}</Text>
           </ImageBackground>
           <View style={styles.functionalities}>
-            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <TouchableOpacity >
               <Image source={require('../tasks.png')} style={styles.btnImage} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Game')}>
               <Image source={require('../game.png')} style={styles.btnImage} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Meditation')}>
               <Image source={require('../meditation.png')} style={styles.btnImage} />
             </TouchableOpacity>
           </View>
@@ -194,10 +194,10 @@ const PatientDashboard = () => {
             <TouchableOpacity onPress={() => navigation.navigate('DeepBreathing')}>
               <Image source={require('../deep-breathing.png')} style={styles.btnImage} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <TouchableOpacity >
               <Image source={require('../journal.png')} style={styles.btnImage} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <TouchableOpacity >
               <Image source={require('../report.png')} style={styles.btnImage} />
             </TouchableOpacity>
           </View>

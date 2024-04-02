@@ -7,12 +7,14 @@ INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManif
 INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.react:flipper-integration:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\1af6da98205d2b9904caa399785386e9\transformed\jetified-flipper-integration-0.73.4-debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-async-storage_async-storage] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:react-native-community_slider] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\slider\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-30:12
 MERGED from [:react-native-picker_picker] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-picker\picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-date-picker] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-25:12
 MERGED from [:react-native-vector-icons] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-vector-icons\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:2:1-24:12
 MERGED from [com.facebook.fresco:flipper-fresco-plugin:3.1.3] C:\Users\Joci\.gradle\caches\transforms-3\2b5ba21ddda073e33e012f0d689623c6\transformed\jetified-flipper-fresco-plugin-3.1.3\AndroidManifest.xml:8:1-13:12
@@ -36,11 +38,14 @@ MERGED from [com.facebook.fresco:middleware:3.1.3] C:\Users\Joci\.gradle\caches\
 MERGED from [com.facebook.fresco:ui-common:3.1.3] C:\Users\Joci\.gradle\caches\transforms-3\47e39260d4b885e43f7a9a8653a0dcdf\transformed\jetified-ui-common-3.1.3\AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.fresco:soloader:3.1.3] C:\Users\Joci\.gradle\caches\transforms-3\3312377aaac51673b757679288f8c083\transformed\jetified-soloader-3.1.3\AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.fresco:fbcore:3.1.3] C:\Users\Joci\.gradle\caches\transforms-3\0038d2d4036a85741b91001e4541d656\transformed\jetified-fbcore-3.1.3\AndroidManifest.xml:2:1-7:12
+MERGED from [com.github.doublesymmetry:kotlinaudio:v2.1.0] C:\Users\Joci\.gradle\caches\transforms-3\d83ebc19f1aa6258864398260ccd7572\transformed\jetified-kotlinaudio-v2.1.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.201.0] C:\Users\Joci\.gradle\caches\transforms-3\7f4ec48f14b0c757d76386dd1d920f74\transformed\jetified-flipper-network-plugin-0.201.0\AndroidManifest.xml:8:1-13:12
 MERGED from [com.facebook.flipper:flipper:0.201.0] C:\Users\Joci\.gradle\caches\transforms-3\9b2c28bd5719adb7e465469e2ca76c12\transformed\jetified-flipper-0.201.0\AndroidManifest.xml:8:1-16:12
 MERGED from [com.facebook.fresco:vito-renderer:3.1.3] C:\Users\Joci\.gradle\caches\transforms-3\8c373cd011fe1602b59006b0d8c3d8ce\transformed\jetified-vito-renderer-3.1.3\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:17:1-75:12
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\562e7a6c405debe3e5c43ad3373d9bd1\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:2:1-18:12
+MERGED from [io.coil-kt:coil:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\83023a96b62c3b98fde8647d90f61db5\transformed\jetified-coil-2.2.0\AndroidManifest.xml:2:1-9:12
+MERGED from [io.coil-kt:coil-base:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\dc25eabd90d7a2554ebf5cda7e2fff79\transformed\jetified-coil-base-2.2.0\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\Joci\.gradle\caches\transforms-3\061d078e19c3ae7d999b8bf4f4fbd3f7\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\d3a8a24834f295d8078f18b8298041f7\transformed\material-1.9.0\AndroidManifest.xml:17:1-26:12
 MERGED from [com.facebook.stetho:stetho:1.6.0] C:\Users\Joci\.gradle\caches\transforms-3\07d7c371ac06ab970dc33279314e8d16\transformed\jetified-stetho-1.6.0\AndroidManifest.xml:2:1-13:12
@@ -67,45 +72,68 @@ MERGED from [androidx.loader:loader:1.0.0] C:\Users\Joci\.gradle\caches\transfor
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\aa8b400e3fa62f6a4287be6e71a3821f\transformed\lifecycle-viewmodel-2.5.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\0c17d1aa2ccc813649d410d5ca1839aa\transformed\jetified-lifecycle-viewmodel-savedstate-2.5.1\AndroidManifest.xml:17:1-24:12
 MERGED from [com.facebook.react:hermes-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\c3bae43020d63a75df6e26cd68a87085\transformed\jetified-hermes-android-0.73.4-debug\AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\699d8495cfbcf29796d79737ecf7fe4f\transformed\jetified-savedstate-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.autofill:autofill:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\38344280fe9342d918737701bd2e1811\transformed\jetified-autofill-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\5b356190bdf4bb7065067fc153a69c6d\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\f1ad4007c9d50652fdaa15828c92907b\transformed\coordinatorlayout-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\46d614963c22b23ab93f8be235bc125f\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:17:1-35:12
-MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:17:1-37:12
-MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
-MERGED from [androidx.tracing:tracing:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\1b375b5e368b03c6f05fa335182ca0d8\transformed\jetified-tracing-1.1.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\f1ad4007c9d50652fdaa15828c92907b\transformed\coordinatorlayout-1.2.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.autofill:autofill:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\38344280fe9342d918737701bd2e1811\transformed\jetified-autofill-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\27f32e5559bcd43034d6914ede1dc092\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\56c281bcb8243724411ecc33f6c1bde0\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\a293f7f653f0b588e6fae043d6c99347\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\9b7c687cf2ef0cdf849c0c1404623f4f\transformed\drawerlayout-1.1.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\345ebcb3e4094628456bcdee8e74a5da\transformed\transition-1.2.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\6fdd42089cdfdb89a5f7c93d6af7471d\transformed\jetified-core-ktx-1.9.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.exoplayer:extension-mediasession:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\1b44d357d1067d07f788f8d359a84c6d\transformed\jetified-extension-mediasession-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\8a7fba7c7c4785c85f3b5d7ea53a874f\transformed\jetified-exoplayer-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-ui:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\b355e94590026a925ca4c88cea37883b\transformed\jetified-exoplayer-ui-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.media:media:1.6.0] C:\Users\Joci\.gradle\caches\transforms-3\64e5db48e50d73c622d3042d00efbea8\transformed\media-1.6.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\095a0e95a3b97bffb68b6823a94aa0c4\transformed\browser-1.4.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\0fd1425c12b4ad547fe75169beca3740\transformed\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.recyclerview:recyclerview:1.3.0] C:\Users\Joci\.gradle\caches\transforms-3\3654b9bbfdbd41fe51e0fe8f434ed88a\transformed\recyclerview-1.3.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.customview:customview:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\73759641b17cf7e1f9f823253eaf747b\transformed\customview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-dash:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\45e8d96dc87b3527ce6b5b9f80256b5a\transformed\jetified-exoplayer-dash-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-hls:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\8c851ca844e8cf751fd9015d2c01a5c5\transformed\jetified-exoplayer-hls-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-rtsp:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\74916d8e1b05b474a6f4eacb6b539dc7\transformed\jetified-exoplayer-rtsp-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\42644bc54e787a478b6c3ff47a1ab384\transformed\jetified-exoplayer-smoothstreaming-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\48b0d47373bd8f7d29d4a2a2607bd19d\transformed\jetified-exoplayer-core-2.19.0\AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\ecc65e0403f4dfb04bd44a9f415394a2\transformed\jetified-customview-poolingcontainer-1.0.0\AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\6fdd42089cdfdb89a5f7c93d6af7471d\transformed\jetified-core-ktx-1.9.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\699d8495cfbcf29796d79737ecf7fe4f\transformed\jetified-savedstate-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\d3b7d5859dc925d6c6e9cb951610d0af\transformed\jetified-lifecycle-process-2.5.1\AndroidManifest.xml:17:1-37:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\1b375b5e368b03c6f05fa335182ca0d8\transformed\jetified-tracing-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\03d93c1f43773d3643e65974d670c1b6\transformed\localbroadcastmanager-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\078806bd157ae28fc0dc0dff008ec247\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\c2c67d6ef97116786f5e00cacbb4d36d\transformed\lifecycle-runtime-2.5.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\8e642d0218a62e2463dc98bf97fe4741\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.sqlite:sqlite-framework:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\424bb7f5e8999507734fb924a0875fe1\transformed\sqlite-framework-2.2.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\5b9668a697a30efe2c2676a2ef171ba3\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\6119c53d075509c7c00b74ccdeb41c3b\transformed\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\5b9668a697a30efe2c2676a2ef171ba3\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\Joci\.gradle\caches\transforms-3\0533ea7e787d4330488437d8f040f117\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\605c5c983d653fbcbe978ef5aeb9a8b2\transformed\lifecycle-livedata-core-2.5.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\Joci\.gradle\caches\transforms-3\7afde1eb41d6777512f3b82b8c0854e7\transformed\core-runtime-2.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.sqlite:sqlite:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\47b7a7c93b579e9c1ca6a01deaba4de3\transformed\sqlite-2.2.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\635c327730b2ff9d6991544b258a04a1\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:firebase-components:17.1.5] C:\Users\Joci\.gradle\caches\transforms-3\6b39f2914bda129d13bf0d1e6d9efd70\transformed\jetified-firebase-components-17.1.5\AndroidManifest.xml:15:1-20:12
+MERGED from [com.google.android.exoplayer:exoplayer-datasource:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\b86e8912a53f00102d4cb478ef302fc6\transformed\jetified-exoplayer-datasource-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-database:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\a7fbbe95d17775a9f13cb3a689162c97\transformed\jetified-exoplayer-database-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-extractor:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\14e0f5475a440115098508edc166e74a\transformed\jetified-exoplayer-extractor-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-decoder:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\5ba10daebf757bc56ad29a7e01185113\transformed\jetified-exoplayer-decoder-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-container:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\d3421c39fc7333447fc2bc1fd9dee87c\transformed\jetified-exoplayer-container-2.19.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-common:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\385aacd2128390712a14c0a12fc29721\transformed\jetified-exoplayer-common-2.19.0\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.test:rules:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\c717f0c0c3ba0bbf8dc081254f6ed729\transformed\rules-1.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:17:1-32:12
 MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\6fab882c1c4696f4a34c8d66981c3728\transformed\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\d57a71de353d6f615f194fd1f99fb600\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] C:\Users\Joci\.gradle\caches\transforms-3\db80c5d9e7b1b94b7c9a2a7ec3903c65\transformed\exifinterface-1.3.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.test.services:storage:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\a54c4bc56ac002ef09a3608ca3a0ca50\transformed\jetified-storage-1.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.test:monitor:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\69d09b56650a549d3f0f3822e186d7b8\transformed\monitor-1.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.jakewharton.timber:timber:5.0.1] C:\Users\Joci\.gradle\caches\transforms-3\7fa47947f74d3ea39d201ae002f594cb\transformed\jetified-timber-5.0.1\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\Joci\.gradle\caches\transforms-3\efce1b44886555346c024fcbf6fda611\transformed\jetified-annotation-experimental-1.3.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.facebook.fbjni:fbjni:0.5.1] C:\Users\Joci\.gradle\caches\transforms-3\057fda56c2cfc52d70a46042a30c6944\transformed\jetified-fbjni-0.5.1\AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:2:1-17:12
 MERGED from [com.github.henninghall:numberpickerview:v1.1.5] C:\Users\Joci\.gradle\caches\transforms-3\3f6772329cfbab4f6ff8401651a6093b\transformed\jetified-numberpickerview-v1.1.5\AndroidManifest.xml:2:1-11:12
 MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\Joci\.gradle\caches\transforms-3\3cce91eec9bc0def73f35cc73acf6a85\transformed\jetified-time4j-android-4.8-2021a\AndroidManifest.xml:2:1-13:12
 MERGED from [com.android.ndk.thirdparty:openssl:1.1.1l-beta-1] C:\Users\Joci\.gradle\caches\transforms-3\9293682cb53936b0e929c86eac194797\transformed\jetified-openssl-1.1.1l-beta-1\AndroidManifest.xml:1:1-3:12
+MERGED from [androidx.multidex:multidex:2.0.1] C:\Users\Joci\.gradle\caches\transforms-3\a08832ab09cb9d88bd7e1341061fab5d\transformed\multidex-2.0.1\AndroidManifest.xml:17:1-22:12
 	package
 		INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml
 	android:versionName
@@ -135,6 +163,8 @@ MERGED from D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest
 INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml:5:5-8:50
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-28:19
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-28:19
+MERGED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-23:19
+MERGED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-23:19
 MERGED from [com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:18:5-22:19
 MERGED from [com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:18:5-22:19
 MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:28:5-73:19
@@ -167,14 +197,18 @@ MERGED from [com.google.android.gms:play-services-basement:18.2.0] C:\Users\Joci
 MERGED from [com.google.android.gms:play-services-basement:18.2.0] C:\Users\Joci\.gradle\caches\transforms-3\68162890c105b1624553f01ae691581f\transformed\jetified-play-services-basement-18.2.0\AndroidManifest.xml:20:5-24:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:23:5-33:19
-MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:25:5-35:19
-MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:25:5-35:19
-MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
-MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:28:5-89
 MERGED from [androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:28:5-89
+MERGED from [androidx.lifecycle:lifecycle-process:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\d3b7d5859dc925d6c6e9cb951610d0af\transformed\jetified-lifecycle-process-2.5.1\AndroidManifest.xml:25:5-35:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\d3b7d5859dc925d6c6e9cb951610d0af\transformed\jetified-lifecycle-process-2.5.1\AndroidManifest.xml:25:5-35:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\5b9668a697a30efe2c2676a2ef171ba3\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\5b9668a697a30efe2c2676a2ef171ba3\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:30:5-20
+MERGED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:30:5-20
+MERGED from [com.jakewharton.timber:timber:5.0.1] C:\Users\Joci\.gradle\caches\transforms-3\7fa47947f74d3ea39d201ae002f594cb\transformed\jetified-timber-5.0.1\AndroidManifest.xml:7:5-20
+MERGED from [com.jakewharton.timber:timber:5.0.1] C:\Users\Joci\.gradle\caches\transforms-3\7fa47947f74d3ea39d201ae002f594cb\transformed\jetified-timber-5.0.1\AndroidManifest.xml:7:5-20
 MERGED from [com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:11:5-15:19
 MERGED from [com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:11:5-15:19
 MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\Joci\.gradle\caches\transforms-3\3cce91eec9bc0def73f35cc73acf6a85\transformed\jetified-time4j-android-4.8-2021a\AndroidManifest.xml:11:5-20
@@ -239,6 +273,8 @@ MERGED from [com.facebook.react:flipper-integration:0.73.4] C:\Users\Joci\.gradl
 MERGED from [com.facebook.react:flipper-integration:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\1af6da98205d2b9904caa399785386e9\transformed\jetified-flipper-integration-0.73.4-debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-async-storage_async-storage] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-async-storage_async-storage] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-community_slider] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\slider\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-community_slider] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-community\slider\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-44
@@ -251,6 +287,8 @@ MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\myApp\no
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-vector-icons] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-vector-icons\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-vector-icons] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-vector-icons\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:10:5-44
@@ -297,6 +335,8 @@ MERGED from [com.facebook.fresco:soloader:3.1.3] C:\Users\Joci\.gradle\caches\tr
 MERGED from [com.facebook.fresco:soloader:3.1.3] C:\Users\Joci\.gradle\caches\transforms-3\3312377aaac51673b757679288f8c083\transformed\jetified-soloader-3.1.3\AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.fresco:fbcore:3.1.3] C:\Users\Joci\.gradle\caches\transforms-3\0038d2d4036a85741b91001e4541d656\transformed\jetified-fbcore-3.1.3\AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.fresco:fbcore:3.1.3] C:\Users\Joci\.gradle\caches\transforms-3\0038d2d4036a85741b91001e4541d656\transformed\jetified-fbcore-3.1.3\AndroidManifest.xml:5:5-44
+MERGED from [com.github.doublesymmetry:kotlinaudio:v2.1.0] C:\Users\Joci\.gradle\caches\transforms-3\d83ebc19f1aa6258864398260ccd7572\transformed\jetified-kotlinaudio-v2.1.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.doublesymmetry:kotlinaudio:v2.1.0] C:\Users\Joci\.gradle\caches\transforms-3\d83ebc19f1aa6258864398260ccd7572\transformed\jetified-kotlinaudio-v2.1.0\AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.201.0] C:\Users\Joci\.gradle\caches\transforms-3\7f4ec48f14b0c757d76386dd1d920f74\transformed\jetified-flipper-network-plugin-0.201.0\AndroidManifest.xml:11:5-44
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.201.0] C:\Users\Joci\.gradle\caches\transforms-3\7f4ec48f14b0c757d76386dd1d920f74\transformed\jetified-flipper-network-plugin-0.201.0\AndroidManifest.xml:11:5-44
 MERGED from [com.facebook.flipper:flipper:0.201.0] C:\Users\Joci\.gradle\caches\transforms-3\9b2c28bd5719adb7e465469e2ca76c12\transformed\jetified-flipper-0.201.0\AndroidManifest.xml:11:5-44
@@ -307,6 +347,10 @@ MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\cac
 MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:21:5-23:64
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\562e7a6c405debe3e5c43ad3373d9bd1\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\Joci\.gradle\caches\transforms-3\562e7a6c405debe3e5c43ad3373d9bd1\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\83023a96b62c3b98fde8647d90f61db5\transformed\jetified-coil-2.2.0\AndroidManifest.xml:5:5-7:41
+MERGED from [io.coil-kt:coil:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\83023a96b62c3b98fde8647d90f61db5\transformed\jetified-coil-2.2.0\AndroidManifest.xml:5:5-7:41
+MERGED from [io.coil-kt:coil-base:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\dc25eabd90d7a2554ebf5cda7e2fff79\transformed\jetified-coil-base-2.2.0\AndroidManifest.xml:5:5-7:41
+MERGED from [io.coil-kt:coil-base:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\dc25eabd90d7a2554ebf5cda7e2fff79\transformed\jetified-coil-base-2.2.0\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\Joci\.gradle\caches\transforms-3\061d078e19c3ae7d999b8bf4f4fbd3f7\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\Joci\.gradle\caches\transforms-3\061d078e19c3ae7d999b8bf4f4fbd3f7\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\d3a8a24834f295d8078f18b8298041f7\transformed\material-1.9.0\AndroidManifest.xml:20:5-22:41
@@ -359,24 +403,16 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\J
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\0c17d1aa2ccc813649d410d5ca1839aa\transformed\jetified-lifecycle-viewmodel-savedstate-2.5.1\AndroidManifest.xml:20:5-22:41
 MERGED from [com.facebook.react:hermes-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\c3bae43020d63a75df6e26cd68a87085\transformed\jetified-hermes-android-0.73.4-debug\AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.react:hermes-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\c3bae43020d63a75df6e26cd68a87085\transformed\jetified-hermes-android-0.73.4-debug\AndroidManifest.xml:5:5-44
-MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\699d8495cfbcf29796d79737ecf7fe4f\transformed\jetified-savedstate-1.2.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\699d8495cfbcf29796d79737ecf7fe4f\transformed\jetified-savedstate-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\38344280fe9342d918737701bd2e1811\transformed\jetified-autofill-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\38344280fe9342d918737701bd2e1811\transformed\jetified-autofill-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\5b356190bdf4bb7065067fc153a69c6d\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\5b356190bdf4bb7065067fc153a69c6d\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\f1ad4007c9d50652fdaa15828c92907b\transformed\coordinatorlayout-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\f1ad4007c9d50652fdaa15828c92907b\transformed\coordinatorlayout-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\46d614963c22b23ab93f8be235bc125f\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\46d614963c22b23ab93f8be235bc125f\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:21:5-44
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:21:5-44
-MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:21:5-23:41
-MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:21:5-23:41
-MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
-MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
-MERGED from [androidx.tracing:tracing:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\1b375b5e368b03c6f05fa335182ca0d8\transformed\jetified-tracing-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.tracing:tracing:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\1b375b5e368b03c6f05fa335182ca0d8\transformed\jetified-tracing-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\f1ad4007c9d50652fdaa15828c92907b\transformed\coordinatorlayout-1.2.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\f1ad4007c9d50652fdaa15828c92907b\transformed\coordinatorlayout-1.2.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.autofill:autofill:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\38344280fe9342d918737701bd2e1811\transformed\jetified-autofill-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.autofill:autofill:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\38344280fe9342d918737701bd2e1811\transformed\jetified-autofill-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\27f32e5559bcd43034d6914ede1dc092\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\27f32e5559bcd43034d6914ede1dc092\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\56c281bcb8243724411ecc33f6c1bde0\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
@@ -387,16 +423,46 @@ MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Joci\.gradle\cac
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\9b7c687cf2ef0cdf849c0c1404623f4f\transformed\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\345ebcb3e4094628456bcdee8e74a5da\transformed\transition-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\345ebcb3e4094628456bcdee8e74a5da\transformed\transition-1.2.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\6fdd42089cdfdb89a5f7c93d6af7471d\transformed\jetified-core-ktx-1.9.0\AndroidManifest.xml:5:5-44
-MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\6fdd42089cdfdb89a5f7c93d6af7471d\transformed\jetified-core-ktx-1.9.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.exoplayer:extension-mediasession:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\1b44d357d1067d07f788f8d359a84c6d\transformed\jetified-extension-mediasession-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:extension-mediasession:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\1b44d357d1067d07f788f8d359a84c6d\transformed\jetified-extension-mediasession-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\8a7fba7c7c4785c85f3b5d7ea53a874f\transformed\jetified-exoplayer-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\8a7fba7c7c4785c85f3b5d7ea53a874f\transformed\jetified-exoplayer-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-ui:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\b355e94590026a925ca4c88cea37883b\transformed\jetified-exoplayer-ui-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-ui:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\b355e94590026a925ca4c88cea37883b\transformed\jetified-exoplayer-ui-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.media:media:1.6.0] C:\Users\Joci\.gradle\caches\transforms-3\64e5db48e50d73c622d3042d00efbea8\transformed\media-1.6.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.media:media:1.6.0] C:\Users\Joci\.gradle\caches\transforms-3\64e5db48e50d73c622d3042d00efbea8\transformed\media-1.6.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\095a0e95a3b97bffb68b6823a94aa0c4\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\095a0e95a3b97bffb68b6823a94aa0c4\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\0fd1425c12b4ad547fe75169beca3740\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\0fd1425c12b4ad547fe75169beca3740\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.3.0] C:\Users\Joci\.gradle\caches\transforms-3\3654b9bbfdbd41fe51e0fe8f434ed88a\transformed\recyclerview-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.3.0] C:\Users\Joci\.gradle\caches\transforms-3\3654b9bbfdbd41fe51e0fe8f434ed88a\transformed\recyclerview-1.3.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\73759641b17cf7e1f9f823253eaf747b\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.customview:customview:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\73759641b17cf7e1f9f823253eaf747b\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-dash:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\45e8d96dc87b3527ce6b5b9f80256b5a\transformed\jetified-exoplayer-dash-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-dash:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\45e8d96dc87b3527ce6b5b9f80256b5a\transformed\jetified-exoplayer-dash-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-hls:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\8c851ca844e8cf751fd9015d2c01a5c5\transformed\jetified-exoplayer-hls-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-hls:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\8c851ca844e8cf751fd9015d2c01a5c5\transformed\jetified-exoplayer-hls-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-rtsp:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\74916d8e1b05b474a6f4eacb6b539dc7\transformed\jetified-exoplayer-rtsp-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-rtsp:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\74916d8e1b05b474a6f4eacb6b539dc7\transformed\jetified-exoplayer-rtsp-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\42644bc54e787a478b6c3ff47a1ab384\transformed\jetified-exoplayer-smoothstreaming-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\42644bc54e787a478b6c3ff47a1ab384\transformed\jetified-exoplayer-smoothstreaming-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\48b0d47373bd8f7d29d4a2a2607bd19d\transformed\jetified-exoplayer-core-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\48b0d47373bd8f7d29d4a2a2607bd19d\transformed\jetified-exoplayer-core-2.19.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\ecc65e0403f4dfb04bd44a9f415394a2\transformed\jetified-customview-poolingcontainer-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\ecc65e0403f4dfb04bd44a9f415394a2\transformed\jetified-customview-poolingcontainer-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\6fdd42089cdfdb89a5f7c93d6af7471d\transformed\jetified-core-ktx-1.9.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\6fdd42089cdfdb89a5f7c93d6af7471d\transformed\jetified-core-ktx-1.9.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\699d8495cfbcf29796d79737ecf7fe4f\transformed\jetified-savedstate-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\699d8495cfbcf29796d79737ecf7fe4f\transformed\jetified-savedstate-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-process:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\d3b7d5859dc925d6c6e9cb951610d0af\transformed\jetified-lifecycle-process-2.5.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.lifecycle:lifecycle-process:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\d3b7d5859dc925d6c6e9cb951610d0af\transformed\jetified-lifecycle-process-2.5.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\1b375b5e368b03c6f05fa335182ca0d8\transformed\jetified-tracing-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\1b375b5e368b03c6f05fa335182ca0d8\transformed\jetified-tracing-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\03d93c1f43773d3643e65974d670c1b6\transformed\localbroadcastmanager-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.1.0] C:\Users\Joci\.gradle\caches\transforms-3\03d93c1f43773d3643e65974d670c1b6\transformed\localbroadcastmanager-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\078806bd157ae28fc0dc0dff008ec247\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\078806bd157ae28fc0dc0dff008ec247\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\c2c67d6ef97116786f5e00cacbb4d36d\transformed\lifecycle-runtime-2.5.1\AndroidManifest.xml:20:5-22:41
@@ -405,10 +471,10 @@ MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Joci\.gradle\cac
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\8e642d0218a62e2463dc98bf97fe4741\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.sqlite:sqlite-framework:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\424bb7f5e8999507734fb924a0875fe1\transformed\sqlite-framework-2.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.sqlite:sqlite-framework:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\424bb7f5e8999507734fb924a0875fe1\transformed\sqlite-framework-2.2.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\5b9668a697a30efe2c2676a2ef171ba3\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\5b9668a697a30efe2c2676a2ef171ba3\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\6119c53d075509c7c00b74ccdeb41c3b\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\6119c53d075509c7c00b74ccdeb41c3b\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\5b9668a697a30efe2c2676a2ef171ba3\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\5b9668a697a30efe2c2676a2ef171ba3\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\Joci\.gradle\caches\transforms-3\0533ea7e787d4330488437d8f040f117\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\Joci\.gradle\caches\transforms-3\0533ea7e787d4330488437d8f040f117\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\605c5c983d653fbcbe978ef5aeb9a8b2\transformed\lifecycle-livedata-core-2.5.1\AndroidManifest.xml:20:5-22:41
@@ -417,14 +483,36 @@ MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\Joci\.gradle\caches
 MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\Joci\.gradle\caches\transforms-3\7afde1eb41d6777512f3b82b8c0854e7\transformed\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.sqlite:sqlite:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\47b7a7c93b579e9c1ca6a01deaba4de3\transformed\sqlite-2.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.sqlite:sqlite:2.2.0] C:\Users\Joci\.gradle\caches\transforms-3\47b7a7c93b579e9c1ca6a01deaba4de3\transformed\sqlite-2.2.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\635c327730b2ff9d6991544b258a04a1\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\635c327730b2ff9d6991544b258a04a1\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-components:17.1.5] C:\Users\Joci\.gradle\caches\transforms-3\6b39f2914bda129d13bf0d1e6d9efd70\transformed\jetified-firebase-components-17.1.5\AndroidManifest.xml:18:5-44
 MERGED from [com.google.firebase:firebase-components:17.1.5] C:\Users\Joci\.gradle\caches\transforms-3\6b39f2914bda129d13bf0d1e6d9efd70\transformed\jetified-firebase-components-17.1.5\AndroidManifest.xml:18:5-44
+MERGED from [com.google.android.exoplayer:exoplayer-datasource:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\b86e8912a53f00102d4cb478ef302fc6\transformed\jetified-exoplayer-datasource-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-datasource:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\b86e8912a53f00102d4cb478ef302fc6\transformed\jetified-exoplayer-datasource-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-database:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\a7fbbe95d17775a9f13cb3a689162c97\transformed\jetified-exoplayer-database-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-database:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\a7fbbe95d17775a9f13cb3a689162c97\transformed\jetified-exoplayer-database-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-extractor:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\14e0f5475a440115098508edc166e74a\transformed\jetified-exoplayer-extractor-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-extractor:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\14e0f5475a440115098508edc166e74a\transformed\jetified-exoplayer-extractor-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-decoder:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\5ba10daebf757bc56ad29a7e01185113\transformed\jetified-exoplayer-decoder-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-decoder:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\5ba10daebf757bc56ad29a7e01185113\transformed\jetified-exoplayer-decoder-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-container:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\d3421c39fc7333447fc2bc1fd9dee87c\transformed\jetified-exoplayer-container-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-container:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\d3421c39fc7333447fc2bc1fd9dee87c\transformed\jetified-exoplayer-container-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-common:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\385aacd2128390712a14c0a12fc29721\transformed\jetified-exoplayer-common-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-common:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\385aacd2128390712a14c0a12fc29721\transformed\jetified-exoplayer-common-2.19.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.test:rules:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\c717f0c0c3ba0bbf8dc081254f6ed729\transformed\rules-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.test:rules:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\c717f0c0c3ba0bbf8dc081254f6ed729\transformed\rules-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\6fab882c1c4696f4a34c8d66981c3728\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\6fab882c1c4696f4a34c8d66981c3728\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\d57a71de353d6f615f194fd1f99fb600\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] C:\Users\Joci\.gradle\caches\transforms-3\d57a71de353d6f615f194fd1f99fb600\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] C:\Users\Joci\.gradle\caches\transforms-3\db80c5d9e7b1b94b7c9a2a7ec3903c65\transformed\exifinterface-1.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] C:\Users\Joci\.gradle\caches\transforms-3\db80c5d9e7b1b94b7c9a2a7ec3903c65\transformed\exifinterface-1.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.test.services:storage:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\a54c4bc56ac002ef09a3608ca3a0ca50\transformed\jetified-storage-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.test.services:storage:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\a54c4bc56ac002ef09a3608ca3a0ca50\transformed\jetified-storage-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.test:monitor:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\69d09b56650a549d3f0f3822e186d7b8\transformed\monitor-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.test:monitor:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\69d09b56650a549d3f0f3822e186d7b8\transformed\monitor-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.jakewharton.timber:timber:5.0.1] C:\Users\Joci\.gradle\caches\transforms-3\7fa47947f74d3ea39d201ae002f594cb\transformed\jetified-timber-5.0.1\AndroidManifest.xml:5:5-44
+MERGED from [com.jakewharton.timber:timber:5.0.1] C:\Users\Joci\.gradle\caches\transforms-3\7fa47947f74d3ea39d201ae002f594cb\transformed\jetified-timber-5.0.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\Joci\.gradle\caches\transforms-3\efce1b44886555346c024fcbf6fda611\transformed\jetified-annotation-experimental-1.3.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\Joci\.gradle\caches\transforms-3\efce1b44886555346c024fcbf6fda611\transformed\jetified-annotation-experimental-1.3.0\AndroidManifest.xml:20:5-44
 MERGED from [com.facebook.fbjni:fbjni:0.5.1] C:\Users\Joci\.gradle\caches\transforms-3\057fda56c2cfc52d70a46042a30c6944\transformed\jetified-fbjni-0.5.1\AndroidManifest.xml:5:5-44
@@ -437,6 +525,8 @@ MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\Joci\.gradle\caches\t
 MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\Joci\.gradle\caches\transforms-3\3cce91eec9bc0def73f35cc73acf6a85\transformed\jetified-time4j-android-4.8-2021a\AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.ndk.thirdparty:openssl:1.1.1l-beta-1] C:\Users\Joci\.gradle\caches\transforms-3\9293682cb53936b0e929c86eac194797\transformed\jetified-openssl-1.1.1l-beta-1\AndroidManifest.xml:2:2-70
 MERGED from [com.android.ndk.thirdparty:openssl:1.1.1l-beta-1] C:\Users\Joci\.gradle\caches\transforms-3\9293682cb53936b0e929c86eac194797\transformed\jetified-openssl-1.1.1l-beta-1\AndroidManifest.xml:2:2-70
+MERGED from [androidx.multidex:multidex:2.0.1] C:\Users\Joci\.gradle\caches\transforms-3\a08832ab09cb9d88bd7e1341061fab5d\transformed\multidex-2.0.1\AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.1] C:\Users\Joci\.gradle\caches\transforms-3\a08832ab09cb9d88bd7e1341061fab5d\transformed\multidex-2.0.1\AndroidManifest.xml:20:5-43
 	tools:overrideLibrary
 		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:23:9-61
 	android:targetSdkVersion
@@ -445,6 +535,8 @@ MERGED from [com.android.ndk.thirdparty:openssl:1.1.1l-beta-1] C:\Users\Joci\.gr
 		INJECTED from D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml
 uses-permission#android.permission.WAKE_LOCK
 ADDED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-68
+MERGED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-68
+MERGED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-68
 	android:name
 		ADDED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:22-65
 uses-permission#android.permission.ACCESS_NETWORK_STATE
@@ -453,6 +545,10 @@ MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\cac
 MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:26:5-79
 MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\Joci\.gradle\caches\transforms-3\9ac012c98eb4d200956ad529f83958aa\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:8:5-79
 MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\Joci\.gradle\caches\transforms-3\9ac012c98eb4d200956ad529f83958aa\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:8:5-79
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\48b0d47373bd8f7d29d4a2a2607bd19d\transformed\jetified-exoplayer-core-2.19.0\AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\48b0d47373bd8f7d29d4a2a2607bd19d\transformed\jetified-exoplayer-core-2.19.0\AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.exoplayer:exoplayer-common:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\385aacd2128390712a14c0a12fc29721\transformed\jetified-exoplayer-common-2.19.0\AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.exoplayer:exoplayer-common:2.19.0] C:\Users\Joci\.gradle\caches\transforms-3\385aacd2128390712a14c0a12fc29721\transformed\jetified-exoplayer-common-2.19.0\AndroidManifest.xml:24:5-79
 	android:name
 		ADDED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-76
 meta-data#app_data_collection_default_enabled
@@ -493,6 +589,30 @@ ADDED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_mod
 		ADDED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:13-35
 	android:name
 		ADDED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:24:13-88
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-77
+	android:name
+		ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK
+ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-92
+	android:name
+		ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-89
+service#com.doublesymmetry.trackplayer.service.MusicService
+ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:9-22:19
+	android:enabled
+		ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-35
+	android:exported
+		ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-36
+	android:foregroundServiceType
+		ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-58
+	android:name
+		ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-79
+intent-filter#action:name:android.intent.action.MEDIA_BUTTON
+ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:19:13-21:29
+action#android.intent.action.MEDIA_BUTTON
+ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:20:17-77
+	android:name
+		ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:20:25-74
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
 ADDED from [com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:16:5-78
 	android:name
@@ -625,8 +745,8 @@ ADDED from [com.google.android.gms:play-services-basement:18.2.0] C:\Users\Joci\
 		ADDED from [com.google.android.gms:play-services-basement:18.2.0] C:\Users\Joci\.gradle\caches\transforms-3\68162890c105b1624553f01ae691581f\transformed\jetified-play-services-basement-18.2.0\AndroidManifest.xml:22:13-58
 provider#androidx.startup.InitializationProvider
 ADDED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
-MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:26:9-34:20
-MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:26:9-34:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\d3b7d5859dc925d6c6e9cb951610d0af\transformed\jetified-lifecycle-process-2.5.1\AndroidManifest.xml:26:9-34:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\d3b7d5859dc925d6c6e9cb951610d0af\transformed\jetified-lifecycle-process-2.5.1\AndroidManifest.xml:26:9-34:20
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Joci\.gradle\caches\transforms-3\57875db857c52963776a564122dcb84b\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
 	tools:node
@@ -643,12 +763,6 @@ ADDED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transform
 		ADDED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
 	android:name
 		ADDED from [androidx.emoji2:emoji2:1.2.0] C:\Users\Joci\.gradle\caches\transforms-3\faa3592d2fc203d6c74b9a5f601058a1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
-meta-data#androidx.lifecycle.ProcessLifecycleInitializer
-ADDED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
-	android:value
-		ADDED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
-	android:name
-		ADDED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Joci\.gradle\caches\transforms-3\71b91ea8216105cda74b0317da307340\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
 permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
@@ -669,6 +783,26 @@ uses-permission#com.myapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\d3b7d5859dc925d6c6e9cb951610d0af\transformed\jetified-lifecycle-process-2.5.1\AndroidManifest.xml:31:13-33:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\d3b7d5859dc925d6c6e9cb951610d0af\transformed\jetified-lifecycle-process-2.5.1\AndroidManifest.xml:33:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.5.1] C:\Users\Joci\.gradle\caches\transforms-3\d3b7d5859dc925d6c6e9cb951610d0af\transformed\jetified-lifecycle-process-2.5.1\AndroidManifest.xml:32:17-78
+queries
+ADDED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:24:5-28:15
+package#androidx.test.orchestrator
+ADDED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:25:9-62
+	android:name
+		ADDED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:25:18-59
+package#androidx.test.services
+ADDED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:26:9-58
+	android:name
+		ADDED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:26:18-55
+package#com.google.android.apps.common.testing.services
+ADDED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:27:9-83
+	android:name
+		ADDED from [androidx.test:runner:1.4.0] C:\Users\Joci\.gradle\caches\transforms-3\4b85a2f84e3f8416644fe2e347c4be9e\transformed\runner-1.4.0\AndroidManifest.xml:27:18-80
 meta-data#com.facebook.soloader.enabled
 ADDED from [com.facebook.soloader:soloader:0.10.5] C:\Users\Joci\.gradle\caches\transforms-3\03d018e18e7118763cc731de8f689ba0\transformed\jetified-soloader-0.10.5\AndroidManifest.xml:12:9-14:37
 	android:value

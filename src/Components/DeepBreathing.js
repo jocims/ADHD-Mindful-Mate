@@ -73,7 +73,7 @@ const DeepBreathing = () => {
 
                 {start ? (
                     <>
-                        <View style={styles.headerContainer}>
+                        <View style={styles.header}>
                             <Text style={styles.introduction}>Deep Breathing Technique</Text>
                             <Text style={styles.text}>Perform deep breathing to relax</Text>
                         </View>
@@ -89,20 +89,25 @@ const DeepBreathing = () => {
                         </View>
                     </>
                 ) : (
-                    <View style={styles.headerContainer}>
-                        <Text style={styles.introduction}>Deep Breathing Technique</Text>
-                        <Text style={styles.text}>Perform deep breathing to relax</Text>
+
+                    <>
+
+                        <View style={styles.headerContainer}>
+                            <Text style={styles.introduction}>Deep Breathing Technique</Text>
+                            <Text style={styles.text}>Perform deep breathing to relax</Text>
+
+                        </View>
 
                         <TouchableOpacity style={styles.button} onPress={handleStart}>
                             <Text style={styles.buttonText}>Start</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
-                            <Text style={styles.btnDashboardText}>DashBack to board</Text>
-                        </TouchableOpacity>
-
-                    </View>
+                    </>
                 )}
+
+                <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
+                    <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
+                </TouchableOpacity>
 
             </View>
         </ImageBackground>
@@ -121,9 +126,13 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         padding: 20,
     },
+    header: {
+        alignItems: 'center',
+        marginBottom: 20,
+    },
     headerContainer: {
         alignItems: 'center',
-        marginBottom: '15%',
+        marginBottom: '25%',
     },
     text: {
         fontSize: 16,

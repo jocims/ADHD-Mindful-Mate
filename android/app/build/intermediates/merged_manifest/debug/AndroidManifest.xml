@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <!--
     This manifest file is used only by Gradle to configure debug-only capabilities
     for React Native Apps.
@@ -24,6 +26,12 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.myapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+
+    <queries>
+        <package android:name="androidx.test.orchestrator" />
+        <package android:name="androidx.test.services" />
+        <package android:name="com.google.android.apps.common.testing.services" />
+    </queries>
 
     <application
         android:name="com.myapp.MainApplication"
@@ -76,7 +84,16 @@
             android:name="io.invertase.firebase.app.ReactNativeFirebaseAppInitProvider"
             android:authorities="com.myapp.reactnativefirebaseappinitprovider"
             android:exported="false"
-            android:initOrder="99" />
+            android:initOrder="99" /> <!-- The main service, handles playback, playlists and media buttons -->
+        <service
+            android:name="com.doublesymmetry.trackplayer.service.MusicService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name="com.facebook.react.devsupport.DevSettingsActivity"

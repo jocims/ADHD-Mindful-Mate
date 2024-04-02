@@ -225,11 +225,12 @@ const Game = () => {
                             <Text style={styles.buttonText}>Start</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
-                            <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
-                        </TouchableOpacity>
                     </>
                 )}
+
+                <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
+                    <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
+                </TouchableOpacity>
 
             </View>
         </ImageBackground>
