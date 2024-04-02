@@ -16,16 +16,45 @@ const Meditation = () => {
     const { position, duration } = useProgress();
     const [isPlayerInitialized, setIsPlayerInitialized] = useState(false);
 
+
+    const cleanup = async () => {
+        try {
+            await TrackPlayer.stop();
+            await TrackPlayer.reset();
+        } catch (error) {
+            console.error('Error stopping and resetting TrackPlayer:', error);
+        }
+    };
+
     useEffect(() => {
         // Function to initialize TrackPlayer
         const initializeTrackPlayer = async () => {
-            if (!isPlayerInitialized) {
-                await TrackPlayer.setupPlayer();
-                setIsPlayerInitialized(true);
+            console.log('!!!!!!!!!!!!!!!!!!!! Initializing TrackPlayer...');
+            try {
+                console.log('!!!!!!!!!!!!!!!!!!!! TRY...');
+
+                const isPlayerInit = await TrackPlayer.isServiceRunning();
+                setIsPlayerInitialized(isPlayerInit);
+
+                if (!isPlayerInit) {
+                    console.log('!!!!!!!!!!!!!!!!!!!! NOT INITIALIZED...');
+                    await TrackPlayer.setupPlayer();
+                    console.log('!!!!!!!!!!!!!!!!!!!! Player setup...');
+                    setIsPlayerInitialized(true);
+                    console.log('!!!!!!!!!!!!!!!!!!!! Player initialized...'); {
+                    }
+                } else {
+                    console.log('!!!!!!!!!!!!!!!!!!!! Player already initialized...');
+                    await TrackPlayer.reset();
+                }
+            } catch (error) {
+                await TrackPlayer.reset();
+                console.error('!!!!!!!!!!!!!!Error initializing TrackPlayer:', error);
             }
         };
         initializeTrackPlayer();
         fetchMeditations();
+        return cleanup;
     }, []);
 
     useEffect(() => {
@@ -79,6 +108,12 @@ const Meditation = () => {
 
     const handleSeek = async (value) => {
         await TrackPlayer.seekTo(value);
+    };
+
+    const handleBackToDashboard = async () => {
+        // Call cleanup function when navigating back to dashboard
+        cleanup();
+        navigation.navigate('PatientDashboard');
     };
 
     return (
@@ -138,10 +173,10 @@ const Meditation = () => {
                     </>
                 )}
 
-                {/* Logout button */}
-                <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
+                <TouchableOpacity style={styles.btnDashboard} onPress={handleBackToDashboard}>
                     <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
                 </TouchableOpacity>
+
             </View>
         </ImageBackground>
     );
@@ -247,6 +282,8 @@ const styles = StyleSheet.create({
         fontFamily: 'SourceCodePro-Medium',
     },
     timerContainer: {
+        justifyContent: 'center',
+        flex: 1,
         alignItems: 'center',
         marginTop: 20,
     },

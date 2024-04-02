@@ -217,7 +217,6 @@ const styles = StyleSheet.create({
     },
     exerciseContainer: {
         borderWidth: 2,
-        borderColor: 'black',
         width: '100%',
         aspectRatio: 1,
         marginBottom: 20,

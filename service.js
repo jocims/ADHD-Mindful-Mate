@@ -10,6 +10,10 @@ module.exports = async function () {
     });
 
     TrackPlayer.addEventListener('remote-stop', () => {
-        TrackPlayer.destroy()
+        TrackPlayer.stop()
+    });
+
+    TrackPlayer.addEventListener('remote-reset', () => {
+        TrackPlayer.reset()
     });
 };
