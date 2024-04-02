@@ -180,7 +180,7 @@ const PatientDashboard = () => {
             <Text style={styles.feelGoodMessage}>{feelGoodMessage}</Text>
           </ImageBackground>
           <View style={styles.functionalities}>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => navigation.navigate('WeeklyTasks')}>
               <Image source={require('../tasks.png')} style={styles.btnImage} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Game')}>

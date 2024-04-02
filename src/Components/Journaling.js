@@ -81,7 +81,6 @@ const Journaling = () => {
 
                 {start ? (
                     <>
-
                         <View style={styles.header}>
                             <Text style={styles.introduction}>Journaling</Text>
                             <Text style={styles.text}>Record your thoughts and reflections.</Text>

@@ -630,12 +630,12 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: 'black',
         marginBottom: 1,
-        fontWeight: 'bold',
+        fontFamily: 'SourceCodePro-Medium',
     },
     input: {
         borderWidth: 1.5,
         width: 300,
-        borderColor: 'black',
+        borderColor: '#af3e76',
         padding: 10,
         borderRadius: 7,
         marginBottom: 10,
@@ -683,7 +683,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
-
     modalContent: {
         backgroundColor: 'white',
         padding: 16,
