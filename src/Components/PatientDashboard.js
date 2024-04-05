@@ -40,27 +40,7 @@ const PatientDashboard = () => {
         if (storedQuote && storedDate === new Date().toISOString().split('T')[0]) {
           setFeelGoodMessage(storedQuote);
         } else {
-          do {
-            // Fetch the inspirational quote from the API
-            response = await fetch(`https://favqs.com/api/qotd`);
-            data = await response.json();
-            newMessageLength = data.quote.body.length;
-          } while (newMessageLength < 50 || newMessageLength > 110);
-
-          // Check if a quote is available for the date
-          if (data.quote) {
-            console.log('Data:', data);
-            const quote = data.quote.body;
-            console.log('Quote:', quote);
-
-            setFeelGoodMessage(quote);
-            // Store the quote and its date
-            await ReactNativeAsyncStorage.setItem('feelGoodQuote', quote);
-            await ReactNativeAsyncStorage.setItem('feelGoodQuoteDate', new Date().toISOString().split('T')[0]);
-            await ReactNativeAsyncStorage.setItem('messageLength', newMessageLength.toString());
-          } else {
-            setFeelGoodMessage("No quote available for this day.");
-          }
+          await fetchNewFeelGoodMessage();
         }
       } catch (error) {
         console.error('Error fetching feel-good message:', error);
@@ -118,6 +98,39 @@ const PatientDashboard = () => {
     navigation.navigate('FirstScreen');
   };
 
+  const fetchNewFeelGoodMessage = async () => {
+    try {
+      let response;
+      let data;
+      let newMessageLength;
+
+      do {
+        // Fetch the inspirational quote from the API
+        response = await fetch(`https://favqs.com/api/qotd`);
+        data = await response.json();
+        newMessageLength = data.quote.body.length;
+      } while (newMessageLength < 50 || newMessageLength > 110);
+
+      // Check if a quote is available for the date
+      if (data.quote) {
+        console.log('Data:', data);
+        const quote = data.quote.body;
+        console.log('Quote:', quote);
+
+        setFeelGoodMessage(quote);
+        // Store the quote and its date
+        await ReactNativeAsyncStorage.setItem('feelGoodQuote', quote);
+        await ReactNativeAsyncStorage.setItem('feelGoodQuoteDate', new Date().toISOString().split('T')[0]);
+        await ReactNativeAsyncStorage.setItem('messageLength', newMessageLength.toString());
+      } else {
+        setFeelGoodMessage("No quote available for this day.");
+      }
+    } catch (error) {
+      console.error('Error fetching feel-good message:', error);
+      setFeelGoodMessage("Failed to fetch quote.");
+    }
+  };
+
   const handleImageSelection = async (index) => {
     // Check if the image is already selected for today
     if (!isImageSelected[index]) {
@@ -147,6 +160,12 @@ const PatientDashboard = () => {
         // Store the selected emoji and its date
         await ReactNativeAsyncStorage.setItem('selectedEmoji', index.toString());
         await ReactNativeAsyncStorage.setItem('selectedEmojiDate', new Date().toISOString().split('T')[0]);
+
+        // Check if one of the first three emojis is selected
+        if (index < 3) {
+          // Fetch a new feel-good message
+          await fetchNewFeelGoodMessage();
+        }
       } catch (error) {
         console.error('Error saving mood data:', error);
       }
