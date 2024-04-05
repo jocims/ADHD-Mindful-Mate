@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image, TextInput, Modal } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ImageBackground, Image, TextInput, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
@@ -17,18 +17,23 @@ const WeeklyTasks = () => {
     const [touchableOpacityText, setTouchableOpacityText] = useState(new Date());
     const [formattedDate, setFormattedDate] = useState(new Date().toLocaleDateString('en-GB'));
     const [deadline, setDeadline] = useState(new Date());
-    const maximumDate = getEndOfWeek();
+    const [minimumDate, setMinimumDate] = useState(new Date());
+    const [maximumDate, setMaximumDate] = useState(new Date());
 
+    useEffect(() => {
+        // Set minimum date to Monday of current week
+        const monday = getMonday(new Date());
+        setMinimumDate(monday);
 
-    const getFormattedDate = (date) => {
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        return date.toLocaleDateString('en-GB', options);
-    };
+        // Set maximum date to 7 days later
+        const maxDate = new Date(monday);
+        maxDate.setDate(maxDate.getDate() + 6);
+        setMaximumDate(maxDate);
+    }, []);
 
     const handleDatePress = () => {
         setShowDatePicker(true);
     };
-
 
     const hideDatePicker = () => {
         setShowDatePicker(false);
@@ -36,29 +41,22 @@ const WeeklyTasks = () => {
     };
 
     const onChangeDeadline = (selectedDate) => {
-        const formattedSelectedDate = getFormattedDate(selectedDate);
-        setTouchableOpacityText(formattedSelectedDate);
-        setFormattedDate(formattedSelectedDate);
+        setTouchableOpacityText(selectedDate);
+        setFormattedDate(selectedDate.toLocaleDateString('en-GB'));
         setDeadline(selectedDate);
     };
 
-
-    // Function to handle set task
     const handleStart = () => {
         setStart(true);
-
-        // Clear input fields
         setTaskName('');
         setTaskDescription('');
         setTaskStatus('Created');
     };
 
-    // Function to handle end of journaling
     const handleEnd = async () => {
         if (taskName !== '' && taskDescription !== '' && taskStatus !== '' && deadline !== '') {
             setStart(false);
             try {
-
                 const userDocRef = doc(db, 'patient', auth.currentUser.uid);
                 const data = {
                     [Date.now().toString()]: {
@@ -73,40 +71,20 @@ const WeeklyTasks = () => {
                 };
 
                 await setDoc(userDocRef, { WeeklyTasks: data }, { merge: true });
-
-
             } catch (error) {
-                console.error('Error saving deep breathing data:', error);
+                console.error('Error saving task data:', error);
             }
-
-            // Clear the journal text
-            setJournalText('');
-            setPrevText('');
-
         } else {
             alert('Please fill in all the fields');
         }
-
     };
 
-    // Function to handle log out
     const handleLogout = async () => {
-        // Clear user token and role from AsyncStorage
         await ReactNativeAsyncStorage.removeItem('userToken');
         await ReactNativeAsyncStorage.removeItem('userRole');
-
-        // Navigate back to the login screen
         navigation.navigate('FirstScreen');
     };
 
-    const getEndOfWeek = () => {
-        const startOfWeek = getMonday();
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6); // Sunday is the 7th day from Monday
-        return endOfWeek;
-    };
-
-    // Function to get the Monday of the current week
     const getMonday = (date) => {
         const day = date.getDay();
         const diff = date.getDate() - day + (day === 0 ? -6 : 1);
@@ -114,120 +92,120 @@ const WeeklyTasks = () => {
     };
 
     return (
-        <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
-            <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollView}>
 
-                {start ? null : (
-                    <>
-                        <TouchableOpacity onPress={handleLogout} style={styles.logout}>
-                            <Image source={require('../logout.png')} style={styles.logoutImg} />
-                        </TouchableOpacity>
-                        <Image source={require('../logotop.png')} style={styles.img} />
-                    </>
-                )}
-
-                {start ? (
-                    <>
-
-                        <View style={styles.header}>
-                            <Text style={styles.introduction}>New Task</Text>
-                        </View>
-
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.fieldLabel}>Task Name</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Task Name"
-                                value={taskName}
-                                onChangeText={text => setTaskName(text)}
-                            />
-                            <Text style={styles.fieldLabel}>Description</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Task Description"
-                                value={taskDescription}
-                                onChangeText={text => setTaskDescription(text)}
-                            />
-
-                            <Text style={styles.fieldLabel}>Deadline Date</Text>
-                            <TouchableOpacity onPress={handleDatePress}>
-                                <Text style={styles.input}>{formattedDate}</Text>
+            <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
+                <View style={styles.container}>
+                    {start ? null : (
+                        <>
+                            <TouchableOpacity onPress={handleLogout} style={styles.logout}>
+                                <Image source={require('../logout.png')} style={styles.logoutImg} />
                             </TouchableOpacity>
+                            <Image source={require('../logotop.png')} style={styles.img} />
+                        </>
+                    )}
 
-                            {showDatePicker && (
-                                <Modal
-                                    animationType="slide"
-                                    transparent={true}
-                                    visible={showDatePicker}
-                                    onRequestClose={hideDatePicker}
-                                >
-                                    <View style={styles.modalContainer}>
-                                        <View style={styles.modalContent}>
-                                            <DatePicker
-                                                date={deadline}
-                                                onDateChange={onChangeDeadline}
-                                                mode="date"
-                                                minimumDate={getStartOfWeek()}
-                                                maximumDate={maximumDate}
-                                            />
-                                            <TouchableOpacity onPress={hideDatePicker}>
-                                                <Text>Done</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </Modal>
-                            )}
-
-                            <Text style={styles.fieldLabel}>Status</Text>
-                            <View style={[styles.input, styles.statusInput]}>
-                                <Picker
-                                    selectedValue={taskStatus}
-                                    onValueChange={(itemValue, itemIndex) => {
-                                        setTaskStatus(itemValue);
-                                    }}
-                                >
-                                    <Picker.Item label="Created" value="" />
-                                    <Picker.Item label="Started" value="Started" />
-                                    <Picker.Item label="In Progress" value="In Progress" />
-                                    <Picker.Item label="Completed" value="Completed" />
-                                </Picker>
+                    {start ? (
+                        <>
+                            <View style={styles.header}>
+                                <Text style={styles.introduction}>New Task</Text>
                             </View>
 
-                        </View>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.fieldLabel}>Task Name</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Task Name"
+                                    value={taskName}
+                                    onChangeText={text => setTaskName(text)}
+                                />
+                                <Text style={styles.fieldLabel}>Description</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Task Description"
+                                    value={taskDescription}
+                                    onChangeText={text => setTaskDescription(text)}
+                                />
+                                <Text style={styles.fieldLabel}>Deadline Date</Text>
+                                <TouchableOpacity onPress={handleDatePress}>
+                                    <Text style={styles.input}>{formattedDate}</Text>
+                                </TouchableOpacity>
+                                {showDatePicker && (
+                                    <Modal
+                                        animationType="slide"
+                                        transparent={true}
+                                        visible={showDatePicker}
+                                        onRequestClose={hideDatePicker}
+                                    >
+                                        <View style={styles.modalContainer}>
+                                            <View style={styles.modalContent}>
+                                                <DatePicker
+                                                    date={touchableOpacityText}
+                                                    onDateChange={onChangeDeadline}
+                                                    mode="date"
+                                                    minimumDate={minimumDate}
+                                                    maximumDate={maximumDate}
+                                                />
+                                                <TouchableOpacity onPress={hideDatePicker}>
+                                                    <Text>Done</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </Modal>
+                                )}
+                                <Text style={styles.fieldLabel}>Status</Text>
+                                <View style={[styles.input, styles.statusInput]}>
+                                    <Picker
+                                        selectedValue={taskStatus}
+                                        onValueChange={(itemValue, itemIndex) => {
+                                            setTaskStatus(itemValue);
+                                        }}
+                                    >
+                                        <Picker.Item label="Created" value="" />
+                                        <Picker.Item label="Started" value="Started" />
+                                        <Picker.Item label="In Progress" value="In Progress" />
+                                        <Picker.Item label="Completed" value="Completed" />
+                                    </Picker>
+                                </View>
+                            </View>
 
-                        <TouchableOpacity style={styles.button} onPress={handleEnd}>
-                            <Text style={styles.buttonText}>Create Task</Text>
-                        </TouchableOpacity>
-
-                    </>
-                ) : (
-                    <>
-                        <View style={styles.headerContainer}>
-                            <Text style={styles.introduction}>Weekly Tasks</Text>
-                            <Text style={styles.text}>Manage your tasks for the week.</Text>
-                        </View>
-
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={handleStart}>
+                            <TouchableOpacity style={styles.button} onPress={handleEnd}>
                                 <Text style={styles.buttonText}>Create Task</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('PatientDashboard')}>
-                                <Text style={styles.buttonText}>View Tasks</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </>
-                )}
+                        </>
+                    ) : (
+                        <>
+                            <View style={styles.headerContainer}>
+                                <Text style={styles.introduction}>Weekly Tasks</Text>
+                                <Text style={styles.text}>Manage your tasks for the week.</Text>
+                            </View>
 
-                <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
-                    <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
-                </TouchableOpacity>
+                            <View style={styles.buttonContainer}>
+                                <TouchableOpacity style={styles.button} onPress={handleStart}>
+                                    <Text style={styles.buttonText}>Create Task</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('PatientDashboard')}>
+                                    <Text style={styles.buttonText}>View Tasks</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </>
+                    )}
 
-            </View>
-        </ImageBackground>
+                    <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
+                        <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
+                    </TouchableOpacity>
+                </View>
+            </ImageBackground>
+        </ScrollView>
+
     );
 };
 
 const styles = StyleSheet.create({
+    scrollView: {
+        flexGrow: 1,
+        justifyContent: 'center',
+    },
     backgroundImage: {
         flex: 1,
         resizeMode: 'cover',
