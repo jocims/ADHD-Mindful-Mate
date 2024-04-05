@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, Image } from 'react-native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -140,11 +140,27 @@ const Meditation = () => {
         return new Date(date.setDate(diff));
     };
 
+    // Function to handle logout
+    const handleLogout = async () => {
+        // Clear user token and role from AsyncStorage
+        await ReactNativeAsyncStorage.removeItem('userToken');
+        await ReactNativeAsyncStorage.removeItem('userRole');
+        // Navigate back to the login screen
+        navigation.navigate('FirstScreen');
+    };
 
     return (
         <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
             <View style={styles.container}>
-                {/* Conditionally render components based on the 'start' state */}
+                {start ? null : (
+                    <>
+                        <TouchableOpacity onPress={handleLogout} style={styles.logout}>
+                            <Image source={require('../logout.png')} style={styles.logoutImg} />
+                        </TouchableOpacity>
+                        <Image source={require('../logotop.png')} style={styles.img} />
+                    </>
+                )}
+
                 {start ? (
                     <>
                         <View style={styles.header}>
@@ -224,6 +240,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         padding: 20,
+    },
+    img: {
+        position: 'absolute',
+        width: 337.5,
+        height: 67.5,
+        top: 10,
+        left: 1,
+    },
+    logout: {
+        position: 'absolute',
+        top: 15,
+        right: 15,
+    },
+    logoutImg: {
+        width: 50,
+        height: 50,
     },
     header: {
         alignItems: 'center',

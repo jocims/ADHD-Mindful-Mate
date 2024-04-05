@@ -27,7 +27,7 @@ const ChangePassword = ({ setProvisionalPassword }) => {
             if (!isPasswordValid(newPassword)) {
                 Alert.alert(
                     'Invalid Password',
-                    'Password must have at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.'
+                    'A strong password should be a minimum of 8 in length, containing a mix of upper and lower case letters, special characters and digits.'
                 );
                 setLoading(false);
                 return;

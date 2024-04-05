@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, ScrollView, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, ScrollView, Image, Alert, Vibration } from 'react-native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import SecretWordGame from './SecretWordGame'; // Import the SecretWordGame component
+
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -83,6 +85,8 @@ const Game = () => {
         const width = Math.random() * 100 + 50;
         const borderRadius = Math.random() > 0.5 ? 50 : 0;
 
+        Vibration.vibrate(); // Vibrate when a new shape appears
+
         setShapeStyle({
             ...shapeStyle,
             borderRadius,
@@ -117,7 +121,7 @@ const Game = () => {
 
         setTimeTakenList([...timeTakenList, taken]);
 
-        setTimeout(makeShapeAppear, Math.random() * 2000 + 2000);
+        setTimeout(makeShapeAppear, Math.random() * 500 + 500);
     };
 
     const handleEndGame = async () => {
@@ -189,6 +193,7 @@ const Game = () => {
 
                 {start ? (
                     <>
+
                         <View style={styles.header}>
                             <Text style={styles.title}>Test Your Reactions!</Text>
                             <Text style={styles.title}>Click on the boxes and circles as quick as you can!</Text>

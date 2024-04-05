@@ -70,54 +70,61 @@ const LoginPatient = () => {
             const userDoc = await getDoc(docRef);
             const userData = userDoc.data();
 
-            // Store user authentication token, role, and display name in AsyncStorage
-            await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
-            await ReactNativeAsyncStorage.setItem('userRole', 'patient');
-            await ReactNativeAsyncStorage.setItem('provisionalPassword', userData.User.provisionalPassword.toString());
-            console.log('User Token saved!');
-
-            // Update user data context
-            updateUserData({ uid: response.user.uid });
-
-            console.log('userData.isDoctor:', userData.User.isDoctor);
-
-            // Check if it's the first time login with provisional password
-            if (userData.User.provisionalPassword) {
-                setProvisionalPassword(true);
-                setLoading(false);
-                return; // Stop further execution to navigate to ChangePasswordPatient
-            }
-
             // Check if the user is a patient
             if (userData && !userData.User.isDoctor) {
+                console.log('User is a patient');
+                console.log('userData:', userData);
                 navigation.navigate('PatientDashboard');
                 alert('User logged-in successfully');
+
+                // Store user authentication token, role, and display name in AsyncStorage
+                await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
+                await ReactNativeAsyncStorage.setItem('userRole', 'patient');
+                await ReactNativeAsyncStorage.setItem('provisionalPassword', userData.User.provisionalPassword.toString());
+                console.log('User Token saved!');
+
+                // Update user data context
+                updateUserData({ uid: response.user.uid });
+
+                console.log('userData.isDoctor:', userData.User.isDoctor);
+
+                // Check if it's the first time login with provisional password
+                if (userData.User.provisionalPassword) {
+                    setProvisionalPassword(true);
+                    setLoading(false);
+                    return; // Stop further execution to navigate to ChangePasswordPatient
+                }
+
+                setLoading(false);
             } else {
                 alert('You are not authorized to log in as a Patient.');
-
-                // Clear user token and role from AsyncStorage
-                await ReactNativeAsyncStorage.removeItem('userToken');
-                await ReactNativeAsyncStorage.removeItem('userRole');
-                await ReactNativeAsyncStorage.removeItem('provisionalPassword');
+                console.log('User is not a patient');
+                console.log('userData:', userData);
 
             }
-
-            setLoading(false);
 
         } catch (error) {
 
             // Display alert messages based on the error code
             if (error.code === 'auth/user-not-found') {
                 alert('User not found. Please check your email.');
+                console.log('error code: ' + error.code);
             } else if (error.code === 'auth/invalid-email') {
                 alert('Invalid email. Please enter a valid email address.');
-            } else if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-                alert('Invalid password. Please check your password.');
+                console.log('error code: ' + error.code);
+            } else if (error.code === 'auth/wrong-password') {
+                alert('Invalid Password. Please check your password.');
+                console.log('error code: ' + error.code);
+            } else if (error.code === 'auth/invalid-credential') {
+                alert('Invalid credentials. Please check your email and password.');
+                console.log('error code: ' + error.code);
             } else {
-                alert(error);
+                alert('An unexpected error occurred. Please try again later.');
+                console.log('error code: ' + error.code);
             }
 
             setLoading(false);
+
         }
     };
 
@@ -174,13 +181,6 @@ const LoginPatient = () => {
                             <Text style={styles.btnText}>Login</Text>
                         </View>
                     </TouchableOpacity>
-
-                    <View style={styles.otherLoginArea}>
-                        <TouchableOpacity onPress={() => navigation.navigate('LoginDoctor')}>
-                            <Text style={styles.otherLoginText}>Login as a Doctor?</Text>
-                        </TouchableOpacity>
-                    </View>
-
                 </View>
             </ScrollView >
 

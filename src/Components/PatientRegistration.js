@@ -85,6 +85,15 @@ const PatientRegistration = () => {
         console.log("Exiting onChangeDOB");
     };
 
+    useEffect(() => {
+        // Check if passwords match whenever repeatPassword changes
+        if (repeatPassword === provisionalPassword) {
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                repeatPassword: '', // Clear the error message
+            }));
+        }
+    }, [repeatPassword, provisionalPassword]);
 
     useEffect(() => {
         const getDoctorUid = async () => {
@@ -151,10 +160,10 @@ const PatientRegistration = () => {
         }
 
         // Validate weight
-        if (isNaN(patientWeight) || patientWeight === '' || parseInt(patientWeight) > 500) {
+        if (isNaN(patientWeight) || patientWeight === '' || parseInt(patientWeight) > 500 || parseInt(patientWeight) < 40) {
             setWarningMessages((prevMessages) => ({
                 ...prevMessages,
-                patientWeight: 'Please enter a valid weight.',
+                patientWeight: 'Please enter a valid weight above 40kg.',
             }));
             isValid = false;
         } else {
@@ -169,7 +178,7 @@ const PatientRegistration = () => {
         if (!mobileNoRegex.test(patientMobileNo)) {
             setWarningMessages((prevMessages) => ({
                 ...prevMessages,
-                patientMobileNo: 'Valid Irish numbers should start with 083, 085, 086, 087 or 089.',
+                patientMobileNo: 'A valid Irish number should start with 083, 085, 086, \n087 or 089 and it should be in total lenght of 10 digits.',
             }));
             isValid = false;
         } else {
@@ -184,7 +193,7 @@ const PatientRegistration = () => {
         if (!emailRegex.test(patientEmail)) {
             setWarningMessages((prevMessages) => ({
                 ...prevMessages,
-                patientEmail: 'Please enter a valid email address (Eg. joe.doe@gmail.com)',
+                patientEmail: 'A valid email address should contain a valid domain \n(Eg. gmail.com. hotmail.com, yahoo.com, outlook.com, \nlive.com) and it should have the @ sign before it.',
             }));
             isValid = false;
         } else {
@@ -256,10 +265,10 @@ const PatientRegistration = () => {
                 break;
 
             case 'patientWeight':
-                if (isNaN(patientWeight) || patientWeight === '' || parseInt(patientWeight) > 500) {
+                if (isNaN(patientWeight) || patientWeight === '' || parseInt(patientWeight) > 500 || parseInt(patientWeight) < 40) {
                     setWarningMessages((prevMessages) => ({
                         ...prevMessages,
-                        [fieldName]: 'Please enter a valid weight.',
+                        [fieldName]: 'Please enter a valid weight above 40kg.',
                     }));
                 } else {
                     setWarningMessages((prevMessages) => ({
@@ -274,7 +283,7 @@ const PatientRegistration = () => {
                 if (!mobileRegex.test(patientMobileNo)) {
                     setWarningMessages((prevMessages) => ({
                         ...prevMessages,
-                        [fieldName]: 'Valid Irish numbers should start with 083, 085, 086, 087 or 089.',
+                        [fieldName]: 'A valid Irish number should start with 083, 085, 086, \n087 or 089 and it should be in total lenght of 10 digits.',
                     }));
                 } else {
                     setWarningMessages((prevMessages) => ({
@@ -289,7 +298,7 @@ const PatientRegistration = () => {
                 if (!emailRegex.test(patientEmail)) {
                     setWarningMessages((prevMessages) => ({
                         ...prevMessages,
-                        [fieldName]: 'Invalid email format. Please enter a valid email address (Eg. joe.doe@gmail.com).',
+                        patientEmail: 'A valid email address should contain a valid domain \n(Eg. gmail.com. hotmail.com, yahoo.com, outlook.com, \nlive.com) and it should have the @ sign before it.',
                     }));
                 } else {
                     setWarningMessages((prevMessages) => ({

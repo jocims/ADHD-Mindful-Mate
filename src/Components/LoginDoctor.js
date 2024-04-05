@@ -70,43 +70,47 @@ const LoginDoctor = () => {
       const userDoc = await getDoc(docRef);
       const userData = userDoc.data();
 
-      // Store user authentication token, role, and display name in AsyncStorage
-      await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
-      await ReactNativeAsyncStorage.setItem('userRole', 'doctor');
-      console.log('User Token saved!');
-
-      // Update user data context
-      updateUserData({ uid: response.user.uid });
-
-      console.log('userData.isDoctor:', userData.User.isDoctor);
-
       // Check if the user is a doctor
       if (userData && userData.User.isDoctor) {
         navigation.navigate('DoctorDashboard');
         alert('User logged-in successfully');
-      } else {
-        alert('You are not authorized to log in as a doctor');
 
-        // Clear user token and role from AsyncStorage
-        await ReactNativeAsyncStorage.removeItem('userToken');
-        await ReactNativeAsyncStorage.removeItem('userRole');
+        // Store user authentication token, role, and display name in AsyncStorage
+        await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
+        await ReactNativeAsyncStorage.setItem('userRole', 'doctor');
+        console.log('User Token saved!');
+
+        // Update user data context
+        updateUserData({ uid: response.user.uid });
+
+        console.log('userData.isDoctor:', userData.User.isDoctor);
+
+        setLoading(false);
+
+      } else {
+        alert('You are not authorized to log in as a Doctor.');
+
       }
 
-      setLoading(false);
     } catch (error) {
       // console.error('Error signing in:', error);
 
       // Display alert messages based on the error code
       if (error.code === 'auth/user-not-found') {
         alert('User not found. Please check your email.');
+        console.log('error code: ' + error.code);
       } else if (error.code === 'auth/invalid-email') {
         alert('Invalid email. Please enter a valid email address.');
+        console.log('error code: ' + error.code);
       } else if (error.code === 'auth/wrong-password') {
-        alert('Invalid password. Please check your password.');
+        alert('Invalid Password. Please check your password.');
+        console.log('error code: ' + error.code);
       } else if (error.code === 'auth/invalid-credential') {
-        alert('Invalid Password. Please try again.');
+        alert('Invalid credentials. Please check your email and password.');
+        console.log('error code: ' + error.code);
       } else {
         alert('An unexpected error occurred. Please try again later.');
+        console.log('error code: ' + error.code);
       }
 
       setLoading(false);
@@ -147,11 +151,6 @@ const LoginDoctor = () => {
               <Text style={styles.btnText}>Login</Text>
             </View>
           </TouchableOpacity>
-          <View style={styles.otherLoginArea}>
-            <TouchableOpacity onPress={() => navigation.navigate('LoginPatient')}>
-              <Text style={styles.otherLoginText}>Login as a Patient?</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </ScrollView>
     </View>

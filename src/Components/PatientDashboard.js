@@ -6,13 +6,11 @@ import { useUserData } from './UserDataManager';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 
-
 // Get the width of the screen
 const screenWidth = Dimensions.get('window').width;
 
 // Dynamically calculate the width of the message container based on the screen width
 const messageContainerWidth = screenWidth - 40; // Subtracting padding from both sides
-
 
 const PatientDashboard = () => {
   const navigation = useNavigation();
@@ -100,6 +98,8 @@ const PatientDashboard = () => {
     // Clear user token and role from AsyncStorage
     await ReactNativeAsyncStorage.removeItem('userToken');
     await ReactNativeAsyncStorage.removeItem('userRole');
+
+    setIsImageSelected([false, false, false, false, false]);
 
     // Navigate back to the login screen
     navigation.navigate('FirstScreen');

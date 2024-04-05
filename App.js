@@ -14,6 +14,7 @@ import DeepBreathing from './src/Components/DeepBreathing';
 import Meditation from './src/Components/Meditation';
 import Journaling from './src/Components/Journaling';
 import WeeklyTasks from './src/Components/WeeklyTasks';
+import SecretWordGame from './src/Components/SecretWordGame';
 import { UserDataProvider } from './src/Components/UserDataManager';
 
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
@@ -91,6 +92,7 @@ export default function App() {
           <Stack.Screen name="Meditation" component={Meditation} />
           <Stack.Screen name="Journaling" component={Journaling} />
           <Stack.Screen name="WeeklyTasks" component={WeeklyTasks} />
+          <Stack.Screen name="SecretWordGame" component={SecretWordGame} />
         </Stack.Navigator>
       </UserDataProvider>
     </NavigationContainer>
