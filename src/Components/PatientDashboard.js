@@ -18,33 +18,46 @@ const PatientDashboard = () => {
   const [storedUserToken, setStoredUserToken] = useState(null);
   const [feelGoodMessage, setFeelGoodMessage] = useState('');
   const [isImageSelected, setIsImageSelected] = useState([false, false, false, false, false]);
+  const [messageLength, setMessageLength] = useState(0);
 
 
   useEffect(() => {
     const fetchFeelGoodMessage = async () => {
       try {
+        let response;
+        let data;
+        let newMessageLength;
+
+        const storedMessageLength = await ReactNativeAsyncStorage.getItem('messageLength');
+        const parseMessageLength = storedMessageLength ? parseInt(storedMessageLength) : 0;
+
+        setMessageLength(parseMessageLength);
+
         const storedQuote = await ReactNativeAsyncStorage.getItem('feelGoodQuote');
         const storedDate = await ReactNativeAsyncStorage.getItem('feelGoodQuoteDate');
 
         // Check if there is a stored quote for today
         if (storedQuote && storedDate === new Date().toISOString().split('T')[0]) {
-          // Truncate the stored quote if it exceeds 100 characters
-          const truncatedQuote = storedQuote.slice(0, 100);
-          setFeelGoodMessage(truncatedQuote);
+          setFeelGoodMessage(storedQuote);
         } else {
-          // Fetch the inspirational quote from the API
-          const response = await fetch(`https://favqs.com/api/qotd`);
-          const data = await response.json();
+          do {
+            // Fetch the inspirational quote from the API
+            response = await fetch(`https://favqs.com/api/qotd`);
+            data = await response.json();
+            newMessageLength = data.quote.body.length;
+          } while (newMessageLength < 50 || newMessageLength > 110);
 
           // Check if a quote is available for the date
           if (data.quote) {
+            console.log('Data:', data);
             const quote = data.quote.body;
-            // Truncate the fetched quote if it exceeds 100 characters
-            const truncatedQuote = quote.slice(0, 100);
-            setFeelGoodMessage(truncatedQuote);
+            console.log('Quote:', quote);
+
+            setFeelGoodMessage(quote);
             // Store the quote and its date
             await ReactNativeAsyncStorage.setItem('feelGoodQuote', quote);
             await ReactNativeAsyncStorage.setItem('feelGoodQuoteDate', new Date().toISOString().split('T')[0]);
+            await ReactNativeAsyncStorage.setItem('messageLength', newMessageLength.toString());
           } else {
             setFeelGoodMessage("No quote available for this day.");
           }

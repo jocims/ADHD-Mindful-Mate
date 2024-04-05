@@ -15,8 +15,15 @@ const WeeklyTasks = () => {
     const [taskStatus, setTaskStatus] = useState('Created');
     const navigation = useNavigation();
     const [touchableOpacityText, setTouchableOpacityText] = useState(new Date());
+    const [formattedDate, setFormattedDate] = useState(new Date().toLocaleDateString('en-GB'));
     const [deadline, setDeadline] = useState(new Date());
-    const [formattedDate, setFormattedDate] = useState('Select Date');
+    const maximumDate = getEndOfWeek();
+
+
+    const getFormattedDate = (date) => {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en-GB', options);
+    };
 
     const handleDatePress = () => {
         setShowDatePicker(true);
@@ -29,13 +36,10 @@ const WeeklyTasks = () => {
     };
 
     const onChangeDeadline = (selectedDate) => {
-
-        // Handle the selected date
-        console.log("Selected Date:", selectedDate);
-        setTouchableOpacityText(selectedDate);
-        setFormattedDate(selectedDate.toLocaleDateString('en-GB'));
+        const formattedSelectedDate = getFormattedDate(selectedDate);
+        setTouchableOpacityText(formattedSelectedDate);
+        setFormattedDate(formattedSelectedDate);
         setDeadline(selectedDate);
-
     };
 
 
@@ -95,6 +99,13 @@ const WeeklyTasks = () => {
         navigation.navigate('FirstScreen');
     };
 
+    const getEndOfWeek = () => {
+        const startOfWeek = getMonday();
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6); // Sunday is the 7th day from Monday
+        return endOfWeek;
+    };
+
     // Function to get the Monday of the current week
     const getMonday = (date) => {
         const day = date.getDay();
@@ -137,10 +148,12 @@ const WeeklyTasks = () => {
                                 value={taskDescription}
                                 onChangeText={text => setTaskDescription(text)}
                             />
+
                             <Text style={styles.fieldLabel}>Deadline Date</Text>
                             <TouchableOpacity onPress={handleDatePress}>
                                 <Text style={styles.input}>{formattedDate}</Text>
                             </TouchableOpacity>
+
                             {showDatePicker && (
                                 <Modal
                                     animationType="slide"
@@ -151,10 +164,11 @@ const WeeklyTasks = () => {
                                     <View style={styles.modalContainer}>
                                         <View style={styles.modalContent}>
                                             <DatePicker
-                                                date={touchableOpacityText}
+                                                date={deadline}
                                                 onDateChange={onChangeDeadline}
                                                 mode="date"
-                                                maximumDate={new Date()} // Set maximumDate to today's date
+                                                minimumDate={getStartOfWeek()}
+                                                maximumDate={maximumDate}
                                             />
                                             <TouchableOpacity onPress={hideDatePicker}>
                                                 <Text>Done</Text>
@@ -163,6 +177,7 @@ const WeeklyTasks = () => {
                                     </View>
                                 </Modal>
                             )}
+
                             <Text style={styles.fieldLabel}>Status</Text>
                             <View style={[styles.input, styles.statusInput]}>
                                 <Picker
