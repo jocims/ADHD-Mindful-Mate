@@ -29,7 +29,7 @@ const LoginDoctor = () => {
     let isValid = true;
 
     if (!email) {
-      setEmailError('Please enter your email. Eg. joe.doe@gmail.com');
+      setEmailError('A valid email address should contain a valid email domain (gmail.com, hotmail.com, yahoo.com, outlook.com, live.com) and it should have the `@` sign before it.');
       isValid = false;
     } else {
       setEmailError('');
@@ -103,7 +103,7 @@ const LoginDoctor = () => {
         alert('Invalid email. Please enter a valid email address.');
         console.log('error code: ' + error.code);
       } else if (error.code === 'auth/wrong-password') {
-        alert('Invalid Password. Please check your password.');
+        alert('Invalid Password. It should be a minimum of 8 in length, containing a mix of upper and lower case letters, special characters and digits. ');
         console.log('error code: ' + error.code);
       } else if (error.code === 'auth/invalid-credential') {
         alert('Invalid credentials. Please check your email and password.');
@@ -237,10 +237,12 @@ const styles = StyleSheet.create({
     fontFamily: 'SourceCodePro-BlackItalic',
   },
   error: {
+    width: 300,
     color: 'red',
     fontSize: 12,
-    alignSelf: 'flex-start', // Align the text to the start of its container
-    marginLeft: 10, // Add some left margin to separate from the input field
+    alignSelf: 'flex-start',
+    padding: 10,
+    marginBottom: 5,
   },
 });
 

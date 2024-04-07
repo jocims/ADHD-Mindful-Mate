@@ -71,6 +71,8 @@ const WeeklyTasks = () => {
                 };
 
                 await setDoc(userDocRef, { WeeklyTasks: data }, { merge: true });
+
+                alert('Task created successfully.');
             } catch (error) {
                 console.error('Error saving task data:', error);
             }
@@ -89,6 +91,16 @@ const WeeklyTasks = () => {
         const day = date.getDay();
         const diff = date.getDate() - day + (day === 0 ? -6 : 1);
         return new Date(date.setDate(diff));
+    };
+
+    const resetFields = () => {
+        setTaskName('');
+        setTaskDescription('');
+        setShowDatePicker(false); // Hide date picker if it's visible
+        setTaskStatus('Created');
+        setTouchableOpacityText(new Date());
+        setFormattedDate(new Date().toLocaleDateString('en-GB'));
+        setDeadline(new Date());
     };
 
     return (
@@ -172,6 +184,10 @@ const WeeklyTasks = () => {
                             <TouchableOpacity style={styles.button} onPress={handleEnd}>
                                 <Text style={styles.buttonText}>Create Task</Text>
                             </TouchableOpacity>
+
+                            <TouchableOpacity style={[styles.button, styles.clearBtn]} onPress={resetFields}>
+                                <Text style={styles.buttonText}>Clear Fields</Text>
+                            </TouchableOpacity>
                         </>
                     ) : (
                         <>
@@ -184,7 +200,7 @@ const WeeklyTasks = () => {
                                 <TouchableOpacity style={styles.button} onPress={handleStart}>
                                     <Text style={styles.buttonText}>Create Task</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('PatientDashboard')}>
+                                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ViewTasksScreen')}>
                                     <Text style={styles.buttonText}>View Tasks</Text>
                                 </TouchableOpacity>
                             </View>
@@ -256,6 +272,9 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 20,
     },
+    clearBtn: {
+        backgroundColor: '#8E225D',
+    },
     buttonText: {
         color: 'white',
         fontSize: 18,
@@ -281,7 +300,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#0C5E51',
         fontFamily: 'SourceCodePro-Bold',
-        marginBottom: 15,
     },
     text: {
         fontSize: 16,
@@ -317,20 +335,6 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         width: '100%',
-    },
-    pickerContainer: {
-        borderWidth: 1,
-        borderColor: '#af3e76',
-        borderRadius: 5,
-        marginBottom: 20,
-        fontFamily: 'SourceCodePro-Regular',
-    },
-    picker: {
-        height: 30,
-    },
-    pickerItem: {
-        textAlign: 'left',
-        paddingLeft: 5, // Adjust padding as needed
     },
     fieldLabel: {
         fontSize: 14,

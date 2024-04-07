@@ -32,7 +32,7 @@ const LoginPatient = () => {
         let isValid = true;
 
         if (!email) {
-            setEmailError('Please enter your email. Eg. joe.doe@gmail.com');
+            setEmailError('A valid email address should contain a valid email domain (gmail.com, hotmail.com, yahoo.com, outlook.com, live.com) and it should have the `@` sign before it.');
             isValid = false;
         } else {
             setEmailError('');
@@ -40,11 +40,11 @@ const LoginPatient = () => {
 
         if (!password) {
             setPasswordError(`Please enter your password containing:
-          - At least 8 characters with at least one of each of the following:
-            - Uppercase letter
-            - Lowercase letter
-            - Number
-            - Special character`);
+            - At least 8 characters with at least one of each of the following:
+              - Uppercase letter
+              - Lowercase letter
+              - Number
+              - Special character`);
             isValid = false;
         } else {
             setPasswordError('');
@@ -269,10 +269,12 @@ const styles = StyleSheet.create({
         fontFamily: 'SourceCodePro-BlackItalic',
     },
     error: {
+        width: 300,
         color: 'red',
         fontSize: 12,
-        alignSelf: 'flex-start', // Align the text to the start of its container
-        marginLeft: 10, // Add some left margin to separate from the input field
+        alignSelf: 'flex-start',
+        padding: 10,
+        marginBottom: 5,
     },
 });
 
