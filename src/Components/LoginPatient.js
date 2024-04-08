@@ -22,10 +22,7 @@ const LoginPatient = () => {
     const [passwordError, setPasswordError] = useState('');
     const [loading, setLoading] = useState(false);
     const [provisionalPassword, setProvisionalPassword] = useState(false); // New state for provisional password
-
-
     const navigation = useNavigation();
-
     const { updateUserData } = useUserData();
 
     const validateInputs = () => {

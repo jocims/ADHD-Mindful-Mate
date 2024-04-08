@@ -24,9 +24,6 @@ const PatientDashboard = () => {
   useEffect(() => {
     const fetchFeelGoodMessage = async () => {
       try {
-        let response;
-        let data;
-        let newMessageLength;
 
         const storedMessageLength = await ReactNativeAsyncStorage.getItem('messageLength');
         const parseMessageLength = storedMessageLength ? parseInt(storedMessageLength) : 0;

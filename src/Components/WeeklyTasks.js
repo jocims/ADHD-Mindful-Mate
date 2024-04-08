@@ -6,6 +6,7 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import DatePicker from 'react-native-date-picker';
 import { Picker } from '@react-native-picker/picker';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { useUserData } from './UserDataManager';
 
 const WeeklyTasks = () => {
     const [start, setStart] = useState(false);
@@ -19,6 +20,9 @@ const WeeklyTasks = () => {
     const [deadline, setDeadline] = useState(new Date());
     const [minimumDate, setMinimumDate] = useState(new Date());
     const [maximumDate, setMaximumDate] = useState(new Date());
+    const { updateUserData } = useUserData();
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
         // Set minimum date to Monday of current week
@@ -101,6 +105,15 @@ const WeeklyTasks = () => {
         setTouchableOpacityText(new Date());
         setFormattedDate(new Date().toLocaleDateString('en-GB'));
         setDeadline(new Date());
+    };
+
+    const ViewTasks = async () => {
+
+        // Update user data context
+        updateUserData({ uid: auth.currentUser.uid });
+
+        navigation.navigate('ViewTasksScreen');
+
     };
 
     return (
@@ -200,7 +213,7 @@ const WeeklyTasks = () => {
                                 <TouchableOpacity style={styles.button} onPress={handleStart}>
                                     <Text style={styles.buttonText}>Create Task</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ViewTasksScreen')}>
+                                <TouchableOpacity style={styles.button} onPress={ViewTasks}>
                                     <Text style={styles.buttonText}>View Tasks</Text>
                                 </TouchableOpacity>
                             </View>

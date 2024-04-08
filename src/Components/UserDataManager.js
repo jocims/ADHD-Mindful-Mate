@@ -42,8 +42,8 @@ export const UserDataProvider = ({ children }) => {
 
             console.log('Updating user data:', newData);
 
-            if (!newData) {
-                console.warn('No user data provided for update.');
+            if (!newData || !newData.uid) { // Check if newData or its uid property is undefined
+                console.warn('Invalid user data provided for update.');
                 return;
             }
 
@@ -66,6 +66,7 @@ export const UserDataProvider = ({ children }) => {
             console.error('Error updating user data:', error);
         }
     };
+
 
     return (
         <UserDataContext.Provider value={{ userData, updateUserData }}>

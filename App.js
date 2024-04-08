@@ -17,7 +17,6 @@ import WeeklyTasks from './src/Components/WeeklyTasks';
 import SecretWordGame from './src/Components/SecretWordGame';
 import ViewTasksScreen from './src/Components/ViewTasksScreen';
 import { UserDataProvider } from './src/Components/UserDataManager';
-
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();

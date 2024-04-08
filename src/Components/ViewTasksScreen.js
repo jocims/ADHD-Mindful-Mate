@@ -1,11 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { useUserData } from './UserDataManager';
+import { auth, db } from '../config/firebase';
 
 const ViewTasksScreen = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [weekDates, setWeekDates] = useState([]);
-    const { userData } = useUserData(); // Get user data from UserDataManager
+    const { userData } = useUserData();
+
+    useEffect(() => {
+        // Generate week dates when userData is available
+        if (userData) {
+            setWeekDates(generateWeekDates());
+        }
+    }, [userData]);
+
+    useEffect(() => {
+        // console.log('User Data Changed:', userData);
+
+        // Check if the storedUserToken is updated before logging
+        if (auth.currentUser.uid !== null) {
+            console.log('auth.currentUser.uid in ViewTasksScreen:', auth.currentUser.uid);
+        }
+    }, [userData, auth.currentUser.uid]);
+
 
     // Function to get the Monday date of the current week
     const getMonday = (date) => {
@@ -27,13 +45,6 @@ const ViewTasksScreen = () => {
         return dates;
     };
 
-    useEffect(() => {
-        // Generate week dates when userData is available
-        if (userData) {
-            setWeekDates(generateWeekDates());
-        }
-    }, [userData]);
-
     // Function to handle date selection
     const handleDateSelection = (date) => {
         setSelectedDate(date);
@@ -43,7 +54,10 @@ const ViewTasksScreen = () => {
     const renderDateItem = (item) => {
         const key = item.toISOString(); // Using the date object as a unique key
         // Fetch tasks for the selected date
-        const tasksForDate = userData?.WeeklyTasks && Object.values(userData.WeeklyTasks).filter(task => task.taskDeadline === item.toISOString().split('T')[0]);
+        const tasksForDate = userData?.WeeklyTasks && Object.values(userData.WeeklyTasks).filter(task => {
+            const deadlineDate = new Date(task.taskDeadline);
+            return deadlineDate.toISOString().split('T')[0] === item.toISOString().split('T')[0];
+        });
         return (
             <TouchableOpacity key={key} onPress={() => handleDateSelection(item)}>
                 <View style={[styles.dateItem, selectedDate.toISOString().split('T')[0] === item.toISOString().split('T')[0] ? styles.selectedDate : styles.nonSelectedDate]}>
@@ -68,26 +82,31 @@ const ViewTasksScreen = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.header}>View Tasks</Text>
-            {/* Calendar view with custom styles */}
-            <View style={styles.dateItemsContainer}>
-                {weekDates.map(date => renderDateItem(date))}
+        <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
+            <View style={styles.container}>
+                <Text style={styles.header}>View Tasks</Text>
+                <View style={styles.dateItemsContainer}>
+                    {weekDates.map(date => renderDateItem(date))}
+                </View>
             </View>
-        </View>
+        </ImageBackground>
     );
 };
 
 const styles = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover', // or 'stretch'
+    },
     container: {
         flex: 1,
-        backgroundColor: '#ffffff',
         padding: 20,
     },
     header: {
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: 'white', // Add color to make header text visible
     },
     dateItemsContainer: {
         flexDirection: 'row',
