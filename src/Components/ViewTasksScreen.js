@@ -37,6 +37,24 @@ const ViewTasksScreen = () => {
         return dates;
     };
 
+    // Function to parse the deadline date string and return a Date object
+    const parseDeadlineDate = (deadlineString) => {
+        const parts = deadlineString.split(', '); // Split the string to separate date and time
+        const dateString = parts[0]; // Get the date part
+        const timeString = parts[1]; // Get the time part
+        const dateParts = dateString.split('/'); // Split the date string into parts
+        const timeParts = timeString.split(':'); // Split the time string into parts
+        // Parse the parts and create a Date object
+        const deadlineDate = new Date(dateParts[2], dateParts[0] - 1, dateParts[1], timeParts[0], timeParts[1]);
+        return deadlineDate;
+    };
+
+    // Function to determine if a task belongs to the selected date
+    const isTaskForDate = (task, date) => {
+        const taskDeadline = parseDeadlineDate(task.taskDeadline); // Parse the deadline date
+        return taskDeadline.toISOString().split('T')[0] === date.toISOString().split('T')[0];
+    };
+
     // Function to handle date selection
     const handleDateSelection = (date) => {
         setSelectedDate(date);
@@ -86,17 +104,7 @@ const ViewTasksScreen = () => {
                 <View style={styles.taskContainer}>
                     {weekDates.map(date => {
                         const tasksForDate = userData?.WeeklyTasks && Object.values(userData.WeeklyTasks).filter(task => {
-                            // Log taskDeadline for debugging
-                            console.log('Task deadline:', task.taskDeadline);
-
-                            // Convert taskDeadline to YYYY-MM-DD format
-                            const deadlineParts = task.taskDeadline.split('/');
-                            const deadlineISO = `${deadlineParts[2]}-${deadlineParts[0].padStart(2, '0')}-${deadlineParts[1].padStart(2, '0')}`;
-
-                            // Create Date objects
-                            const deadlineDate = new Date(deadlineISO);
-
-                            return deadlineDate.toISOString().split('T')[0] === date.toISOString().split('T')[0];
+                            return isTaskForDate(task, date);
                         });
 
                         if (selectedDate.toISOString().split('T')[0] === date.toISOString().split('T')[0]) {

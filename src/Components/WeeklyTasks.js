@@ -21,17 +21,38 @@ const WeeklyTasks = () => {
     const navigation = useNavigation();
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [deadlinePlaceholder, setDeadlinePlaceholder] = useState('Choose Date and Time');
+    const [weekDates, setWeekDates] = useState([]);
+
 
     useEffect(() => {
+        // Function to generate dates for the current week (Monday to Sunday)
+        const generateWeekDates = () => {
+            const currentDate = new Date();
+            const monday = getMonday(currentDate);
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(monday);
+                date.setDate(monday.getDate() + i);
+                dates.push(date);
+            }
+            return dates;
+        };
+
         // Set minimum date to Monday of current week
         const monday = getMonday(new Date());
         setMinimumDate(monday);
 
-        // Set maximum date to 7 days later
-        const maxDate = new Date(monday);
-        maxDate.setDate(maxDate.getDate() + 6);
+        // Set week dates
+        const dates = generateWeekDates();
+        setWeekDates(dates);
+
+        // Set maximum date to end of last date in the week list
+        const lastDate = dates[dates.length - 1];
+        const maxDate = new Date(lastDate);
+        maxDate.setHours(23, 59, 59); // Set time to end of the day
         setMaximumDate(maxDate);
     }, []);
+
 
 
     const resetFields = () => {
@@ -55,12 +76,12 @@ const WeeklyTasks = () => {
                 const data = {
                     [Date.now().toString()]: {
                         taskName: taskName,
-                        commedingDate: currentDate.toLocaleDateString(), // Local date and time
+                        commedingDate: currentDate.toLocaleDateString('en-GB'), // Local date and time
                         taskDescription: taskDescription,
                         taskDeadline: deadline.toLocaleString(), // Local date and time
                         taskStatus: taskStatus,
                         taskDateCompleted: '',
-                        weekCommencing: getMonday(deadline).toLocaleDateString(), // Local date and time
+                        weekCommencing: getMonday(deadline).toLocaleDateString('en-GB'), // Local date and time
                     },
                 };
 
