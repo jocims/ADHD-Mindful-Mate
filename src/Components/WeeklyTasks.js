@@ -53,8 +53,6 @@ const WeeklyTasks = () => {
         setMaximumDate(maxDate);
     }, []);
 
-
-
     const resetFields = () => {
         setTaskName('');
         setTaskDescription('');
@@ -139,14 +137,24 @@ const WeeklyTasks = () => {
                                     style={styles.input}
                                     placeholder="Task Name"
                                     value={taskName}
-                                    onChangeText={text => setTaskName(text)}
+                                    onChangeText={text => {
+                                        // Limit the input to 20 characters
+                                        if (text.length <= 15) {
+                                            setTaskName(text);
+                                        }
+                                    }}
                                 />
                                 <Text style={styles.fieldLabel}>Description</Text>
                                 <TextInput
                                     style={styles.input}
                                     placeholder="Task Description"
                                     value={taskDescription}
-                                    onChangeText={text => setTaskDescription(text)}
+                                    onChangeText={text => {
+                                        // Limit the input to 50 characters
+                                        if (text.length <= 50) {
+                                            setTaskDescription(text);
+                                        }
+                                    }}
                                 />
                                 <TouchableOpacity onPress={() => setShowDatePicker(true)}>
                                     <Text style={styles.fieldLabel}>Deadline Date</Text>

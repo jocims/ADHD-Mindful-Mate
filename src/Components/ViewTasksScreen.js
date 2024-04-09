@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 import { useUserData } from './UserDataManager';
 import { auth, db } from '../config/firebase';
 
@@ -9,6 +9,7 @@ const ViewTasksScreen = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [weekDates, setWeekDates] = useState([]);
     const { userData } = useUserData();
+    const [taskFilter, setTaskFilter] = useState('alphabetical');
 
     // useEffect to generate week dates when userData changes
     useEffect(() => {
@@ -60,6 +61,73 @@ const ViewTasksScreen = () => {
         setSelectedDate(date);
     };
 
+    // Function to handle filter selection
+    const handleFilterChange = (filter) => {
+        setTaskFilter(filter);
+    };
+
+    // Function to sort tasks alphabetically by task name
+    const sortTasksAlphabetically = (tasks) => {
+        return tasks.sort((a, b) => a.taskName.localeCompare(b.taskName));
+    };
+
+    // Function to sort tasks by deadline time
+    const sortTasksByTime = (tasks) => {
+        return tasks.sort((a, b) => parseDeadlineDate(a.taskDeadline) - parseDeadlineDate(b.taskDeadline));
+    };
+
+    const sortTasksByStatus = (tasks) => {
+        return tasks.sort((a, b) => {
+            const statusOrder = {
+                'Created': 1,
+                'Started': 2,
+                'In Progress': 3,
+                'Completed': 4
+            };
+            return statusOrder[a.taskStatus] - statusOrder[b.taskStatus];
+        });
+    };
+
+    const renderTaskList = (tasks, taskStatus) => {
+        let sortedTasks;
+        if (taskFilter === 'alphabetical') {
+            sortedTasks = sortTasksAlphabetically(tasks);
+        } else if (taskFilter === 'time') {
+            sortedTasks = sortTasksByTime(tasks);
+        } else {
+            sortedTasks = sortTasksByStatus(tasks);
+        }
+
+        return sortedTasks.map(task => {
+            const { backgroundColor, buttonColor } = getTaskButtonStyle(selectedDate); // Get button colors
+            const buttonTopWidth = calculateButtonTopWidth(task.taskStatus);
+            // Determine text color based on task status
+            const textColor = task.taskStatus === 'Created' ? buttonColor : backgroundColor === '#A3F0FD' ? '#A3F0FD' : '#c6f1c6';
+            return (
+                <TouchableOpacity key={task.taskName} onPress={() => console.log('Task clicked:', task.taskName)} style={[styles.taskButton, { backgroundColor }]}>
+                    <View style={[styles.buttonTop, { backgroundColor: buttonColor, width: buttonTopWidth }]}></View>
+                    {/* Set text color based on task status */}
+                    <Text style={[styles.tasksNames, { color: textColor }]}>{task.taskName}</Text>
+                </TouchableOpacity>
+            );
+        });
+    };
+
+
+    // Function to calculate the width of the buttonTop based on task status
+    const calculateButtonTopWidth = (status) => {
+        switch (status) {
+            case 'Started':
+                return '43%';
+            case 'In Progress':
+                return '62%';
+            case 'Completed':
+                return '106%';
+            default:
+                return '2%'; // Default to 2% if status is not recognized
+        }
+    };
+
     // Return null if weekDates is empty
     if (weekDates.length === 0) {
         return null;
@@ -68,6 +136,8 @@ const ViewTasksScreen = () => {
     // Function to determine the background color and text color based on the day of the week
     const getTaskButtonStyle = (date) => {
         const day = date.getDay();
+        let backgroundColor, buttonColor;
+
         if (day === 0 || day === 1 || day === 3 || day === 5) {
             return {
                 backgroundColor: '#A3F0FD', // Light blue for Monday, Wednesday, Friday, and Sunday
@@ -100,27 +170,33 @@ const ViewTasksScreen = () => {
                 {/* Display the selected date */}
                 <Text style={styles.selectedDateText}>{selectedDate.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</Text>
 
+                {/* Filter buttons */}
+                <View style={styles.filterContainer}>
+                    <Text style={styles.sortText}>Sort by: </Text>
+                    <TouchableOpacity onPress={() => handleFilterChange('alphabetical')} style={[styles.filterButton, taskFilter === 'alphabetical' && styles.activeFilter]}>
+                        <Text style={[styles.filterButtonText, taskFilter === 'alphabetical' && styles.activeFilterText]}>A - Z</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleFilterChange('time')} style={[styles.filterButton, taskFilter === 'time' && styles.activeFilter]}>
+                        <Text style={[styles.filterButtonText, taskFilter === 'time' && styles.activeFilterText]}>Time</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleFilterChange('status')} style={[styles.filterButton, taskFilter === 'status' && styles.activeFilter]}>
+                        <Text style={[styles.filterButtonText, taskFilter === 'status' && styles.activeFilterText]}>Status</Text>
+                    </TouchableOpacity>
+                </View>
+
                 {/* Task container */}
-                <View style={styles.taskContainer}>
+                <ScrollView style={styles.taskContainer}>
                     {weekDates.map(date => {
                         const tasksForDate = userData?.WeeklyTasks && Object.values(userData.WeeklyTasks).filter(task => {
                             return isTaskForDate(task, date);
                         });
 
                         if (selectedDate.toISOString().split('T')[0] === date.toISOString().split('T')[0]) {
-                            return tasksForDate && tasksForDate.map(task => {
-                                const { backgroundColor, buttonColor } = getTaskButtonStyle(date);
-                                return (
-                                    <TouchableOpacity key={task.taskName} onPress={() => console.log('Task clicked:', task.taskName)} style={[styles.taskButton, { backgroundColor }]}>
-                                        <View style={[styles.buttonTop, { backgroundColor: buttonColor }]}></View>
-                                        <Text style={[styles.tasksNames, { color: buttonColor }]}>{task.taskName}</Text>
-                                    </TouchableOpacity>
-                                );
-                            });
+                            return tasksForDate && renderTaskList(tasksForDate);
                         }
                         return null;
                     })}
-                </View>
+                </ScrollView>
             </View>
         </ImageBackground>
     );
@@ -182,7 +258,6 @@ const styles = StyleSheet.create({
         color: '#8E225D',
     },
     taskContainer: {
-        marginTop: 20, // Add margin top to separate task list from dates list
         padding: 10,
     },
     taskButton: {
@@ -191,20 +266,50 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: 5,
         marginTop: 5,
-        paddingStart: 15,
+        paddingStart: 10,
         position: 'relative', // Add position relative to the taskButton
     },
     buttonTop: {
         position: 'absolute',
         top: 0,
         left: 0,
-        bottom: 0, // Set bottom to 0 to cover the full height of the button
-        width: '2%', // Set width to 2%
-        borderTopLeftRadius: 5, // Maintain button border radius
-        borderBottomLeftRadius: 5, // Maintain button border radius
+        bottom: 0,
+        width: '100%', // Set width to 100%
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
+        borderTopRightRadius: 5, // Add border radius to create a diagonal effect
+        borderBottomRightRadius: 5, // Add border radius to create a diagonal effect
     },
     tasksNames: {
         fontFamily: 'SourceCodePro-Bold', // Apply font family here
+    },
+    filterContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        margin: 10,
+    },
+    filterButton: {
+        backgroundColor: '#5F6EB5',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 5,
+        marginHorizontal: 5,
+    },
+    filterButtonText: {
+        color: 'white',
+        fontFamily: 'SourceCodePro-Bold',
+    },
+    activeFilter: {
+        backgroundColor: '#5D507B',
+    },
+    activeFilterText: {
+        color: 'white',
+    },
+    sortText: {
+        fontFamily: 'SourceCodePro-Medium',
+        fontSize: 16,
+        color: '#5D507B',
+        marginTop: 7,
     },
 });
 
