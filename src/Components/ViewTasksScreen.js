@@ -3,27 +3,19 @@ import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react
 import { useUserData } from './UserDataManager';
 import { auth, db } from '../config/firebase';
 
+// Define the ViewTasksScreen component
 const ViewTasksScreen = () => {
+    // State variables
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [weekDates, setWeekDates] = useState([]);
     const { userData } = useUserData();
 
+    // useEffect to generate week dates when userData changes
     useEffect(() => {
-        // Generate week dates when userData is available
         if (userData) {
             setWeekDates(generateWeekDates());
         }
     }, [userData]);
-
-    useEffect(() => {
-        // console.log('User Data Changed:', userData);
-
-        // Check if the storedUserToken is updated before logging
-        if (auth.currentUser.uid !== null) {
-            console.log('auth.currentUser.uid in ViewTasksScreen:', auth.currentUser.uid);
-        }
-    }, [userData, auth.currentUser.uid]);
-
 
     // Function to get the Monday date of the current week
     const getMonday = (date) => {
@@ -50,49 +42,83 @@ const ViewTasksScreen = () => {
         setSelectedDate(date);
     };
 
-    // Render item for each date in the calendar view
-    const renderDateItem = (item) => {
-        const key = item.toISOString(); // Using the date object as a unique key
-        // Fetch tasks for the selected date
-        const tasksForDate = userData?.WeeklyTasks && Object.values(userData.WeeklyTasks).filter(task => {
-            const deadlineDate = new Date(task.taskDeadline);
-            return deadlineDate.toISOString().split('T')[0] === item.toISOString().split('T')[0];
-        });
-        return (
-            <TouchableOpacity key={key} onPress={() => handleDateSelection(item)}>
-                <View style={[styles.dateItem, selectedDate.toISOString().split('T')[0] === item.toISOString().split('T')[0] ? styles.selectedDate : styles.nonSelectedDate]}>
-                    <Text style={styles.weekDay}>{item.toLocaleDateString('en-US', { weekday: 'short' }).charAt(0)}</Text>
-                    <Text style={{ textAlign: 'center' }}>{item.getDate()}</Text>
-                </View>
-                {/* Render tasks for the selected date */}
-                {selectedDate.toISOString().split('T')[0] === item.toISOString().split('T')[0] && (
-                    <View style={styles.taskContainer}>
-                        {tasksForDate && tasksForDate.map(task => (
-                            <Text key={task.taskName}>{task.taskName}</Text>
-                        ))}
-                    </View>
-                )}
-            </TouchableOpacity>
-        );
-    };
-
     // Return null if weekDates is empty
     if (weekDates.length === 0) {
         return null;
     }
 
+    // Function to determine the background color and text color based on the day of the week
+    const getTaskButtonStyle = (date) => {
+        const day = date.getDay();
+        if (day === 0 || day === 1 || day === 3 || day === 5) {
+            return {
+                backgroundColor: '#A3F0FD', // Light blue for Monday, Wednesday, Friday, and Sunday
+                buttonColor: '#306191', // Dark blue for text color
+            };
+        } else {
+            return {
+                backgroundColor: '#c6f1c6', // Light green for Tuesday, Thursday, and Saturday
+                buttonColor: '#055564', // Dark green for text color
+            };
+        }
+    };
+
+    // Render the component
     return (
         <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
             <View style={styles.container}>
                 <Text style={styles.header}>View Tasks</Text>
                 <View style={styles.dateItemsContainer}>
-                    {weekDates.map(date => renderDateItem(date))}
+                    {weekDates.map(date => (
+                        <TouchableOpacity key={date.toISOString()} onPress={() => handleDateSelection(date)}>
+                            <View style={[styles.dateItem, selectedDate.toISOString().split('T')[0] === date.toISOString().split('T')[0] ? styles.selectedDate : styles.nonSelectedDate]}>
+                                <Text style={[styles.weekDay, selectedDate.toISOString().split('T')[0] === date.toISOString().split('T')[0] && styles.boldDate]}>{date.toLocaleDateString('en-US', { weekday: 'short' }).charAt(0)}</Text>
+                                <Text style={[styles.weekDates, selectedDate.toISOString().split('T')[0] === date.toISOString().split('T')[0] && styles.boldDate]}>{date.getDate()}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+
+                {/* Display the selected date */}
+                <Text style={styles.selectedDateText}>{selectedDate.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</Text>
+
+                {/* Task container */}
+                <View style={styles.taskContainer}>
+                    {weekDates.map(date => {
+                        const tasksForDate = userData?.WeeklyTasks && Object.values(userData.WeeklyTasks).filter(task => {
+                            // Log taskDeadline for debugging
+                            console.log('Task deadline:', task.taskDeadline);
+
+                            // Convert taskDeadline to YYYY-MM-DD format
+                            const deadlineParts = task.taskDeadline.split('/');
+                            const deadlineISO = `${deadlineParts[2]}-${deadlineParts[0].padStart(2, '0')}-${deadlineParts[1].padStart(2, '0')}`;
+
+                            // Create Date objects
+                            const deadlineDate = new Date(deadlineISO);
+
+                            return deadlineDate.toISOString().split('T')[0] === date.toISOString().split('T')[0];
+                        });
+
+                        if (selectedDate.toISOString().split('T')[0] === date.toISOString().split('T')[0]) {
+                            return tasksForDate && tasksForDate.map(task => {
+                                const { backgroundColor, buttonColor } = getTaskButtonStyle(date);
+                                return (
+                                    <TouchableOpacity key={task.taskName} onPress={() => console.log('Task clicked:', task.taskName)} style={[styles.taskButton, { backgroundColor }]}>
+                                        <View style={[styles.buttonTop, { backgroundColor: buttonColor }]}></View>
+                                        <Text style={[styles.tasksNames, { color: buttonColor }]}>{task.taskName}</Text>
+                                    </TouchableOpacity>
+                                );
+                            });
+                        }
+                        return null;
+                    })}
                 </View>
             </View>
         </ImageBackground>
     );
 };
 
+// Styles
 const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
@@ -104,9 +130,10 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 20,
-        fontWeight: 'bold',
+        fontFamily: 'SourceCodePro-Bold', // Apply font family here
         marginBottom: 20,
-        color: 'white', // Add color to make header text visible
+        color: '#0C5E51', // Add color to make header text visible
+        textAlign: 'center',
     },
     dateItemsContainer: {
         flexDirection: 'row',
@@ -117,24 +144,61 @@ const styles = StyleSheet.create({
         marginRight: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 36, // Set a fixed width for the circle
+        width: 40, // Set a fixed width for the circle
         height: 36, // Set a fixed height for the circle
         borderRadius: 18, // Make it a circle
         backgroundColor: '#b0e0e6', // Light blue background color for non-selected dates
+        fontFamily: 'SourceCodePro-Bold', // Apply font family here
     },
     selectedDate: {
-        backgroundColor: '#b0e0e6', // Light blue background color for the selected date
+        backgroundColor: '#DE8192', // Light blue background color for the selected date
     },
     nonSelectedDate: {
         backgroundColor: 'transparent', // Light gray background color for non-selected dates
     },
     weekDay: {
-        fontWeight: 'bold',
+        fontFamily: 'SourceCodePro-Bold', // Apply font family here
+    },
+    boldDate: {
+        fontFamily: 'SourceCodePro-Bold', // Apply font family here for selected date
+    },
+    weekDates: {
+        fontFamily: 'SourceCodePro-Regular',
+        textAlign: 'center',
+    },
+    selectedDateText: {
+        textAlign: 'center',
+        fontSize: 18,
+        marginTop: 20,
+        fontFamily: 'SourceCodePro-Bold',
+        color: '#8E225D',
     },
     taskContainer: {
+        marginTop: 20, // Add margin top to separate task list from dates list
         padding: 10,
-        backgroundColor: '#f0f0f0', // Light gray background color for tasks
+    },
+    taskButton: {
+        width: '100%',
+        padding: 10,
+        marginBottom: 10,
+        borderRadius: 5,
+        marginTop: 5,
+        paddingStart: 15,
+        position: 'relative', // Add position relative to the taskButton
+    },
+    buttonTop: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0, // Set bottom to 0 to cover the full height of the button
+        width: '2%', // Set width to 2%
+        borderTopLeftRadius: 5, // Maintain button border radius
+        borderBottomLeftRadius: 5, // Maintain button border radius
+    },
+    tasksNames: {
+        fontFamily: 'SourceCodePro-Bold', // Apply font family here
     },
 });
 
+// Export the component
 export default ViewTasksScreen;

@@ -12,17 +12,15 @@ const WeeklyTasks = () => {
     const [start, setStart] = useState(false);
     const [taskName, setTaskName] = useState('');
     const [taskDescription, setTaskDescription] = useState('');
-    const [showDatePicker, setShowDatePicker] = useState(false);
     const [taskStatus, setTaskStatus] = useState('Created');
-    const navigation = useNavigation();
-    const [touchableOpacityText, setTouchableOpacityText] = useState(new Date());
-    const [formattedDate, setFormattedDate] = useState(new Date().toLocaleDateString('en-GB'));
     const [deadline, setDeadline] = useState(new Date());
     const [minimumDate, setMinimumDate] = useState(new Date());
     const [maximumDate, setMaximumDate] = useState(new Date());
     const { updateUserData } = useUserData();
     const [loading, setLoading] = useState(false);
-
+    const navigation = useNavigation();
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [deadlinePlaceholder, setDeadlinePlaceholder] = useState('Choose Date and Time');
 
     useEffect(() => {
         // Set minimum date to Monday of current week
@@ -35,42 +33,34 @@ const WeeklyTasks = () => {
         setMaximumDate(maxDate);
     }, []);
 
-    const handleDatePress = () => {
-        setShowDatePicker(true);
-    };
 
-    const hideDatePicker = () => {
-        setShowDatePicker(false);
-        onChangeDeadline(touchableOpacityText);
-    };
-
-    const onChangeDeadline = (selectedDate) => {
-        setTouchableOpacityText(selectedDate);
-        setFormattedDate(selectedDate.toLocaleDateString('en-GB'));
-        setDeadline(selectedDate);
+    const resetFields = () => {
+        setTaskName('');
+        setTaskDescription('');
+        setTaskStatus('Created');
+        setDeadline(new Date());
     };
 
     const handleStart = () => {
         setStart(true);
-        setTaskName('');
-        setTaskDescription('');
-        setTaskStatus('Created');
+        resetFields();
     };
 
     const handleEnd = async () => {
-        if (taskName !== '' && taskDescription !== '' && taskStatus !== '' && deadline !== '') {
+        if (taskName !== '' && taskDescription !== '' && taskStatus !== '') {
             setStart(false);
             try {
                 const userDocRef = doc(db, 'patient', auth.currentUser.uid);
+                const currentDate = new Date();
                 const data = {
                     [Date.now().toString()]: {
                         taskName: taskName,
-                        commedingDate: new Date().toISOString().split('T')[0],
+                        commedingDate: currentDate.toLocaleDateString(), // Local date and time
                         taskDescription: taskDescription,
-                        taskDeadline: deadline.toISOString().split('T')[0],
+                        taskDeadline: deadline.toLocaleString(), // Local date and time
                         taskStatus: taskStatus,
                         taskDateCompleted: '',
-                        weekCommencing: getMonday(new Date()).toISOString().split('T')[0],
+                        weekCommencing: getMonday(deadline).toLocaleDateString(), // Local date and time
                     },
                 };
 
@@ -97,28 +87,14 @@ const WeeklyTasks = () => {
         return new Date(date.setDate(diff));
     };
 
-    const resetFields = () => {
-        setTaskName('');
-        setTaskDescription('');
-        setShowDatePicker(false); // Hide date picker if it's visible
-        setTaskStatus('Created');
-        setTouchableOpacityText(new Date());
-        setFormattedDate(new Date().toLocaleDateString('en-GB'));
-        setDeadline(new Date());
-    };
-
     const ViewTasks = async () => {
-
         // Update user data context
         updateUserData({ uid: auth.currentUser.uid });
-
         navigation.navigate('ViewTasksScreen');
-
     };
 
     return (
         <ScrollView contentContainerStyle={styles.scrollView}>
-
             <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
                 <View style={styles.container}>
                     {start ? null : (
@@ -151,27 +127,31 @@ const WeeklyTasks = () => {
                                     value={taskDescription}
                                     onChangeText={text => setTaskDescription(text)}
                                 />
-                                <Text style={styles.fieldLabel}>Deadline Date</Text>
-                                <TouchableOpacity onPress={handleDatePress}>
-                                    <Text style={styles.input}>{formattedDate}</Text>
+                                <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                                    <Text style={styles.fieldLabel}>Deadline Date</Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        value={deadline instanceof Date ? deadline.toLocaleString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric', hour12: true }) : ''}
+                                        onTouchStart={() => setShowDatePicker(true)}
+                                    />
                                 </TouchableOpacity>
                                 {showDatePicker && (
                                     <Modal
                                         animationType="slide"
                                         transparent={true}
                                         visible={showDatePicker}
-                                        onRequestClose={hideDatePicker}
+                                        onRequestClose={() => setShowDatePicker(false)}
                                     >
                                         <View style={styles.modalContainer}>
                                             <View style={styles.modalContent}>
                                                 <DatePicker
-                                                    date={touchableOpacityText}
-                                                    onDateChange={onChangeDeadline}
-                                                    mode="date"
+                                                    date={deadline}
+                                                    onDateChange={setDeadline}
+                                                    mode="datetime"
                                                     minimumDate={minimumDate}
                                                     maximumDate={maximumDate}
                                                 />
-                                                <TouchableOpacity onPress={hideDatePicker}>
+                                                <TouchableOpacity onPress={() => setShowDatePicker(false)}>
                                                     <Text>Done</Text>
                                                 </TouchableOpacity>
                                             </View>
@@ -186,7 +166,7 @@ const WeeklyTasks = () => {
                                             setTaskStatus(itemValue);
                                         }}
                                     >
-                                        <Picker.Item label="Created" value="" />
+                                        <Picker.Item label="Created" value="Created" />
                                         <Picker.Item label="Started" value="Started" />
                                         <Picker.Item label="In Progress" value="In Progress" />
                                         <Picker.Item label="Completed" value="Completed" />
@@ -226,7 +206,6 @@ const WeeklyTasks = () => {
                 </View>
             </ImageBackground>
         </ScrollView>
-
     );
 };
 
