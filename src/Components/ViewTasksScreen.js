@@ -4,7 +4,7 @@ import { useUserData } from './UserDataManager';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { auth, db } from '../config/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore'; // Import the necessary functions
+import { doc, updateDoc, FieldValue, getDoc, setDoc } from 'firebase/firestore'; // Import the necessary functions
 
 
 // Define the ViewTasksScreen component
@@ -18,6 +18,8 @@ const ViewTasksScreen = () => {
     const [taskFilter, setTaskFilter] = useState('alphabetical');
     const [selectedTask, setSelectedTask] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState('');
+    const { updateUserData } = useUserData();
+    const [taskId, setTaskId] = useState(''); // Add taskId state variable
 
     // useEffect to generate week dates when userData changes
     useEffect(() => {
@@ -36,24 +38,11 @@ const ViewTasksScreen = () => {
     // Function to handle task selection
     const handleTaskSelection = (task) => {
         setSelectedTask(task);
+        setTaskId(task.id); // Set the task ID
+        console.log('%%%%%%%%%%%%selected task in handleTaskSelection: ' + taskId);
         setSelectedStatus(task.taskStatus); // Set selectedStatus to the status of the selected task
         console.log('selected task in handleTaskSelection: ' + task);
         setStart(true);
-    };
-
-    const updateTaskStatus = (taskId, newStatus) => {
-        // Update task status in the database
-        database.updateTaskStatus(taskId, newStatus);
-
-        if (newStatus === 'Completed') {
-            const completionDate = new Date().toISOString(); // Get current date as completion date
-            // Save completion date in taskDateCompleted field in the database
-            database.saveTaskCompletionDate(taskId, completionDate);
-            // Display completion date in selectedTaskContainer
-            displayCompletionDate(completionDate);
-            // Hide dropdownContainer from the screen
-            hideDropdownContainer();
-        }
     };
 
     const renderSelectedTaskDetails = () => {
@@ -64,13 +53,16 @@ const ViewTasksScreen = () => {
         // Render the selected task details
         return (
             <View style={styles.selectedTaskContainer}>
-                <Text style={styles.selectedTaskDescription}>Description: {selectedTask.taskDescription}</Text>
-                <Text style={styles.selectedTaskDeadline}>Deadline: {formattedDeadline}</Text>
-                <Text style={styles.selectedTaskStatus}>Status: {selectedTask.taskStatus}</Text>
+                <Text style={styles.selectedTaskDetails}>Description: {selectedTask.taskDescription}</Text>
+                <Text style={styles.selectedTaskDetails}>Deadline: {formattedDeadline}</Text>
+                <Text style={styles.selectedTaskDetails}>Status: {selectedTask.taskStatus}</Text>
+                {/* Conditionally render completion date */}
+                {selectedTask.taskDateCompleted && (
+                    <Text style={styles.selectedTaskDetails}>Completion: {selectedTask.taskDateCompleted}</Text>
+                )}
             </View>
         );
     };
-
 
     // Function to generate dates for the current week (Monday to Sunday)
     const generateWeekDates = () => {
@@ -147,6 +139,7 @@ const ViewTasksScreen = () => {
         });
     };
 
+    // Function to render the task list with assigned IDs
     const renderTaskList = (tasks, taskStatus) => {
         let sortedTasks;
         if (taskFilter === 'alphabetical') {
@@ -166,7 +159,7 @@ const ViewTasksScreen = () => {
             const deadlineTime = parseDeadlineDate(task.taskDeadline).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
 
             return (
-                <TouchableOpacity key={task.taskName} onPress={() => handleTaskSelection(task)} style={[styles.taskButton, { backgroundColor }]}>
+                <TouchableOpacity key={task.id} onPress={() => handleTaskSelection(task)} style={[styles.taskButton, { backgroundColor }]}>
                     <View style={[styles.buttonTop, { backgroundColor: buttonColor, width: buttonTopWidth }]}></View>
                     <View style={{ flexDirection: 'row' }}>
                         {/* Set text color based on task status */}
@@ -177,6 +170,39 @@ const ViewTasksScreen = () => {
                 </TouchableOpacity>
             );
         });
+    };
+
+    const handleDeleteTask = async (taskId) => {
+        console.log('Attempting to delete task with ID:', taskId);
+        try {
+            const userDocRef = doc(db, 'patient', auth.currentUser.uid);
+            const userDocSnap = await getDoc(userDocRef);
+            if (userDocSnap.exists()) {
+                const userData = userDocSnap.data();
+                const weeklyTasks = userData.WeeklyTasks || {};
+
+                // Check if the task exists in the WeeklyTasks object
+                if (weeklyTasks.hasOwnProperty(taskId)) {
+                    // Remove the task using the task ID
+                    delete weeklyTasks[taskId];
+                    // Update the Firestore document with the modified WeeklyTasks object
+                    await updateDoc(userDocRef, { WeeklyTasks: weeklyTasks });
+                    console.log('Task deleted successfully.');
+                    alert('Task deleted successfully.');
+                    updateUserData({ uid: auth.currentUser.uid });
+                    setStart(false);
+                } else {
+                    console.log('Selected task not found in database.');
+                    alert('Selected task not found in database.');
+                }
+            } else {
+                console.log('User data not found in database.');
+                alert('User data not found in database.');
+            }
+        } catch (error) {
+            console.error('Error deleting task:', error);
+            alert('Error deleting task.');
+        }
     };
 
     // Function to calculate the width of the buttonTop based on task status
@@ -229,13 +255,15 @@ const ViewTasksScreen = () => {
                         if (taskToUpdate) {
                             const updatedTaskData = {
                                 ...weeklyTasks[taskToUpdate],
-                                taskStatus: selectedStatus // Update the task status
+                                taskStatus: selectedStatus, // Update the task status
+                                // Update the task completion date if status is "Completed"
+                                taskDateCompleted: selectedStatus === 'Completed' ? new Date().toLocaleDateString('en-GB') : weeklyTasks[taskToUpdate].taskDateCompleted
                             };
                             weeklyTasks[taskToUpdate] = updatedTaskData;
                             await setDoc(userDocRef, { WeeklyTasks: weeklyTasks }, { merge: true });
                             alert('Task status updated successfully.');
 
-                            // Update selectedTask state with new status
+                            // Update selectedTask state with new status and completion date
                             setSelectedTask(updatedTaskData);
                         } else {
                             alert('Selected task not found in database.');
@@ -282,29 +310,36 @@ const ViewTasksScreen = () => {
                         </View>
 
                         <View style={styles.dropdownContainer}>
-                            <View style={[styles.input, styles.statusInput]}>
-                                <Picker
-                                    selectedValue={selectedStatus}
-                                    onValueChange={(itemValue, itemIndex) => setSelectedStatus(itemValue)}
-                                    style={{ height: 50, width: 165, backgroundColor: 'transparent' }}
-                                    itemStyle={{ fontFamily: 'SourceCodePro-Medium', color: 'white' }}
-                                >
-                                    <Picker.Item label="Created" value="Created" />
-                                    <Picker.Item label="Started" value="Started" />
-                                    <Picker.Item label="In Progress" value="In Progress" />
-                                    <Picker.Item label="Completed" value="Completed" />
-                                </Picker>
-                            </View>
+                            {selectedTask.taskStatus !== 'Completed' && (
+                                <>
+                                    <View style={[styles.input, styles.statusInput]}>
+                                        <Picker
+                                            selectedValue={selectedStatus}
+                                            onValueChange={(itemValue, itemIndex) => setSelectedStatus(itemValue)}
+                                            style={{ height: 50, width: 165, backgroundColor: 'transparent' }}
+                                            itemStyle={{ fontFamily: 'SourceCodePro-Medium', color: 'white' }}
+                                        >
+                                            <Picker.Item label="Created" value="Created" />
+                                            <Picker.Item label="Started" value="Started" />
+                                            <Picker.Item label="In Progress" value="In Progress" />
+                                            <Picker.Item label="Completed" value="Completed" />
+                                        </Picker>
+                                    </View>
 
-                            <TouchableOpacity style={styles.button} onPress={handleStatusUpdate}>
-                                <Text style={styles.buttonText}>Update Progress</Text>
-                            </TouchableOpacity>
+                                    <TouchableOpacity style={styles.button} onPress={handleStatusUpdate}>
+                                        <Text style={styles.buttonText}>Update Progress</Text>
+                                    </TouchableOpacity>
+                                </>
+                            )}
                         </View>
 
-                        <View style={styles.dashboardBottomButtonContainer}>
-                            <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
-                                <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
-                            </TouchableOpacity>
+
+                        <View style={styles.deleteContainer}>
+                            {selectedTask.taskStatus !== 'Completed' && (
+                                <TouchableOpacity onPress={() => handleDeleteTask(selectedTask.id)} style={styles.deleteBtn}>
+                                    <Text style={styles.deleteBtnText}>Delete Task</Text>
+                                </TouchableOpacity>
+                            )}
                         </View>
                     </>
                 ) : (
@@ -354,8 +389,14 @@ const ViewTasksScreen = () => {
                     </>
                 )}
 
+                <View style={styles.dashboardBottomButtonContainer}>
+                    <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
+                        <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
+                    </TouchableOpacity>
+                </View>
+
             </View>
-        </ImageBackground>
+        </ImageBackground >
     );
 };
 
@@ -508,17 +549,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#8E225D',
     },
-    selectedTaskDescription: {
-        fontFamily: 'SourceCodePro-Regular',
-        fontSize: 16,
-        color: '#8E225D',
-    },
-    selectedTaskDeadline: {
-        fontFamily: 'SourceCodePro-Regular',
-        fontSize: 16,
-        color: '#8E225D',
-    },
-    selectedTaskStatus: {
+    selectedTaskDetails: {
         fontFamily: 'SourceCodePro-Regular',
         fontSize: 16,
         color: '#8E225D',
@@ -527,9 +558,34 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: '100%',
+        paddingLeft: 40,
         justifyContent: 'center',
         alignItems: 'center',
         paddingBottom: 20, // Add some padding if necessary
+    },
+    deleteContainer: {
+        position: 'absolute',
+        bottom: 20,
+        width: '100%',
+        paddingLeft: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingBottom: 150, // Add some padding if necessary
+    },
+    deleteBtn: {
+        backgroundColor: '#5D507B',
+        padding: 10,
+        borderRadius: 5,
+        width: 150,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    deleteBtnText: {
+        fontSize: 15,
+        color: 'white',
+        textAlign: 'center',
+        fontFamily: 'SourceCodePro-Medium',
     },
     btnDashboard: {
         backgroundColor: '#052458',

@@ -73,8 +73,10 @@ const WeeklyTasks = () => {
                 const currentDate = new Date();
                 const options = { day: 'numeric', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
                 const formattedDeadline = deadline.toLocaleString('en-GB', options); // Format deadline in en-GB locale
+                const id = Date.now().toString();
                 const data = {
-                    [Date.now().toString()]: {
+                    [id]: {
+                        id: id,
                         taskName: taskName,
                         commedingDate: currentDate.toLocaleDateString('en-GB'), // Local date and time
                         taskDescription: taskDescription,

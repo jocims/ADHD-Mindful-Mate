@@ -137,8 +137,10 @@ const Game = () => {
             const userDocRef = doc(db, 'patient', auth.currentUser.uid);
 
             if (isFinite(smallestTime)) { // Check if smallestTime is a finite number
-                const gameData = {
-                    [Date.now().toString()]: {
+                const id = Date.now().toString();
+                const data = {
+                    [id]: {
+                        id: id,
                         gamePracticeScore: smallestTime,
                         date: new Date().toISOString().split('T')[0],
                         timeDurationOfPractice: duration.toFixed(2),
@@ -146,7 +148,7 @@ const Game = () => {
                     },
                 };
 
-                await setDoc(userDocRef, { GamePractice: gameData }, { merge: true });
+                await setDoc(userDocRef, { GamePractice: data }, { merge: true });
 
             }
 
