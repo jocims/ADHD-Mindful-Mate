@@ -71,12 +71,14 @@ const WeeklyTasks = () => {
             try {
                 const userDocRef = doc(db, 'patient', auth.currentUser.uid);
                 const currentDate = new Date();
+                const options = { day: 'numeric', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+                const formattedDeadline = deadline.toLocaleString('en-GB', options); // Format deadline in en-GB locale
                 const data = {
                     [Date.now().toString()]: {
                         taskName: taskName,
                         commedingDate: currentDate.toLocaleDateString('en-GB'), // Local date and time
                         taskDescription: taskDescription,
-                        taskDeadline: deadline.toLocaleString(), // Local date and time
+                        taskDeadline: formattedDeadline, // Local date and time
                         taskStatus: taskStatus,
                         taskDateCompleted: '',
                         weekCommencing: getMonday(deadline).toLocaleDateString('en-GB'), // Local date and time
@@ -139,7 +141,7 @@ const WeeklyTasks = () => {
                                     value={taskName}
                                     onChangeText={text => {
                                         // Limit the input to 20 characters
-                                        if (text.length <= 15) {
+                                        if (text.length <= 20) {
                                             setTaskName(text);
                                         }
                                     }}
