@@ -154,7 +154,7 @@ const ViewTasksScreen = () => {
             const { backgroundColor, buttonColor } = getTaskButtonStyle(selectedDate); // Get button colors
             const buttonTopWidth = calculateButtonTopWidth(task.taskStatus);
             // Determine text color based on task status
-            const textColor = task.taskStatus === 'Created' ? buttonColor : backgroundColor === '#A3F0FD' ? '#A3F0FD' : '#c6f1c6';
+            const textColor = task.taskStatus === 'Created' ? buttonColor : backgroundColor === '#A3F0FD' ? '#cbf3ff' : '#c6f1c6';
             const timeColour = task.taskStatus === 'Completed' ? backgroundColor : buttonColor === '#306191' ? '#306191' : '#055564';
             const deadlineTime = parseDeadlineDate(task.taskDeadline).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
 
