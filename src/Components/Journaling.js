@@ -26,6 +26,11 @@ const Journaling = () => {
 
         try {
 
+            // Get current local time without seconds
+            const currentTime = new Date().toLocaleTimeString('en-GB', { hour12: false });
+            const [hours, minutes] = currentTime.split(':');
+            const timeWithoutSeconds = `${hours}:${minutes}`;
+
             if (journalText !== '') {
                 const userDocRef = doc(db, 'patient', auth.currentUser.uid);
                 const id = Date.now().toString();
@@ -33,9 +38,9 @@ const Journaling = () => {
                     [id]: {
                         id: id,
                         journalTextEntryText: journalText,
-                        date: new Date().toISOString().split('T')[0],
-                        time: new Date().toISOString().split('T')[1].split('.')[0],
-                        weekCommencing: getMonday(new Date()).toISOString().split('T')[0],
+                        date: new Date().toLocaleDateString('en-GB'),
+                        time: timeWithoutSeconds,
+                        weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
                     },
                 };
 

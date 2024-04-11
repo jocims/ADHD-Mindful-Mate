@@ -4,7 +4,7 @@
             "outputFile": "com.myapp-mergeDebugResources-48:/values-no/values-no.xml",
             "map": [
                 {
-                    "source": "D:\\Users\\Joci\\ReactNative\\FinalProject\\ADHD-Mindful-Mate\\node_modules\\react-native-date-picker\\android\\build\\intermediates\\packaged_res\\debug\\values-no\\values-no.xml",
+                    "source": "D:\\Users\\Joci\\ReactNative\\ADHD-Mindful-Mate\\node_modules\\react-native-date-picker\\android\\build\\intermediates\\packaged_res\\debug\\values-no\\values-no.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",

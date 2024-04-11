@@ -4,23 +4,6 @@
             "outputFile": "com.myapp-mergeDebugResources-48:/values-fi/values-fi.xml",
             "map": [
                 {
-                    "source": "D:\\Users\\Joci\\ReactNative\\FinalProject\\ADHD-Mindful-Mate\\node_modules\\react-native-date-picker\\android\\build\\intermediates\\packaged_res\\debug\\values-fi\\values-fi.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,114,178,236,295,339,404,453,516,572,618",
-                        "endColumns": "58,63,57,58,43,64,48,62,55,45,58",
-                        "endOffsets": "109,173,231,290,334,399,448,511,567,613,672"
-                    },
-                    "to": {
-                        "startLines": "51,82,83,144,145,167,168,169,206,224,227",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "3696,7005,7069,11663,11722,13299,13364,13413,16339,17787,17983",
-                        "endColumns": "58,63,57,58,43,64,48,62,55,45,58",
-                        "endOffsets": "3750,7064,7122,11717,11761,13359,13408,13471,16390,17828,18037"
-                    }
-                },
-                {
                     "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\5fd09da4e3ebb73eb4f507c78659d4b6\\transformed\\jetified-play-services-base-18.0.1\\res\\values-fi\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
@@ -52,6 +35,23 @@
                         "startOffsets": "3625,4159,4272,4649,11591,11841,11909,12057,13071,13141,13220,16474,16559,16645,16719,16882,16966,17042,17127,17211,17291,17370,17445,17631,17707,17833,17904",
                         "endColumns": "70,112,88,81,71,67,82,68,69,78,78,84,85,73,81,83,75,84,83,79,78,74,84,75,79,70,78",
                         "endOffsets": "3691,4267,4356,4726,11658,11904,11987,12121,13136,13215,13294,16554,16640,16714,16796,16961,17037,17122,17206,17286,17365,17440,17525,17702,17782,17899,17978"
+                    }
+                },
+                {
+                    "source": "D:\\Users\\Joci\\ReactNative\\ADHD-Mindful-Mate\\node_modules\\react-native-date-picker\\android\\build\\intermediates\\packaged_res\\debug\\values-fi\\values-fi.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,114,178,236,295,339,404,453,516,572,618",
+                        "endColumns": "58,63,57,58,43,64,48,62,55,45,58",
+                        "endOffsets": "109,173,231,290,334,399,448,511,567,613,672"
+                    },
+                    "to": {
+                        "startLines": "51,82,83,144,145,167,168,169,206,224,227",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "3696,7005,7069,11663,11722,13299,13364,13413,16339,17787,17983",
+                        "endColumns": "58,63,57,58,43,64,48,62,55,45,58",
+                        "endOffsets": "3750,7064,7122,11717,11761,13359,13408,13471,16390,17828,18037"
                     }
                 },
                 {

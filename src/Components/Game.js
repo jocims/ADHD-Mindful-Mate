@@ -85,8 +85,6 @@ const Game = () => {
         const width = Math.random() * 100 + 50;
         const borderRadius = Math.random() > 0.5 ? 50 : 0;
 
-        Vibration.vibrate(); // Vibrate when a new shape appears
-
         setShapeStyle({
             ...shapeStyle,
             borderRadius,
@@ -110,13 +108,16 @@ const Game = () => {
     }, [start]);
 
     const handleShapeClick = () => {
+
+        Vibration.vibrate();
+
         setShapeStyle({
             ...shapeStyle,
             display: 'none',
         });
 
         const end = new Date().getTime();
-        const taken = (end - startTimer) / 1000;
+        const taken = (end - startTimer) / 1000 / 60;
         setTimeTaken(taken);
 
         setTimeTakenList([...timeTakenList, taken]);
@@ -128,7 +129,7 @@ const Game = () => {
         setStart(false);
         const endTime = new Date().getTime();
         setEndTimer(endTime);
-        const duration = (endTime - startTimer) / 1000;
+        const duration = (endTime - startTimer) / 10000;
 
         const smallestTime = Math.min(...timeTakenList);
         setSmallestTime(smallestTime);
@@ -141,10 +142,10 @@ const Game = () => {
                 const data = {
                     [id]: {
                         id: id,
-                        gamePracticeScore: smallestTime,
-                        date: new Date().toISOString().split('T')[0],
+                        gamePracticeScore: smallestTime.toFixed(2),
+                        date: new Date().toLocaleDateString('en-GB'),
                         timeDurationOfPractice: duration.toFixed(2),
-                        weekCommencing: getMonday(new Date()).toISOString().split('T')[0],
+                        weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
                     },
                 };
 

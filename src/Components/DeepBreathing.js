@@ -111,15 +111,15 @@ const DeepBreathing = () => {
     const handleEnd = async () => {
         setStart(false);
         const endTime = new Date().getTime();
-        const duration = (endTime - startTimer) / 1000;
+        const duration = (endTime - startTimer) / 1000 / 60;
 
         try {
             const userDocRef = doc(db, 'patient', auth.currentUser.uid);
             const data = {
                 [Date.now().toString()]: {
                     timeDurationOfPractice: duration.toFixed(2),
-                    date: new Date().toISOString().split('T')[0],
-                    weekCommencing: getMonday(new Date()).toISOString().split('T')[0],
+                    date: new Date().toLocaleDateString('en-GB'),
+                    weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
                 },
             };
 
@@ -141,7 +141,6 @@ const DeepBreathing = () => {
     const handleMeditationStart = async (meditation) => {
         setSelectedMeditation(meditation);
         setstartAudio(true);
-        setStartTimer(new Date().getTime());
         console.log('Starting meditation:', meditation);
         try {
             await TrackPlayer.reset();
@@ -152,6 +151,9 @@ const DeepBreathing = () => {
                 artist: 'Meditation',
             });
             await TrackPlayer.play();
+
+            setStartTimer(new Date().getTime());
+
         } catch (error) {
             console.error('Error playing meditation:', error);
         }

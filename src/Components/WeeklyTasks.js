@@ -218,7 +218,6 @@ const WeeklyTasks = () => {
                                         <Picker.Item label="Created" value="Created" />
                                         <Picker.Item label="Started" value="Started" />
                                         <Picker.Item label="In Progress" value="In Progress" />
-                                        <Picker.Item label="Completed" value="Completed" />
                                     </Picker>
                                 </View>
                             </View>

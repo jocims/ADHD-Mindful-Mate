@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { auth, db } from '../config/firebase';
 import { doc, updateDoc, FieldValue, getDoc, setDoc } from 'firebase/firestore'; // Import the necessary functions
-
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define the ViewTasksScreen component
 const ViewTasksScreen = () => {
@@ -18,7 +18,6 @@ const ViewTasksScreen = () => {
     const [taskFilter, setTaskFilter] = useState('alphabetical');
     const [selectedTask, setSelectedTask] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState('');
-    const { updateUserData } = useUserData();
     const [taskId, setTaskId] = useState(''); // Add taskId state variable
 
     // useEffect to generate week dates when userData changes

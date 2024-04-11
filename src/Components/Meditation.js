@@ -84,7 +84,6 @@ const Meditation = () => {
     const handleMeditationStart = async (meditation) => {
         setSelectedMeditation(meditation);
         setStart(true);
-        setStartTimer(new Date().getTime());
         console.log('Starting meditation:', meditation);
         try {
             await TrackPlayer.reset();
@@ -95,6 +94,8 @@ const Meditation = () => {
                 artist: 'Meditation',
             });
             await TrackPlayer.play();
+
+            setStartTimer(new Date().getTime());
         } catch (error) {
             console.error('Error playing meditation:', error);
         }
@@ -104,7 +105,7 @@ const Meditation = () => {
     const handleMeditationEnd = async () => {
         setStart(false);
         const endTime = new Date().getTime();
-        const duration = (endTime - startTimer) / 1000;
+        const duration = (endTime - startTimer) / 1000 / 60;
         try {
             await TrackPlayer.stop();
             const userDocRef = doc(db, 'patient', auth.currentUser.uid);
@@ -113,8 +114,8 @@ const Meditation = () => {
                 [id]: {
                     id: id,
                     timeDurationOfPractice: duration.toFixed(2),
-                    date: new Date().toISOString().split('T')[0],
-                    weekCommencing: getMonday(new Date()).toISOString().split('T')[0],
+                    date: new Date().toLocaleDateString('en-GB'),
+                    weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
                 },
             };
 

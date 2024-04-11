@@ -135,18 +135,26 @@ const PatientDashboard = () => {
         // Create a reference to the user's document in the 'patient' collection
         const userDocRef = doc(db, 'patient', auth.currentUser.uid);
 
+        const currentTime = new Date().toLocaleTimeString('en-GB', { hour12: false });
+        const [hours, minutes] = currentTime.split(':');
+        const timeWithoutSeconds = `${hours}:${minutes}`;
+
+        const emotions = ['Very Sad', 'Sad', 'Indifferent', 'Happy', 'Very Happy'];
+        const id = Date.now().toString();
+
         // Define the mood data to be saved
-        const moodData = {
-          [Date.now().toString()]: {
-            mood: index,
-            date: new Date().toISOString().split('T')[0], // Current date
-            time: new Date().toISOString(), // Current time
-            weekCommencing: getMonday(new Date()).toISOString().split('T')[0], // Monday date of the current week
+        const data = {
+          [id]: {
+            id: id,
+            mood: emotions[index],
+            date: new Date().toLocaleDateString('en-GB'),
+            time: timeWithoutSeconds, // Current time
+            weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
           },
         };
 
         // Add the mood data to the 'MoodTracker' map within the user's document
-        await setDoc(userDocRef, { MoodTracker: moodData }, { merge: true });
+        await setDoc(userDocRef, { MoodTracker: data }, { merge: true });
 
         // Update the selected state of the image
         setIsImageSelected((prevState) => {
@@ -226,7 +234,7 @@ const PatientDashboard = () => {
             <TouchableOpacity onPress={() => navigation.navigate('Journaling')}>
               <Image source={require('../journal.png')} style={styles.btnImage} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
+            <TouchableOpacity onPress={() => navigation.navigate('WeeklyReport')}>
               <Image source={require('../report.png')} style={styles.btnImage} />
             </TouchableOpacity>
           </View>
