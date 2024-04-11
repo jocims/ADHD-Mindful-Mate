@@ -1,16 +1,7 @@
 //PatientRegistration.js
 
 import React, { useState, useEffect } from 'react';
-import {
-    View,
-    TextInput,
-    StyleSheet,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    Image,
-    Modal,
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, ImageBackground, ScrollView, Image, Alert, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../config/firebase';
 import { collection, doc, setDoc } from 'firebase/firestore';
@@ -381,253 +372,316 @@ const PatientRegistration = () => {
                 return;
             }
 
+            // Confirm before adding patient
+            Alert.alert(
+                "Confirm",
+                "Are you sure you want to add this patient?",
+                [
+                    {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                    },
+                    {
+                        text: "Add",
+                        onPress: async () => {
 
-            // Step 1: Create a user in Firebase Authentication
-            const authUser = await createUserWithEmailAndPassword(
-                auth,
-                patientEmail,
-                provisionalPassword
+                            // Step 1: Create a user in Firebase Authentication
+                            const authUser = await createUserWithEmailAndPassword(
+                                auth,
+                                patientEmail,
+                                provisionalPassword
+                            );
+
+                            // await sendPasswordResetEmail(auth, patientEmail);
+
+                            // Step 2: Add patient data to Firestore
+                            const patientData = {
+                                User: {
+                                    firstName: formatName(patientName),
+                                    lastName: formatName(patientSurname),
+                                    dob: patientDOB.toISOString(),
+                                    gender: patientGender,
+                                    weight: patientWeight,
+                                    mobileNo: patientMobileNo,
+                                    email: patientEmail,
+                                    isDoctor: false,
+                                    doctorId: doctorUid, // Use the doctor's UID as the doctorId
+                                    provisionalPassword: true,
+                                },
+                            };
+
+                            const patientsCollection = collection(db, 'patient');
+                            await setDoc(doc(patientsCollection, authUser.user.uid), patientData);
+
+                            alert('Patient added successfully');
+
+                            // Update userToken only if it hasn't been set already
+                            console.log('storedUserToken after registration:', storedUserToken);
+
+                            if (storedUserToken === null || storedUserToken === undefined) {
+                                await AsyncStorage.setItem('userToken', doctorUid);
+                            }
+
+                            navigation.navigate('DoctorDashboard');
+                        }
+                    }
+                ],
+                { cancelable: false }
             );
-
-            // await sendPasswordResetEmail(auth, patientEmail);
-
-            // Step 2: Add patient data to Firestore
-            const patientData = {
-                User: {
-                    firstName: formatName(patientName),
-                    lastName: formatName(patientSurname),
-                    dob: patientDOB.toISOString(),
-                    gender: patientGender,
-                    weight: patientWeight,
-                    mobileNo: patientMobileNo,
-                    email: patientEmail,
-                    isDoctor: false,
-                    doctorId: doctorUid, // Use the doctor's UID as the doctorId
-                    provisionalPassword: true,
-                },
-            };
-
-            const patientsCollection = collection(db, 'patient');
-            await setDoc(doc(patientsCollection, authUser.user.uid), patientData);
-
-            alert('Patient added successfully');
-
-            // Update userToken only if it hasn't been set already
-            console.log('storedUserToken after registration:', storedUserToken);
-
-            if (storedUserToken === null || storedUserToken === undefined) {
-                await AsyncStorage.setItem('userToken', doctorUid);
-            }
-
-            navigation.navigate('DoctorDashboard');
         } catch (error) {
             console.error('Error adding patient: ', error);
         }
     };
 
+    const handleLogout = async () => {
+        await ReactNativeAsyncStorage.removeItem('userToken');
+        await ReactNativeAsyncStorage.removeItem('userRole');
+        navigation.navigate('FirstScreen');
+    };
+
     return (
-        <View style={styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <Image source={require('../logo3.png')} style={styles.img} />
-                <Text style={styles.introduction}>Register New Patient</Text>
-                <View >
-                    <Text style={styles.fieldLabel}>Name</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={patientName}
-                        onChangeText={(text) => {
-                            if (text.length <= 50) {
-                                setPatientName(text);
-                                setWarningMessages((prevMessages) => ({
-                                    ...prevMessages,
-                                    patientName: '',
-                                }));
-                            } else {
-                                setWarningMessages((prevMessages) => ({
-                                    ...prevMessages,
-                                    patientName: 'Name cannot exceed 50 characters.',
-                                }));
-                            }
-                        }}
-                        onBlur={() => handleBlur('patientName')}
-                        maxLength={50}
-                    />
-                    {warningMessages.patientName && <Text style={styles.warningMessage}>{warningMessages.patientName}</Text>}
-                </View>
+        <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
+            <View style={styles.container}>
+                <TouchableOpacity onPress={handleLogout} style={styles.logout}>
+                    <Image source={require('../logout.png')} style={styles.logoutImg} />
+                </TouchableOpacity>
+                <Image source={require('../logotop.png')} style={styles.img} />
 
-                <View>
-                    <Text style={styles.fieldLabel}>Surname</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={patientSurname}
-                        onChangeText={(text) => {
-                            if (text.length <= 50) {
-                                setPatientSurname(text);
-                                setWarningMessages((prevMessages) => ({
-                                    ...prevMessages,
-                                    patientSurname: '',
-                                }));
-                            } else {
-                                setWarningMessages((prevMessages) => ({
-                                    ...prevMessages,
-                                    patientSurname: 'Surname cannot exceed 50 characters.',
-                                }));
-                            }
-                        }}
-                        onBlur={() => handleBlur('patientSurname')}
-                        maxLength={50}
-                    />
-                    {warningMessages.patientSurname && <Text style={styles.warningMessage}>{warningMessages.patientSurname}</Text>}
+                <ScrollView showsVerticalScrollIndicator={false} style={styles.taskContainer}>
 
-                </View>
+                    <View style={styles.header}>
+                        <Text style={styles.introduction}>Register New Patient</Text>
+                    </View>
 
-                <View>
-                    <Text style={styles.fieldLabel}>Date of Birth</Text>
-                    <TouchableOpacity onPress={handleDatePress}>
-                        <Text style={styles.input}>{formattedDate}</Text>
-                    </TouchableOpacity>
+                    <View style={styles.inputContainer}>
 
-                    {showDatePicker && (
-                        <Modal
-                            animationType="slide"
-                            transparent={true}
-                            visible={showDatePicker}
-                            onRequestClose={hideDatePicker}
-                        >
-                            <View style={styles.modalContainer}>
-                                <View style={styles.modalContent}>
-                                    <DatePicker
-                                        date={touchableOpacityText}
-                                        onDateChange={onChangeDOB}
-                                        mode="date"
-                                        maximumDate={new Date()} // Set maximumDate to today's date
-                                    />
-                                    <TouchableOpacity onPress={hideDatePicker}>
-                                        <Text>Done</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </Modal>
-                    )}
-
-                    {error && <Text style={styles.warningMessage}>{error}</Text>}
-
-                    <View >
-                        <Text style={styles.fieldLabel}>Gender</Text>
-                        <View style={[styles.input, styles.genderInput]}>
-                            <Picker
-                                selectedValue={patientGender}
-                                onValueChange={(itemValue, itemIndex) => {
-                                    setPatientGender(itemValue);
+                        <Text style={styles.fieldLabel}>Name</Text>
+                        <TextInput
+                            style={styles.input}
+                            value={patientName}
+                            onChangeText={(text) => {
+                                if (text.length <= 50) {
+                                    setPatientName(text);
                                     setWarningMessages((prevMessages) => ({
                                         ...prevMessages,
-                                        patientGender: '', // Clear the error message
+                                        patientName: '',
                                     }));
-                                }}
+                                } else {
+                                    setWarningMessages((prevMessages) => ({
+                                        ...prevMessages,
+                                        patientName: 'Name cannot exceed 50 characters.',
+                                    }));
+                                }
+                            }}
+                            onBlur={() => handleBlur('patientName')}
+                            maxLength={50}
+                        />
+                        {warningMessages.patientName && <Text style={styles.warningMessage}>{warningMessages.patientName}</Text>}
+                    </View>
+
+                    <View>
+                        <Text style={styles.fieldLabel}>Surname</Text>
+                        <TextInput
+                            style={styles.input}
+                            value={patientSurname}
+                            onChangeText={(text) => {
+                                if (text.length <= 50) {
+                                    setPatientSurname(text);
+                                    setWarningMessages((prevMessages) => ({
+                                        ...prevMessages,
+                                        patientSurname: '',
+                                    }));
+                                } else {
+                                    setWarningMessages((prevMessages) => ({
+                                        ...prevMessages,
+                                        patientSurname: 'Surname cannot exceed 50 characters.',
+                                    }));
+                                }
+                            }}
+                            onBlur={() => handleBlur('patientSurname')}
+                            maxLength={50}
+                        />
+                        {warningMessages.patientSurname && <Text style={styles.warningMessage}>{warningMessages.patientSurname}</Text>}
+
+                    </View>
+
+                    <View>
+                        <Text style={styles.fieldLabel}>Date of Birth</Text>
+                        <TouchableOpacity onPress={handleDatePress}>
+                            <Text style={styles.input}>{formattedDate}</Text>
+                        </TouchableOpacity>
+
+                        {showDatePicker && (
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={showDatePicker}
+                                onRequestClose={hideDatePicker}
                             >
-                                <Picker.Item label="Select Gender" value="" />
-                                <Picker.Item label="Male" value="Male" />
-                                <Picker.Item label="Female" value="Female" />
-                                <Picker.Item label="Other" value="Other" />
-                            </Picker>
+                                <View style={styles.modalContainer}>
+                                    <View style={styles.modalContent}>
+                                        <DatePicker
+                                            date={touchableOpacityText}
+                                            onDateChange={onChangeDOB}
+                                            mode="date"
+                                            maximumDate={new Date()} // Set maximumDate to today's date
+                                        />
+                                        <TouchableOpacity onPress={hideDatePicker}>
+                                            <Text>Done</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </Modal>
+                        )}
+
+                        {error && <Text style={styles.warningMessage}>{error}</Text>}
+
+                        <View >
+                            <Text style={styles.fieldLabel}>Gender</Text>
+                            <View style={[styles.input, styles.genderInput]}>
+                                <Picker
+                                    selectedValue={patientGender}
+                                    onValueChange={(itemValue, itemIndex) => {
+                                        setPatientGender(itemValue);
+                                        setWarningMessages((prevMessages) => ({
+                                            ...prevMessages,
+                                            patientGender: '', // Clear the error message
+                                        }));
+                                    }}
+                                >
+                                    <Picker.Item label="Select Gender" value="" />
+                                    <Picker.Item label="Male" value="Male" />
+                                    <Picker.Item label="Female" value="Female" />
+                                    <Picker.Item label="Other" value="Other" />
+                                </Picker>
+                            </View>
+                            {warningMessages.patientGender && <Text style={styles.warningMessage}>{warningMessages.patientGender}</Text>}
                         </View>
-                        {warningMessages.patientGender && <Text style={styles.warningMessage}>{warningMessages.patientGender}</Text>}
+
+                        <View>
+                            <Text style={styles.fieldLabel}>Weight</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Kg"
+                                onChangeText={setPatientWeight}
+                                onBlur={() => handleBlur('patientWeight')}
+                            />
+                            {warningMessages.patientWeight && <Text style={styles.warningMessage}>{warningMessages.patientWeight}</Text>}
+                        </View>
+
+                        <View>
+                            <Text style={styles.fieldLabel}>Mobile Number</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Eg. 0831234567"
+                                value={patientMobileNo}
+                                onChangeText={setPatientMobileNo}
+                                onBlur={() => handleBlur('patientMobileNo')}
+                                maxLength={10} // Restrict input length to 10 characters
+                            />
+                            {warningMessages.patientMobileNo && <Text style={styles.warningMessage}>{warningMessages.patientMobileNo}</Text>}
+                        </View>
+
+
+                        <View>
+                            <Text style={styles.fieldLabel}>Email</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="joe@gmail.com"
+                                value={patientEmail}
+                                onChangeText={setPatientEmail}
+                                onBlur={() => handleBlur('patientEmail')}
+                            />
+                            {warningMessages.patientEmail && <Text style={styles.warningMessage}>{warningMessages.patientEmail}</Text>}
+                        </View>
+
+                        <View>
+                            <Text style={styles.fieldLabel}>Provisional Password</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Provisional Password"
+                                value={provisionalPassword}
+                                onChangeText={(text) => setProvisionalPassword(text)}
+                                onBlur={() => handleBlur('provisionalPassword')}
+                                secureTextEntry={true} // Hide the entered text
+                            />
+                            {warningMessages.provisionalPassword && <Text style={styles.warningMessage}>{warningMessages.provisionalPassword}</Text>}
+                        </View>
+
+                        <View>
+                            <Text style={styles.fieldLabel}>Repeat Password</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Repeat Password"
+                                value={repeatPassword}
+                                onChangeText={(text) => setRepeatPassword(text)}
+                                onBlur={() => handleBlur('repeatPassword')}
+                                secureTextEntry={true} // Hide the entered text
+                            />
+                            {warningMessages.repeatPassword && <Text style={styles.warningMessage}>{warningMessages.repeatPassword}</Text>}
+                        </View>
+
                     </View>
 
-
-                    <View>
-                        <Text style={styles.fieldLabel}>Weight</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Kg"
-                            onChangeText={setPatientWeight}
-                            onBlur={() => handleBlur('patientWeight')}
-                        />
-                        {warningMessages.patientWeight && <Text style={styles.warningMessage}>{warningMessages.patientWeight}</Text>}
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={handleAddPatient}>
+                            <Text style={styles.buttonText}>Create Task</Text>
+                        </TouchableOpacity>
                     </View>
 
-                    <View>
-                        <Text style={styles.fieldLabel}>Mobile Number</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Eg. 0831234567"
-                            value={patientMobileNo}
-                            onChangeText={setPatientMobileNo}
-                            onBlur={() => handleBlur('patientMobileNo')}
-                            maxLength={10} // Restrict input length to 10 characters
-                        />
-                        {warningMessages.patientMobileNo && <Text style={styles.warningMessage}>{warningMessages.patientMobileNo}</Text>}
-                    </View>
-
-
-                    <View>
-                        <Text style={styles.fieldLabel}>Email</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="joe@gmail.com"
-                            value={patientEmail}
-                            onChangeText={setPatientEmail}
-                            onBlur={() => handleBlur('patientEmail')}
-                        />
-                        {warningMessages.patientEmail && <Text style={styles.warningMessage}>{warningMessages.patientEmail}</Text>}
-                    </View>
-
-                    <View>
-                        <Text style={styles.fieldLabel}>Provisional Password</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Provisional Password"
-                            value={provisionalPassword}
-                            onChangeText={(text) => setProvisionalPassword(text)}
-                            onBlur={() => handleBlur('provisionalPassword')}
-                            secureTextEntry={true} // Hide the entered text
-                        />
-                        {warningMessages.provisionalPassword && <Text style={styles.warningMessage}>{warningMessages.provisionalPassword}</Text>}
-                    </View>
-
-                    <View>
-                        <Text style={styles.fieldLabel}>Repeat Password</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Repeat Password"
-                            value={repeatPassword}
-                            onChangeText={(text) => setRepeatPassword(text)}
-                            onBlur={() => handleBlur('repeatPassword')}
-                            secureTextEntry={true} // Hide the entered text
-                        />
-                        {warningMessages.repeatPassword && <Text style={styles.warningMessage}>{warningMessages.repeatPassword}</Text>}
-                    </View>
-
-                </View>
-                <TouchableOpacity style={styles.btn} onPress={handleAddPatient}>
-                    <Text style={styles.btnText}>Add Patient</Text>
-                </TouchableOpacity>
-            </ScrollView >
-        </View >
+                    <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('DoctorDashboard')}>
+                        <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
+                    </TouchableOpacity>
+                </ScrollView >
+            </View >
+        </ImageBackground>
     );
 }
 
 const styles = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover',
+    },
     container: {
         flex: 1,
-        backgroundColor: 'lightgrey',
+        backgroundColor: 'transparent',
         alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 15,
+        justifyContent: 'flex-end',
+        padding: 20,
     },
     img: {
-        width: 250,
-        height: 250,
-        marginBottom: 20,
-        alignSelf: 'center',
+        position: 'absolute',
+        width: 337.5,
+        height: 67.5,
+        top: 10,
+        left: 1,
+    },
+    logout: {
+        position: 'absolute',
+        top: 15,
+        right: 15,
+    },
+    logoutImg: {
+        width: 50,
+        height: 50,
+    },
+    taskContainer: {
+        marginTop: 80,
+    },
+    header: {
+        alignItems: 'center',
     },
     introduction: {
-        fontSize: 20,
-        color: 'black',
-        marginBottom: 20,
-        fontWeight: 'bold',
+        fontSize: 25,
         textAlign: 'center',
-
+        color: '#0C5E51',
+        fontFamily: 'SourceCodePro-Bold',
+    },
+    inputContainer: {
+        width: '100%',
+        marginTop: 20,
     },
     form: {
         paddingTop: 20,
@@ -642,15 +696,24 @@ const styles = StyleSheet.create({
         fontFamily: 'SourceCodePro-Medium',
     },
     input: {
-        borderWidth: 1.5,
+        borderWidth: 2,
         width: 300,
-        borderColor: '#af3e76',
-        padding: 10,
-        borderRadius: 7,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        padding: 15,
         marginBottom: 10,
+        fontFamily: 'SourceCodePro-Regular',
+        color: '#333',
+        backgroundColor: '#fff',
+        shadowColor: '#af3e76',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
         height: 50,
-        overflow: 'hidden', // Ensure border-radius works as expected
-        textAlignVertical: 'center', // For Android
     },
     btn: {
         width: 150,
@@ -704,6 +767,41 @@ const styles = StyleSheet.create({
     },
     genderInput: {
         padding: 0,
+    },
+    buttonContainer: {
+        alignItems: 'center',
+        flex: 1,
+        justifyContent: 'center', // Center vertically
+    },
+    button: {
+        backgroundColor: '#af3e76',
+        width: '60%',
+        alignItems: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginBottom: 20,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        fontFamily: 'SourceCodePro-Medium',
+    },
+    btnDashboard: {
+        backgroundColor: '#052458',
+        padding: 10,
+        borderRadius: 5,
+        width: 200,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    btnDashboardText: {
+        fontSize: 15,
+        color: 'white',
+        textAlign: 'center',
+        fontFamily: 'SourceCodePro-Medium',
     },
 });
 

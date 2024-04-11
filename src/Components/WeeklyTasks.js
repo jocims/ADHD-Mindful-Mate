@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ImageBackground, Image, TextInput, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ImageBackground, Image, TextInput, Modal, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
@@ -38,9 +38,7 @@ const WeeklyTasks = () => {
             return dates;
         };
 
-        // Set minimum date to Monday of current week
-        const monday = getMonday(new Date());
-        setMinimumDate(monday);
+        setMinimumDate(new Date());
 
         // Set week dates
         const dates = generateWeekDates();
@@ -65,37 +63,55 @@ const WeeklyTasks = () => {
         resetFields();
     };
 
-    const handleEnd = async () => {
+    const confirmCreateTask = async () => {
         if (taskName !== '' && taskDescription !== '' && taskStatus !== '') {
-            setStart(false);
-            try {
-                const userDocRef = doc(db, 'patient', auth.currentUser.uid);
-                const currentDate = new Date();
-                const options = { day: 'numeric', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
-                const formattedDeadline = deadline.toLocaleString('en-GB', options); // Format deadline in en-GB locale
-                const id = Date.now().toString();
-                const data = {
-                    [id]: {
-                        id: id,
-                        taskName: taskName,
-                        commedingDate: currentDate.toLocaleDateString('en-GB'), // Local date and time
-                        taskDescription: taskDescription,
-                        taskDeadline: formattedDeadline, // Local date and time
-                        taskStatus: taskStatus,
-                        taskDateCompleted: '',
-                        weekCommencing: getMonday(deadline).toLocaleDateString('en-GB'), // Local date and time
+            Alert.alert(
+                'Confirmation',
+                'Are you sure you want to create this task?',
+                [
+                    {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
                     },
-                };
+                    { text: 'Yes', onPress: () => handleEnd() },
+                ],
+                { cancelable: false }
+            );
 
-                await setDoc(userDocRef, { WeeklyTasks: data }, { merge: true });
-
-                alert('Task created successfully.');
-            } catch (error) {
-                console.error('Error saving task data:', error);
-            }
         } else {
             alert('Please fill in all the fields');
         }
+    };
+
+    const handleEnd = async () => {
+        setStart(false);
+        try {
+            const userDocRef = doc(db, 'patient', auth.currentUser.uid);
+            const currentDate = new Date();
+            const options = { day: 'numeric', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+            const formattedDeadline = deadline.toLocaleString('en-GB', options); // Format deadline in en-GB locale
+            const id = Date.now().toString();
+            const data = {
+                [id]: {
+                    id: id,
+                    taskName: taskName,
+                    commecingDate: currentDate.toLocaleDateString('en-GB'), // Local date and time
+                    taskDescription: taskDescription,
+                    taskDeadline: formattedDeadline, // Local date and time
+                    taskStatus: taskStatus,
+                    taskDateCompleted: '',
+                    weekCommencing: getMonday(deadline).toLocaleDateString('en-GB'), // Local date and time
+                },
+            };
+
+            await setDoc(userDocRef, { WeeklyTasks: data }, { merge: true });
+
+            alert('Task created successfully.');
+        } catch (error) {
+            console.error('Error saving task data:', error);
+        }
+
     };
 
     const handleLogout = async () => {
@@ -207,7 +223,7 @@ const WeeklyTasks = () => {
                                 </View>
                             </View>
 
-                            <TouchableOpacity style={styles.button} onPress={handleEnd}>
+                            <TouchableOpacity style={styles.button} onPress={confirmCreateTask}>
                                 <Text style={styles.buttonText}>Create Task</Text>
                             </TouchableOpacity>
 
@@ -299,6 +315,8 @@ const styles = StyleSheet.create({
     },
     clearBtn: {
         backgroundColor: '#8E225D',
+        elevation: 5,
+
     },
     buttonText: {
         color: 'white',
@@ -337,16 +355,26 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     input: {
-        borderWidth: 1.5,
-        borderColor: '#af3e76',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 20,
+        borderWidth: 2,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 10,
         fontFamily: 'SourceCodePro-Regular',
-        color: 'black',
+        color: '#333',
+        backgroundColor: '#fff',
+        shadowColor: '#af3e76',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     statusInput: {
         padding: 0,
+        fontFamily: 'SourceCodePro-Regular',
     },
     modalContainer: {
         flex: 1,
@@ -366,6 +394,7 @@ const styles = StyleSheet.create({
         color: 'black',
         marginBottom: 1,
         fontFamily: 'SourceCodePro-Medium',
+        marginStart: 5,
     },
 });
 

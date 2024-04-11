@@ -10,23 +10,23 @@
 10
 11    <!-- Add the VIBRATE permission -->
 12    <uses-permission android:name="android.permission.VIBRATE" />
-12-->D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml:6:5-66
-12-->D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml:6:22-63
+12-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\debug\AndroidManifest.xml:6:5-66
+12-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\debug\AndroidManifest.xml:6:22-63
 13    <uses-permission android:name="android.permission.INTERNET" />
-13-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:3:5-67
-13-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:3:22-64
+13-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:3:5-67
+13-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:3:22-64
 14    <uses-permission android:name="android.permission.WAKE_LOCK" />
-14-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-68
-14-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:22-65
+14-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-68
+14-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:22-65
 15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-15-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-79
-15-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-76
+15-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-79
+15-->[:react-native-firebase_auth] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\auth\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-76
 16    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-16-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-77
-16-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:22-74
+16-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-77
+16-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:22-74
 17    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
-17-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-92
-17-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-89
+17-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-92
+17-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-89
 18    <!--
 19    This manifest file is used only by Gradle to configure debug-only capabilities
 20    for React Native Apps.
@@ -66,72 +66,72 @@
 36    </queries>
 37
 38    <application
-38-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:5:5-24:19
+38-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:5:5-24:19
 39        android:name="com.myapp.MainApplication"
-39-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:6:7-38
+39-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:6:7-38
 40        android:allowBackup="false"
-40-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:10:7-34
+40-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:10:7-34
 41        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 41-->[androidx.core:core:1.9.0] C:\Users\Joci\.gradle\caches\transforms-3\13659b94c66de92d98d7f8af61234b95\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
 42        android:debuggable="true"
 43        android:extractNativeLibs="true"
 44        android:icon="@mipmap/ic_launcher"
-44-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:8:7-41
+44-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:8:7-41
 45        android:label="@string/app_name"
-45-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:7:7-39
+45-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:7:7-39
 46        android:roundIcon="@mipmap/ic_launcher_round"
-46-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:9:7-52
+46-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:9:7-52
 47        android:theme="@style/AppTheme"
-47-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:11:7-38
+47-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:11:7-38
 48        android:usesCleartextTraffic="true" >
-48-->D:\Users\Joci\ReactNative\myApp\android\app\src\debug\AndroidManifest.xml:9:9-44
+48-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\debug\AndroidManifest.xml:9:9-44
 49        <activity
-49-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:12:7-23:18
+49-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:12:7-23:18
 50            android:name="com.myapp.MainActivity"
-50-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:13:9-37
+50-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:13:9-37
 51            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
-51-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:15:9-118
+51-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:15:9-118
 52            android:exported="true"
-52-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:18:9-32
+52-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:18:9-32
 53            android:label="@string/app_name"
-53-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:14:9-41
+53-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:14:9-41
 54            android:launchMode="singleTask"
-54-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:16:9-40
+54-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:16:9-40
 55            android:windowSoftInputMode="adjustResize" >
-55-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:17:9-51
+55-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:17:9-51
 56            <intent-filter>
-56-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:19:9-22:25
+56-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:19:9-22:25
 57                <action android:name="android.intent.action.MAIN" />
-57-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:20:13-65
-57-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:20:21-62
+57-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:20:13-65
+57-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:20:21-62
 58
 59                <category android:name="android.intent.category.LAUNCHER" />
-59-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:21:13-73
-59-->D:\Users\Joci\ReactNative\myApp\android\app\src\main\AndroidManifest.xml:21:23-70
+59-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:21:13-73
+59-->D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\android\app\src\main\AndroidManifest.xml:21:23-70
 60            </intent-filter>
 61        </activity>
 62
 63        <meta-data
-63-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:9-11:36
+63-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:9-11:36
 64            android:name="app_data_collection_default_enabled"
-64-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:13-63
+64-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:13-63
 65            android:value="true" />
-65-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-33
+65-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-33
 66
 67        <service
-67-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:9-21:19
+67-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:9-21:19
 68            android:name="com.google.firebase.components.ComponentDiscoveryService"
-68-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-84
+68-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-84
 69            android:directBootAware="true"
-69-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-43
+69-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-43
 70            android:exported="false" >
-70-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-37
+70-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-37
 71            <meta-data
-71-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-20:85
+71-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-20:85
 72                android:name="com.google.firebase.components:io.invertase.firebase.app.ReactNativeFirebaseAppRegistrar"
-72-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:19:17-120
+72-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:19:17-120
 73                android:value="com.google.firebase.components.ComponentRegistrar" />
-73-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:20:17-82
+73-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:20:17-82
 74            <meta-data
 74-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\Joci\.gradle\caches\transforms-3\33e370a4ca83a27cf39eb919b2a54a76\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:69:13-71:85
 75                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
@@ -153,30 +153,30 @@
 83        </service>
 84
 85        <provider
-85-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:23:9-27:38
+85-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:23:9-27:38
 86            android:name="io.invertase.firebase.app.ReactNativeFirebaseAppInitProvider"
-86-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:24:13-88
+86-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:24:13-88
 87            android:authorities="com.myapp.reactnativefirebaseappinitprovider"
-87-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:25:13-86
+87-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:25:13-86
 88            android:exported="false"
-88-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:13-37
+88-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:13-37
 89            android:initOrder="99" /> <!-- The main service, handles playback, playlists and media buttons -->
-89-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\myApp\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:13-35
+89-->[:react-native-firebase_app] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:13-35
 90        <service
-90-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:9-22:19
+90-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:9-22:19
 91            android:name="com.doublesymmetry.trackplayer.service.MusicService"
-91-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-79
+91-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-79
 92            android:enabled="true"
-92-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-35
+92-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-35
 93            android:exported="true"
-93-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-36
+93-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-36
 94            android:foregroundServiceType="mediaPlayback" >
-94-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-58
+94-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-58
 95            <intent-filter>
-95-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:19:13-21:29
+95-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:19:13-21:29
 96                <action android:name="android.intent.action.MEDIA_BUTTON" />
-96-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:20:17-77
-96-->[:react-native-track-player] D:\Users\Joci\ReactNative\myApp\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:20:25-74
+96-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:20:17-77
+96-->[:react-native-track-player] D:\Users\Joci\ReactNative\FinalProject\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:20:25-74
 97            </intent-filter>
 98        </service>
 99

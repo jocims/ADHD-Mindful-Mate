@@ -21,59 +21,6 @@
                     }
                 },
                 {
-                    "source": "D:\\Users\\Joci\\ReactNative\\myApp\\android\\app\\src\\main\\res\\values\\strings.xml",
-                    "from": {
-                        "startLines": "1",
-                        "startColumns": "4",
-                        "startOffsets": "16",
-                        "endColumns": "42",
-                        "endOffsets": "54"
-                    },
-                    "to": {
-                        "startLines": "2128",
-                        "startColumns": "4",
-                        "startOffsets": "139945",
-                        "endColumns": "42",
-                        "endOffsets": "139983"
-                    }
-                },
-                {
-                    "source": "D:\\Users\\Joci\\ReactNative\\myApp\\android\\app\\build\\generated\\res\\resValues\\debug\\values\\gradleResValues.xml",
-                    "from": {
-                        "startLines": "6,8",
-                        "startColumns": "4,4",
-                        "startOffsets": "159,265",
-                        "endColumns": "63,68",
-                        "endOffsets": "218,329"
-                    },
-                    "to": {
-                        "startLines": "2082,2083",
-                        "startColumns": "4,4",
-                        "startOffsets": "136674,136738",
-                        "endColumns": "63,68",
-                        "endOffsets": "136733,136802"
-                    }
-                },
-                {
-                    "source": "D:\\Users\\Joci\\ReactNative\\myApp\\node_modules\\react-native-date-picker\\android\\build\\intermediates\\packaged_res\\debug\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,16,19,27",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "100,158,215,270,327,371,434,483,542,598,643,700,823,909,1276",
-                        "endLines": "2,3,4,5,6,7,8,9,10,11,12,15,18,26,29",
-                        "endColumns": "57,56,54,56,43,62,48,58,55,44,56,12,12,12,12",
-                        "endOffsets": "153,210,265,322,366,429,478,537,593,638,695,818,904,1271,1402"
-                    },
-                    "to": {
-                        "startLines": "2126,2187,2188,2257,2258,2304,2305,2306,2375,2409,2412,5800,5803,9657,9665",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "139804,147409,147466,152957,153014,158995,159058,159107,169646,173655,174051,409741,409864,668445,668812",
-                        "endLines": "2126,2187,2188,2257,2258,2304,2305,2306,2375,2409,2412,5802,5805,9664,9667",
-                        "endColumns": "57,56,54,56,43,62,48,58,55,44,56,12,12,12,12",
-                        "endOffsets": "139857,147461,147516,153009,153053,159053,159102,159161,169697,173695,174103,409859,409945,668807,668938"
-                    }
-                },
-                {
                     "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\095a0e95a3b97bffb68b6823a94aa0c4\\transformed\\browser-1.4.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11",
@@ -324,6 +271,42 @@
                     }
                 },
                 {
+                    "source": "D:\\Users\\Joci\\ReactNative\\FinalProject\\ADHD-Mindful-Mate\\node_modules\\react-native-track-player\\android\\build\\intermediates\\packaged_res\\debug\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,132",
+                        "endColumns": "76,73",
+                        "endOffsets": "127,201"
+                    },
+                    "to": {
+                        "startLines": "2387,2388",
+                        "startColumns": "4,4",
+                        "startOffsets": "170991,171068",
+                        "endColumns": "76,73",
+                        "endOffsets": "171063,171137"
+                    }
+                },
+                {
+                    "source": "D:\\Users\\Joci\\ReactNative\\FinalProject\\ADHD-Mindful-Mate\\node_modules\\react-native-date-picker\\android\\build\\intermediates\\packaged_res\\debug\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,16,19,27",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "100,158,215,270,327,371,434,483,542,598,643,700,823,909,1276",
+                        "endLines": "2,3,4,5,6,7,8,9,10,11,12,15,18,26,29",
+                        "endColumns": "57,56,54,56,43,62,48,58,55,44,56,12,12,12,12",
+                        "endOffsets": "153,210,265,322,366,429,478,537,593,638,695,818,904,1271,1402"
+                    },
+                    "to": {
+                        "startLines": "2126,2187,2188,2257,2258,2304,2305,2306,2375,2409,2412,5800,5803,9657,9665",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "139804,147409,147466,152957,153014,158995,159058,159107,169646,173655,174051,409741,409864,668445,668812",
+                        "endLines": "2126,2187,2188,2257,2258,2304,2305,2306,2375,2409,2412,5802,5805,9664,9667",
+                        "endColumns": "57,56,54,56,43,62,48,58,55,44,56,12,12,12,12",
+                        "endOffsets": "139857,147461,147516,153009,153053,159053,159102,159161,169697,173695,174103,409859,409945,668807,668938"
+                    }
+                },
+                {
                     "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\061d078e19c3ae7d999b8bf4f4fbd3f7\\transformed\\jetified-appcompat-resources-1.6.1\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,18,24,34,50",
@@ -470,6 +453,23 @@
                     }
                 },
                 {
+                    "source": "D:\\Users\\Joci\\ReactNative\\FinalProject\\ADHD-Mindful-Mate\\android\\app\\build\\generated\\res\\resValues\\debug\\values\\gradleResValues.xml",
+                    "from": {
+                        "startLines": "6,8",
+                        "startColumns": "4,4",
+                        "startOffsets": "159,265",
+                        "endColumns": "63,68",
+                        "endOffsets": "218,329"
+                    },
+                    "to": {
+                        "startLines": "2082,2083",
+                        "startColumns": "4,4",
+                        "startOffsets": "136674,136738",
+                        "endColumns": "63,68",
+                        "endOffsets": "136733,136802"
+                    }
+                },
+                {
                     "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\b3aae516de8ada04cd390a9558584616\\transformed\\fragment-1.3.6\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5,10",
@@ -563,25 +563,6 @@
                     }
                 },
                 {
-                    "source": "D:\\Users\\Joci\\ReactNative\\myApp\\android\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "54",
-                        "endLines": "6",
-                        "endColumns": "12",
-                        "endOffsets": "267"
-                    },
-                    "to": {
-                        "startLines": "2442",
-                        "startColumns": "4",
-                        "startOffsets": "176146",
-                        "endLines": "2445",
-                        "endColumns": "12",
-                        "endOffsets": "176324"
-                    }
-                },
-                {
                     "source": "C:\\Users\\Joci\\.gradle\\caches\\transforms-3\\3654b9bbfdbd41fe51e0fe8f434ed88a\\transformed\\recyclerview-1.3.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
@@ -598,6 +579,25 @@
                         "endLines": "468,1162,1163,1164,1172,1173,1174,1939,12405",
                         "endColumns": "55,58,47,55,74,75,71,65,24",
                         "endOffsets": "23666,69551,69599,69655,70341,70417,70489,128296,786428"
+                    }
+                },
+                {
+                    "source": "D:\\Users\\Joci\\ReactNative\\FinalProject\\ADHD-Mindful-Mate\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "57",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "273"
+                    },
+                    "to": {
+                        "startLines": "2442",
+                        "startColumns": "4",
+                        "startOffsets": "176146",
+                        "endLines": "2445",
+                        "endColumns": "12",
+                        "endOffsets": "176324"
                     }
                 },
                 {
@@ -654,20 +654,20 @@
                     }
                 },
                 {
-                    "source": "D:\\Users\\Joci\\ReactNative\\myApp\\node_modules\\react-native-track-player\\android\\build\\intermediates\\packaged_res\\debug\\values\\values.xml",
+                    "source": "D:\\Users\\Joci\\ReactNative\\FinalProject\\ADHD-Mindful-Mate\\android\\app\\src\\main\\res\\values\\strings.xml",
                     "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,132",
-                        "endColumns": "76,73",
-                        "endOffsets": "127,201"
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "17",
+                        "endColumns": "42",
+                        "endOffsets": "55"
                     },
                     "to": {
-                        "startLines": "2387,2388",
-                        "startColumns": "4,4",
-                        "startOffsets": "170991,171068",
-                        "endColumns": "76,73",
-                        "endOffsets": "171063,171137"
+                        "startLines": "2128",
+                        "startColumns": "4",
+                        "startOffsets": "139945",
+                        "endColumns": "42",
+                        "endOffsets": "139983"
                     }
                 },
                 {

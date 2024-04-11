@@ -226,7 +226,7 @@ const PatientDashboard = () => {
             <TouchableOpacity onPress={() => navigation.navigate('Journaling')}>
               <Image source={require('../journal.png')} style={styles.btnImage} />
             </TouchableOpacity>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => navigation.navigate('PatientRegistration')}>
               <Image source={require('../report.png')} style={styles.btnImage} />
             </TouchableOpacity>
           </View>

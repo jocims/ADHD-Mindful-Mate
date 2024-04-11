@@ -54,6 +54,7 @@ const ViewTasksScreen = () => {
         return (
             <View style={styles.selectedTaskContainer}>
                 <Text style={styles.selectedTaskDetails}>Description: {selectedTask.taskDescription}</Text>
+                <Text style={styles.selectedTaskDetails}>Start Date: {selectedTask.commecingDate}</Text>
                 <Text style={styles.selectedTaskDetails}>Deadline: {formattedDeadline}</Text>
                 <Text style={styles.selectedTaskDetails}>Status: {selectedTask.taskStatus}</Text>
                 {/* Conditionally render completion date */}
@@ -170,39 +171,6 @@ const ViewTasksScreen = () => {
                 </TouchableOpacity>
             );
         });
-    };
-
-    const handleDeleteTask = async (taskId) => {
-        console.log('Attempting to delete task with ID:', taskId);
-        try {
-            const userDocRef = doc(db, 'patient', auth.currentUser.uid);
-            const userDocSnap = await getDoc(userDocRef);
-            if (userDocSnap.exists()) {
-                const userData = userDocSnap.data();
-                const weeklyTasks = userData.WeeklyTasks || {};
-
-                // Check if the task exists in the WeeklyTasks object
-                if (weeklyTasks.hasOwnProperty(taskId)) {
-                    // Remove the task using the task ID
-                    delete weeklyTasks[taskId];
-                    // Update the Firestore document with the modified WeeklyTasks object
-                    await updateDoc(userDocRef, { WeeklyTasks: weeklyTasks });
-                    console.log('Task deleted successfully.');
-                    alert('Task deleted successfully.');
-                    updateUserData({ uid: auth.currentUser.uid });
-                    setStart(false);
-                } else {
-                    console.log('Selected task not found in database.');
-                    alert('Selected task not found in database.');
-                }
-            } else {
-                console.log('User data not found in database.');
-                alert('User data not found in database.');
-            }
-        } catch (error) {
-            console.error('Error deleting task:', error);
-            alert('Error deleting task.');
-        }
     };
 
     // Function to calculate the width of the buttonTop based on task status
@@ -333,13 +301,10 @@ const ViewTasksScreen = () => {
                             )}
                         </View>
 
-
-                        <View style={styles.deleteContainer}>
-                            {selectedTask.taskStatus !== 'Completed' && (
-                                <TouchableOpacity onPress={() => handleDeleteTask(selectedTask.id)} style={styles.deleteBtn}>
-                                    <Text style={styles.deleteBtnText}>Delete Task</Text>
-                                </TouchableOpacity>
-                            )}
+                        <View style={styles.ViewTasksBtnContainer}>
+                            <TouchableOpacity style={styles.ViewTasksBtn} onPress={() => { setStart(false); }}>
+                                <Text style={styles.btnDashboardText}>View Tasks</Text>
+                            </TouchableOpacity>
                         </View>
                     </>
                 ) : (
@@ -374,7 +339,7 @@ const ViewTasksScreen = () => {
                         </View>
 
                         {/* Task container */}
-                        <ScrollView style={styles.taskContainer}>
+                        <ScrollView showsVerticalScrollIndicator={false} style={styles.taskContainer}>
                             {weekDates.map(date => {
                                 const tasksForDate = userData?.WeeklyTasks && Object.values(userData.WeeklyTasks).filter(task => {
                                     return isTaskForDate(task, date);
@@ -480,6 +445,8 @@ const styles = StyleSheet.create({
     },
     taskContainer: {
         padding: 10,
+        marginTop: 10,
+        marginBottom: 70,
     },
     taskButton: {
         width: '100%',
@@ -563,29 +530,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingBottom: 20, // Add some padding if necessary
     },
-    deleteContainer: {
+    ViewTasksBtnContainer: {
         position: 'absolute',
-        bottom: 20,
+        bottom: 70,
         width: '100%',
         paddingLeft: 40,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingBottom: 150, // Add some padding if necessary
-    },
-    deleteBtn: {
-        backgroundColor: '#5D507B',
-        padding: 10,
-        borderRadius: 5,
-        width: 150,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    deleteBtnText: {
-        fontSize: 15,
-        color: 'white',
-        textAlign: 'center',
-        fontFamily: 'SourceCodePro-Medium',
+        paddingBottom: 20, // Add some padding if necessary
     },
     btnDashboard: {
         backgroundColor: '#052458',
@@ -616,7 +568,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     button: {
-        backgroundColor: '#af3e76',
+        backgroundColor: '#8E225D',
         width: '50%',
         height: 61,
         alignItems: 'center',
@@ -626,6 +578,15 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 20,
         margin: 10,
+    },
+    ViewTasksBtn: {
+        backgroundColor: '#af3e76',
+        padding: 10,
+        borderRadius: 5,
+        width: 200,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     buttonText: {
         color: 'white',
