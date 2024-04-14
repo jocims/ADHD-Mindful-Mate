@@ -27,6 +27,8 @@ import com.henninghall.date_picker.DatePickerPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-svg
+import com.horcrux.svg.SvgPackage;
 // react-native-track-player
 import com.doublesymmetry.trackplayer.TrackPlayer;
 // react-native-vector-icons
@@ -84,6 +86,7 @@ public class PackageList {
       new DatePickerPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
+      new SvgPackage(),
       new TrackPlayer(),
       new VectorIconsPackage()
     ));

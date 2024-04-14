@@ -14,6 +14,7 @@ MERGED from [:react-native-picker_picker] D:\Users\Joci\ReactNative\ADHD-Mindful
 MERGED from [:react-native-date-picker] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:react-native-svg] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-svg\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-track-player] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-25:12
 MERGED from [:react-native-vector-icons] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-vector-icons\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.react:react-android:0.73.4] C:\Users\Joci\.gradle\caches\transforms-3\b4db2f23f2ab214a51186ce21dfe946e\transformed\jetified-react-android-0.73.4-debug\AndroidManifest.xml:2:1-24:12
@@ -291,6 +292,8 @@ MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\ADHD-Min
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-svg] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-svg\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-svg] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-svg\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-track-player] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-track-player] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-vector-icons] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-vector-icons\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44

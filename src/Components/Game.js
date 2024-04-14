@@ -45,7 +45,7 @@ const Game = () => {
     const [smallestTime, setSmallestTime] = useState(null); // State to store the smallest timeTaken value
     const [bestScore, setBestScore] = useState(null); // State to store the best score
     const navigation = useNavigation();
-
+    const [shapeClickStartTime, setShapeClickStartTime] = useState(0); // State to track the start time of each shape click
 
     const fetchBestScore = async () => {
         try {
@@ -69,10 +69,10 @@ const Game = () => {
 
     const handleStartGame = () => {
         setStart(true);
+        setStartTimer(new Date().getTime());
         setTimeTakenList([]);
         setSmallestTime(null);
         setTimeTaken(0);
-        setStartTimer(new Date().getTime());
         makeShapeAppear(); // Start the game directly
     };
 
@@ -85,6 +85,8 @@ const Game = () => {
         const width = Math.random() * 100 + 50;
         const borderRadius = Math.random() > 0.5 ? 50 : 0;
 
+        setShapeClickStartTime(new Date().getTime());
+
         setShapeStyle({
             ...shapeStyle,
             borderRadius,
@@ -95,8 +97,6 @@ const Game = () => {
             left,
             display: 'flex',
         });
-
-        setStartTimer(new Date().getTime());
     };
 
     useEffect(() => {
@@ -117,7 +117,7 @@ const Game = () => {
         });
 
         const end = new Date().getTime();
-        const taken = (end - startTimer) / 1000 / 60;
+        const taken = (end - shapeClickStartTime) / 1000;
         setTimeTaken(taken);
 
         setTimeTakenList([...timeTakenList, taken]);
@@ -128,8 +128,13 @@ const Game = () => {
     const handleEndGame = async () => {
         setStart(false);
         const endTime = new Date().getTime();
+        console.log('Start time:', startTimer);
+        console.log('End time:', endTime);
         setEndTimer(endTime);
-        const duration = (endTime - startTimer) / 10000;
+        const durationInSeconds = (endTime - startTimer) / 1000;
+        console.log('Duration in seconds: ', durationInSeconds);
+        const duration = Math.round((durationInSeconds / 60) * 100) / 100;
+        console.log('Duration in minutes: ', duration);
 
         const smallestTime = Math.min(...timeTakenList);
         setSmallestTime(smallestTime);
@@ -142,7 +147,7 @@ const Game = () => {
                 const data = {
                     [id]: {
                         id: id,
-                        gamePracticeScore: smallestTime.toFixed(2),
+                        gamePracticeScore: smallestTime.toFixed(3),
                         date: new Date().toLocaleDateString('en-GB'),
                         timeDurationOfPractice: duration.toFixed(2),
                         weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),

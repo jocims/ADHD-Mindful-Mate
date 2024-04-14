@@ -163,15 +163,17 @@ const DeepBreathing = () => {
     const handleMeditationEnd = async () => {
         setstartAudio(false);
         const endTime = new Date().getTime();
-        const duration = (endTime - startTimer) / 1000;
+        const duration = (endTime - startTimer) / 1000 / 60;
         try {
             await TrackPlayer.stop();
             const userDocRef = doc(db, 'patient', auth.currentUser.uid);
+            const id = Date.now().toString();
             const data = {
-                [Date.now().toString()]: {
+                [id]: {
+                    id: id,
                     timeDurationOfPractice: duration.toFixed(2),
-                    date: new Date().toISOString().split('T')[0],
-                    weekCommencing: getMonday(new Date()).toISOString().split('T')[0],
+                    date: new Date().toLocaleDateString('en-GB'),
+                    weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
                 },
             };
 

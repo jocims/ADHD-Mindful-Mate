@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, Image, Alert, Dimensions } from 'react-native';
 import { useUserData } from './UserDataManager';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { auth, db } from '../config/firebase';
 import { doc, updateDoc, FieldValue, getDoc, setDoc } from 'firebase/firestore'; // Import the necessary functions
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { LineChart, PieChart } from 'react-native-chart-kit';
 
 // Define the ViewTasksScreen component
 const WeeklyReport = () => {
@@ -19,7 +20,192 @@ const WeeklyReport = () => {
     const [selectedTask, setSelectedTask] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState('');
     const { updateUserData } = useUserData();
-    const [taskId, setTaskId] = useState(''); // Add taskId state variable
+    const gamePracticeData = {};
+    const gameScoreData = {};
+    const [moodChartData, setMoodChartData] = useState(null);
+
+    useEffect(() => {
+        if (userData && userData.MoodTracker) {
+            // Initialize mood count object
+            const moodCount = {
+                "Very Happy": 0,
+                "Happy": 0,
+                "Indifferent": 0,
+                "Sad": 0,
+                "Very Sad": 0
+            };
+
+            // Count mood occurrences
+            Object.values(userData.MoodTracker).forEach((entry) => {
+                const mood = entry.mood;
+                moodCount[mood]++;
+            });
+
+            // Define custom colors for each mood
+            const moodColors = {
+                "Very Happy": '#AF3E76',
+                "Happy": '#5F6EB5',
+                "Indifferent": '#0C5E51',
+                "Sad": '#053B90',
+                "Very Sad": '#D64F5D'
+            };
+
+            // Calculate percentages and assign colors
+            const totalEntries = Object.keys(userData.MoodTracker).length;
+            const moodChartData = Object.keys(moodCount).map((mood) => {
+                const percentage = (moodCount[mood] / totalEntries) * 100;
+                const formattedPercentage = parseFloat(percentage.toFixed(1)); // Ensure percentage is a float with one decimal point
+                return { name: '% ' + mood, percentage: formattedPercentage, color: moodColors[mood] };
+            });
+
+            setMoodChartData(moodChartData);
+            console.log("moodChartData:", JSON.stringify(moodChartData));
+        }
+    }, [userData]);
+
+    // Function to format date as "Mon", "Tue", etc.
+    const formatDate = (date) => {
+        const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const [day, month, year] = date.split("/");
+        const formattedDate = new Date(year, month - 1, day);
+        return dayNames[formattedDate.getDay()];
+    };
+
+    Object.values(userData.GamePractice).forEach((practice) => {
+        const date = practice.date;
+        const timeSpent = parseFloat(practice.timeDurationOfPractice);
+        const score = parseFloat(practice.gamePracticeScore); // Retrieve game score
+
+        // Convert date format to match the labels array format
+        const formattedDate = formatDate(date); // Use formatDate function
+
+        // Aggregate time spent
+        if (gamePracticeData[formattedDate]) {
+            gamePracticeData[formattedDate] += timeSpent;
+        } else {
+            gamePracticeData[formattedDate] = timeSpent;
+        }
+
+        // Track the best score of the day
+        if (!gameScoreData[formattedDate] || score > gameScoreData[formattedDate]) {
+            gameScoreData[formattedDate] = score;
+        }
+    });
+
+    // Prepare data for the duration graph
+    const gamePracticeChartData = {
+        labels: ["M", "T", "W", "T", "F", "S", "S"],
+        datasets: [
+            {
+                data: [
+                    gamePracticeData["Mon"] || 0,
+                    gamePracticeData["Tue"] || 0,
+                    gamePracticeData["Wed"] || 0,
+                    gamePracticeData["Thu"] || 0,
+                    gamePracticeData["Fri"] || 0,
+                    gamePracticeData["Sat"] || 0,
+                    gamePracticeData["Sun"] || 0
+                ],
+            },
+        ],
+    };
+
+    // Prepare data for the game score graph
+    const gameScoreChartData = {
+        labels: ["M", "T", "W", "T", "F", "S", "S"],
+        datasets: [
+            {
+                data: [
+                    gameScoreData["Mon"] || 0,
+                    gameScoreData["Tue"] || 0,
+                    gameScoreData["Wed"] || 0,
+                    gameScoreData["Thu"] || 0,
+                    gameScoreData["Fri"] || 0,
+                    gameScoreData["Sat"] || 0,
+                    gameScoreData["Sun"] || 0
+                ],
+            },
+        ],
+    };
+
+    const meditationData = {};
+    Object.values(userData.Meditation).forEach((meditation) => {
+        const date = meditation.date;
+        const duration = parseFloat(meditation.timeDurationOfPractice);
+
+        // Convert date format to match the labels array format
+        const formattedDate = formatDate(date);
+
+        // Aggregate duration
+        if (meditationData[formattedDate]) {
+            meditationData[formattedDate] += duration;
+        } else {
+            meditationData[formattedDate] = duration;
+        }
+    });
+
+    // Prepare data for meditation chart
+    const meditationChartData = {
+        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        datasets: [
+            {
+                data: [
+                    meditationData["Mon"] || 0,
+                    meditationData["Tue"] || 0,
+                    meditationData["Wed"] || 0,
+                    meditationData["Thu"] || 0,
+                    meditationData["Fri"] || 0,
+                    meditationData["Sat"] || 0,
+                    meditationData["Sun"] || 0
+                ],
+            },
+        ],
+    };
+
+    // Prepare data for Deep-Breathing chart
+    const deepBreathingData = {};
+    Object.values(userData.DeepBreathing).forEach((breathing) => {
+        const date = breathing.date;
+        const duration = parseFloat(breathing.timeDurationOfPractice);
+
+        // Convert date format to match the labels array format
+        const formattedDate = formatDate(date);
+
+        // Aggregate duration
+        if (deepBreathingData[formattedDate]) {
+            deepBreathingData[formattedDate] += duration;
+        } else {
+            deepBreathingData[formattedDate] = duration;
+        }
+    });
+
+    // Prepare data for Deep-Breathing chart
+    const deepBreathingChartData = {
+        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        datasets: [
+            {
+                data: [
+                    deepBreathingData["Mon"] || 0,
+                    deepBreathingData["Tue"] || 0,
+                    deepBreathingData["Wed"] || 0,
+                    deepBreathingData["Thu"] || 0,
+                    deepBreathingData["Fri"] || 0,
+                    deepBreathingData["Sat"] || 0,
+                    deepBreathingData["Sun"] || 0
+                ],
+            },
+        ],
+    };
+
+
+    const chartConfig = {
+        backgroundGradientFrom: "#ffffff",
+        backgroundGradientTo: "#ffffff",
+        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+        strokeWidth: 2, // Adjust as needed
+    };
+
+
 
     useEffect(() => {
         // Ensure that the updateUserData function is available
@@ -82,7 +268,57 @@ const WeeklyReport = () => {
         return deadlineComparison;
     };
 
-    // Render the component
+    const formattedTime = (timeInMinutes) => {
+        const minutes = Math.floor(timeInMinutes);
+        const seconds = Math.floor((timeInMinutes - minutes) * 60);
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+
+    const sortByDateAndTime = (a, b) => {
+        // Parse date strings to create Date objects
+        const datePartsA = a.date.split('/'); // Split date string by '/'
+        const dateA = new Date(`${datePartsA[2]}-${datePartsA[1]}-${datePartsA[0]} ${a.time}`); // Create Date object including time in YYYY-MM-DD HH:MM format
+
+        const datePartsB = b.date.split('/'); // Split date string by '/'
+        const dateB = new Date(`${datePartsB[2]}-${datePartsB[1]}-${datePartsB[0]} ${b.time}`); // Create Date object including time in YYYY-MM-DD HH:MM format
+
+        // Compare dates
+        if (dateA < dateB) {
+            return -1;
+        }
+        if (dateA > dateB) {
+            return 1;
+        }
+
+        // If dates are equal, compare times
+        const timeA = parseInt(a.time.replace(':', ''));
+        const timeB = parseInt(b.time.replace(':', ''));
+        return timeA - timeB;
+    };
+
+
+    const sortByDateAndDuration = (a, b) => {
+        // Parse date strings to create Date objects
+        const datePartsA = a.date.split('/'); // Split date string by '/'
+        const dateA = new Date(`${datePartsA[2]}-${datePartsA[1]}-${datePartsA[0]}`); // Create Date object in YYYY-MM-DD format
+
+        const datePartsB = b.date.split('/'); // Split date string by '/'
+        const dateB = new Date(`${datePartsB[2]}-${datePartsB[1]}-${datePartsB[0]}`); // Create Date object in YYYY-MM-DD format
+
+        // Compare dates
+        if (dateA < dateB) {
+            return -1;
+        }
+        if (dateA > dateB) {
+            return 1;
+        }
+
+        // If dates are equal, compare durations
+        const durationA = parseFloat(a.timeDurationOfPractice);
+        const durationB = parseFloat(b.timeDurationOfPractice);
+        return durationB - durationA; // Longer duration first
+    };
+
     return (
         <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
             <View style={styles.container}>
@@ -112,8 +348,8 @@ const WeeklyReport = () => {
                                 {userData && userData.WeeklyTasks && Object.values(userData.WeeklyTasks)
                                     .filter(task => task.weekCommencing === getMonday(selectedDate))
                                     .sort(customSort)
-                                    .map(task => (
-                                        <View key={task.id} style={[styles.taskRowContainer, styles.taskRowLine]}>
+                                    .map((task, index) => (
+                                        <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
                                             <Text style={styles.taskRowText}>{task.taskName}</Text>
                                             <Text style={styles.taskRowText}>{task.taskDescription}</Text>
                                             <Text style={styles.taskRowText}>{task.taskDeadline}</Text>
@@ -121,6 +357,7 @@ const WeeklyReport = () => {
                                             <Text style={styles.taskRowText}>{task.taskStatus}</Text>
                                         </View>
                                     ))}
+
                             </View>
                         )}
 
@@ -134,8 +371,9 @@ const WeeklyReport = () => {
                                     <Text style={styles.taskHeaderText}>Mood</Text>
                                 </View>
                                 {userData && userData.MoodTracker && Object.values(userData.MoodTracker)
-                                    .map(task => (
-                                        <View key={task.id} style={[styles.taskRowContainer, styles.taskRowLine]}>
+                                    .sort(sortByDateAndTime) // Sort by date and time
+                                    .map((task, index) => (
+                                        <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
                                             <Text style={styles.taskRowText}>{task.date}</Text>
                                             <Text style={styles.taskRowText}>{task.time}</Text>
                                             <Text style={styles.taskRowText}>{task.mood}</Text>
@@ -144,60 +382,158 @@ const WeeklyReport = () => {
                             </View>
                         )}
 
+                    {moodChartData && Object.values(userData.MoodTracker)
+                        .length > 0 && (
+                            <View style={styles.chartContainer}>
+                                <PieChart
+                                    data={moodChartData}
+                                    width={Dimensions.get("window").width * 0.9}
+                                    height={200}
+                                    chartConfig={{
+                                        backgroundColor: '#FFFFFF',
+                                        backgroundGradientFrom: '#FFFFFF',
+                                        backgroundGradientTo: '#FFFFFF',
+                                        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                    }}
+                                    accessor="percentage"
+                                    backgroundColor="transparent"
+                                    paddingLeft="15"
+                                    absolute
+                                />
+                            </View>
+                        )}
+
                     {userData && userData.GamePractice && Object.values(userData.GamePractice)
                         .length > 0 && (
-                            <View style={styles.taskDetailsContainer}>
-                                <Text style={styles.text1}>Anxiety-Relief Game Practice</Text>
-                                <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
-                                    <Text style={styles.taskHeaderText}>Date</Text>
-                                    <Text style={styles.taskHeaderText}>Duration (min)</Text>
-                                    <Text style={styles.taskHeaderText}>Best time</Text>
+                            <>
+                                <View style={styles.taskDetailsContainer}>
+                                    <Text style={styles.text1}>Anxiety-Relief Game Practice</Text>
+                                    <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
+                                        <Text style={styles.taskHeaderText}>Date</Text>
+                                        <Text style={styles.taskHeaderText}>Duration (min)</Text>
+                                        <Text style={styles.taskHeaderText}>Best time (sec)</Text>
+                                    </View>
+                                    {userData && userData.GamePractice && Object.values(userData.GamePractice)
+                                        .sort(sortByDateAndDuration) // Sort by date and duration
+                                        .map((task, index) => (
+                                            <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
+                                                <Text style={styles.taskRowText}>{task.date}</Text>
+                                                <Text style={styles.taskRowText}>{formattedTime(task.timeDurationOfPractice)}</Text>
+                                                <Text style={styles.taskRowText}>{task.gamePracticeScore}</Text>
+                                            </View>
+                                        ))}
                                 </View>
-                                {userData && userData.GamePractice && Object.values(userData.GamePractice)
-                                    .map(task => (
-                                        <View key={task.id} style={[styles.taskRowContainer, styles.taskRowLine]}>
-                                            <Text style={styles.taskRowText}>{task.date}</Text>
-                                            <Text style={styles.taskRowText}>{task.timeDurationOfPractice}</Text>
-                                            <Text style={styles.taskRowText}>{task.gamePracticeScore}</Text>
-                                        </View>
-                                    ))}
-                            </View>
+
+                                <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
+                                    <Text style={styles.taskHeaderText}>By Duration</Text>
+                                    <Text style={styles.taskHeaderText}>By Score</Text>
+                                </View>
+
+
+                                <View style={styles.chartContainer}>
+                                    <View style={styles.chart}>
+                                        <LineChart
+                                            data={gamePracticeChartData}
+                                            width={Dimensions.get("window").width * 0.45} // Adjust width to make the chart smaller
+                                            height={180}
+                                            chartConfig={chartConfig}
+                                            bezier
+                                            style={{
+                                                borderRadius: 16,
+                                                paddingLeft: 0, // Add some right padding to align the chart with the other chart
+                                                paddingRight: 50, // Add some right padding to align the chart with the other chart
+                                            }}
+                                            formatYLabel={(value) => formattedTime(value)} // Use the formattedTime function here
+                                        />
+                                    </View>
+                                    <View style={styles.chart}>
+                                        <LineChart
+                                            data={gameScoreChartData}
+                                            width={Dimensions.get("window").width * 0.45} // Adjust width to make the chart smaller
+                                            height={180}
+                                            chartConfig={chartConfig}
+                                            bezier
+                                            style={{
+                                                borderRadius: 16,
+                                                paddingLeft: 0, // Add some right padding to align the chart with the other chart
+                                                paddingRight: 50, // Add some right padding to align the chart with the other chart
+                                            }}
+                                        />
+                                    </View>
+                                </View>
+                            </>
                         )}
 
                     {userData && userData.Meditation && Object.values(userData.Meditation)
                         .length > 0 && (
-                            <View style={styles.taskDetailsContainer}>
-                                <Text style={styles.text1}>Meditation Practice</Text>
-                                <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
-                                    <Text style={styles.taskHeaderText}>Date</Text>
-                                    <Text style={styles.taskHeaderText}>Duration (min)</Text>
+                            <>
+                                <View style={styles.taskDetailsContainer}>
+                                    <Text style={styles.text1}>Meditation Practice</Text>
+                                    <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
+                                        <Text style={styles.taskHeaderText}>Date</Text>
+                                        <Text style={styles.taskHeaderText}>Duration (min)</Text>
+                                    </View>
+                                    {userData && userData.Meditation && Object.values(userData.Meditation)
+                                        .sort(sortByDateAndDuration) // Sort by date and duration
+                                        .map((task, index) => (
+                                            <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
+                                                <Text style={styles.taskRowText}>{task.date}</Text>
+                                                <Text style={styles.taskRowText}>{formattedTime(task.timeDurationOfPractice)}</Text>
+                                            </View>
+                                        ))}
                                 </View>
-                                {userData && userData.Meditation && Object.values(userData.Meditation)
-                                    .map(task => (
-                                        <View key={task.id} style={[styles.taskRowContainer, styles.taskRowLine]}>
-                                            <Text style={styles.taskRowText}>{task.date}</Text>
-                                            <Text style={styles.taskRowText}>{task.timeDurationOfPractice}</Text>
-                                        </View>
-                                    ))}
-                            </View>
+
+                                <View style={styles.chartContainer}>
+                                    <LineChart
+                                        data={meditationChartData} // Use the data for meditation here
+                                        width={Dimensions.get("window").width * 0.9} // Adjust width to make the chart smaller
+                                        height={300}
+                                        chartConfig={chartConfig}
+                                        bezier
+                                        style={{
+                                            borderRadius: 16,
+                                        }}
+                                        formatYLabel={(value) => formattedTime(value)} // Use the formattedTime function here
+                                    />
+                                </View>
+
+                            </>
                         )}
 
                     {userData && userData.DeepBreathing && Object.values(userData.DeepBreathing)
                         .length > 0 && (
-                            <View style={styles.taskDetailsContainer}>
-                                <Text style={styles.text1}>Deep-Breathing Exercises</Text>
-                                <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
-                                    <Text style={styles.taskHeaderText}>Date</Text>
-                                    <Text style={styles.taskHeaderText}>Duration (min)</Text>
+                            <>
+                                <View style={styles.taskDetailsContainer}>
+                                    <Text style={styles.text1}>Deep-Breathing Exercises</Text>
+                                    <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
+                                        <Text style={styles.taskHeaderText}>Date</Text>
+                                        <Text style={styles.taskHeaderText}>Duration (min)</Text>
+                                    </View>
+                                    {userData && userData.DeepBreathing && Object.values(userData.DeepBreathing)
+                                        .sort(sortByDateAndDuration) // Sort by date and duration
+                                        .map((task, index) => (
+                                            <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
+                                                <Text style={styles.taskRowText}>{task.date}</Text>
+                                                <Text style={styles.taskRowText}>{formattedTime(task.timeDurationOfPractice)}</Text>
+                                            </View>
+                                        ))}
                                 </View>
-                                {userData && userData.DeepBreathing && Object.values(userData.DeepBreathing)
-                                    .map(task => (
-                                        <View key={task.id} style={[styles.taskRowContainer, styles.taskRowLine]}>
-                                            <Text style={styles.taskRowText}>{task.date}</Text>
-                                            <Text style={styles.taskRowText}>{task.timeDurationOfPractice}</Text>
-                                        </View>
-                                    ))}
-                            </View>
+
+                                <View style={styles.chartContainer}>
+                                    <LineChart
+                                        data={deepBreathingChartData} // Use the data for Deep-Breathing here
+                                        width={Dimensions.get("window").width * 0.9} // Adjust width to make the chart smaller
+                                        height={300}
+                                        chartConfig={chartConfig}
+                                        bezier
+                                        style={{
+                                            borderRadius: 16,
+                                        }}
+                                        formatYLabel={(value) => formattedTime(value)} // Use the formattedTime function here
+                                    />
+                                </View>
+                            </>
                         )}
 
                     {userData && userData.Journaling && Object.values(userData.Journaling)
@@ -210,8 +546,8 @@ const WeeklyReport = () => {
                                     <Text style={styles.taskHeaderText}>Entry</Text>
                                 </View>
                                 {userData && userData.Journaling && Object.values(userData.Journaling)
-                                    .map(task => (
-                                        <View key={task.id} style={[styles.JournalingRowContainer, styles.taskRowLine]}>
+                                    .map((task, index) => (
+                                        <View key={task.id || index} style={[styles.JournalingRowContainer, styles.taskRowLine]}>
                                             <Text style={styles.taskRowText}>{task.date}</Text>
                                             <Text style={styles.taskRowText}>{task.time}</Text>
                                             <TouchableOpacity
@@ -225,7 +561,7 @@ const WeeklyReport = () => {
                                                         { cancelable: false }
                                                     );
                                                 }}
-                                                style={styles.viewEntryButton}
+                                                style={[styles.viewEntryButton, styles.taskRowText]}
                                             >
                                                 <Text style={styles.viewEntryButtonText}>View Entry</Text>
                                             </TouchableOpacity>
@@ -373,9 +709,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#8E225D',
     },
     viewEntryButton: {
-        backgroundColor: '#8E225D',
+        backgroundColor: '#af3e76',
         paddingVertical: 5,
-        paddingHorizontal: 5,
         borderRadius: 5,
         alignSelf: 'center',
     },
@@ -384,6 +719,20 @@ const styles = StyleSheet.create({
         fontFamily: 'SourceCodePro-Bold',
         fontSize: 12,
         textAlign: 'center',
+    },
+    chartContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10, // Add some top margin
+        marginStart: 15,
+        marginBottom: 20, // Add bottom margin to create space between the chart and screen edges
+    },
+    chart: {
+        flex: 1,
+        marginHorizontal: 5,
+        marginBottom: 20, // Add bottom margin to create space between the chart and screen edges
+        backgroundColor: '#FFFFFF', // Add a background color to separate the charts visually
+        borderRadius: 16, // Apply border radius to match the chart style
     },
 });
 
