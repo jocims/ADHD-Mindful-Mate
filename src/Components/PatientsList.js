@@ -14,6 +14,7 @@ const PatientsList = () => {
     const [patients, setPatients] = useState([]);
     const [originalPatients, setOriginalPatients] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const isDoctor = true;
 
 
     // Define fetchPatients outside of useEffect
@@ -70,7 +71,7 @@ const PatientsList = () => {
     const renderPatient = ({ item }) => (
         <TouchableOpacity
             style={styles.button}
-            onPress={() => console.log('Navigate to patient profile:', item.id)}
+            onPress={() => navigation.navigate('WeeklyReport', { patientToken: item.id, patientData: item, isDoctor: isDoctor })}
         >
             <Text style={styles.buttonText}>{item.User.firstName + " " + item.User.lastName}</Text>
         </TouchableOpacity>

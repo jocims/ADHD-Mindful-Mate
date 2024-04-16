@@ -4,11 +4,11 @@ import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { useUserData } from './UserDataManager';
 import SecretWordGame from './SecretWordGame'; // Import the SecretWordGame component
 
 
 const windowWidth = Dimensions.get('window').width;
-
 
 // Function to handle log out
 const handleLogout = async () => {
@@ -46,6 +46,13 @@ const Game = () => {
     const [bestScore, setBestScore] = useState(null); // State to store the best score
     const navigation = useNavigation();
     const [shapeClickStartTime, setShapeClickStartTime] = useState(0); // State to track the start time of each shape click
+    const { updateUserData } = useUserData();
+
+    const BackToDashboard = async () => {
+        // Update user data context
+        updateUserData({ uid: auth.currentUser.uid });
+        navigation.navigate('PatientDashboard');
+    };
 
     const fetchBestScore = async () => {
         try {
@@ -241,7 +248,7 @@ const Game = () => {
                     </>
                 )}
 
-                <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
+                <TouchableOpacity style={styles.btnDashboard} onPress={BackToDashboard}>
                     <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
                 </TouchableOpacity>
 

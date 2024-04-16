@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { useUserData } from './UserDataManager';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -18,7 +19,7 @@ const Meditation = () => {
     const navigation = useNavigation();
     const { position, duration } = useProgress();
     const [isPlayerInitialized, setIsPlayerInitialized] = useState(false);
-
+    const { updateUserData } = useUserData();
 
     const cleanup = async () => {
         try {
@@ -133,6 +134,9 @@ const Meditation = () => {
     const handleBackToDashboard = async () => {
         // Call cleanup function when navigating back to dashboard
         cleanup();
+
+        updateUserData({ uid: auth.currentUser.uid });
+
         navigation.navigate('PatientDashboard');
     };
 

@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { useUserData } from './UserDataManager';
+
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -12,6 +14,13 @@ const Journaling = () => {
     const [journalText, setJournalText] = useState('');
     const [prevText, setPrevText] = useState('');
     const navigation = useNavigation();
+    const { updateUserData } = useUserData();
+
+    const BackToDashboard = async () => {
+        // Update user data context
+        updateUserData({ uid: auth.currentUser.uid });
+        navigation.navigate('PatientDashboard');
+    };
 
     // Function to handle start of journaling
     const handleStart = () => {
@@ -138,7 +147,7 @@ const Journaling = () => {
                     </>
                 )}
 
-                <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
+                <TouchableOpacity style={styles.btnDashboard} onPress={BackToDashboard}>
                     <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
                 </TouchableOpacity>
             </View>

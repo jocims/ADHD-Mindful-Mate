@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import breathingGif from '../breathing.gif';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
+import { useUserData } from './UserDataManager';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -19,6 +20,7 @@ const DeepBreathing = () => {
     const { position, duration } = useProgress();
     const [isPlayerInitialized, setIsPlayerInitialized] = useState(false);
     const [selectedMeditation, setSelectedMeditation] = useState(null);
+    const { updateUserData } = useUserData();
 
     const cleanup = async () => {
         try {
@@ -97,6 +99,9 @@ const DeepBreathing = () => {
     const handleBackToDashboard = async () => {
         // Call cleanup function when navigating back to dashboard
         cleanup();
+
+        updateUserData({ uid: auth.currentUser.uid });
+
         navigation.navigate('PatientDashboard');
     };
 
@@ -279,7 +284,7 @@ const DeepBreathing = () => {
                     </>
                 )}
 
-                <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
+                <TouchableOpacity style={styles.btnDashboard} onPress={handleBackToDashboard}>
                     <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
                 </TouchableOpacity>
 

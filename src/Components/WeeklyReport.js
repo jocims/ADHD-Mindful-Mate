@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, Image, Alert, Dimensions } from 'react-native';
-import { useUserData } from './UserDataManager';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { auth, db } from '../config/firebase';
 import { doc, updateDoc, FieldValue, getDoc, setDoc } from 'firebase/firestore'; // Import the necessary functions
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { LineChart, PieChart } from 'react-native-chart-kit';
+
 
 // Define the ViewTasksScreen component
 const WeeklyReport = () => {
@@ -15,21 +15,27 @@ const WeeklyReport = () => {
     const [start, setStart] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [weekDates, setWeekDates] = useState([]);
-    const { userData } = useUserData();
     const [taskFilter, setTaskFilter] = useState('alphabetical');
     const [selectedTask, setSelectedTask] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState('');
-    const { updateUserData } = useUserData();
     const [moodChartData, setMoodChartData] = useState(null);
     const [taskChartData, setTaskChartData] = useState(null);
+    const route = useRoute();
+    const patientToken = route.params?.patientToken;
+    const { patientData } = route.params;
+    const isDoctor = route.params?.isDoctor;
     const gamePracticeData = {};
     const gameScoreData = {};
     const meditationData = {};
     const deepBreathingData = {};
+    const [deepBreathingChartData, setDeepBreathingChartData] = useState(null);
+    const [gamePracticeChartData, setGamePracticeChartData] = useState(null);
+    const [gameScoreChartData, setGameScoreChartData] = useState(null);
+    const [meditationChartData, setMeditationChartData] = useState(null);
 
     useEffect(() => {
-        if (userData && userData.WeeklyTasks) {
-            const filteredWeeklyTasks = Object.values(userData.WeeklyTasks)
+        if (patientData && patientData.WeeklyTasks) {
+            const filteredWeeklyTasks = Object.values(patientData.WeeklyTasks)
                 .filter(task => task.weekCommencing >= getMonday(selectedDate));
 
             // Initialize task status count object
@@ -65,13 +71,13 @@ const WeeklyReport = () => {
             setTaskChartData(taskChartData);
             console.log("taskChartData:", JSON.stringify(taskChartData));
         }
-    }, [userData]);
+    }, [patientData]);
 
 
 
     useEffect(() => {
-        if (userData && userData.MoodTracker) {
-            const filteredMoodTrackerData = Object.values(userData.MoodTracker)
+        if (patientData && patientData.MoodTracker) {
+            const filteredMoodTrackerData = Object.values(patientData.MoodTracker)
                 .filter(task => task.weekCommencing >= getMonday(selectedDate));
 
             // Initialize mood count object
@@ -109,143 +115,196 @@ const WeeklyReport = () => {
             setMoodChartData(moodChartData);
             console.log("moodChartData:", JSON.stringify(moodChartData));
         }
-    }, [userData, selectedDate]);
+    }, [patientData, selectedDate]);
 
-    // Filter game practice and score data by the selected week commencing date
-    const filteredGamePracticeData = Object.values(userData.GamePractice)
-        .filter(entry => entry.date >= getMonday(selectedDate));
+    useEffect(() => {
+        if (patientData && patientData.GamePractice) {
+            // Filter game practice and score data by the selected week commencing date
+            const filteredGamePracticeData = Object.values(patientData.GamePractice)
+                .filter(entry => entry.date >= getMonday(selectedDate));
 
-    // Aggregate game practice time and track the best score for each day
-    filteredGamePracticeData.forEach((practice) => {
-        const date = practice.date;
-        const timeSpent = parseFloat(practice.timeDurationOfPractice);
-        const score = parseFloat(practice.gamePracticeScore);
-        const formattedDate = formatDate(date);
+            // Initialize game practice and score data objects
+            const gamePracticeData = {
+                Mon: 0,
+                Tue: 0,
+                Wed: 0,
+                Thu: 0,
+                Fri: 0,
+                Sat: 0,
+                Sun: 0
+            };
+            const gameScoreData = {
+                Mon: 0,
+                Tue: 0,
+                Wed: 0,
+                Thu: 0,
+                Fri: 0,
+                Sat: 0,
+                Sun: 0
+            };
 
-        if (gamePracticeData[formattedDate]) {
-            gamePracticeData[formattedDate] += timeSpent;
-        } else {
-            gamePracticeData[formattedDate] = timeSpent;
-        }
+            // Aggregate game practice time and track the best score for each day
+            filteredGamePracticeData.forEach((practice) => {
+                const date = practice.date;
+                const timeSpent = parseFloat(practice.timeDurationOfPractice);
+                const score = parseFloat(practice.gamePracticeScore);
+                const formattedDate = formatDate(date);
 
-        if (!gameScoreData[formattedDate] || score > gameScoreData[formattedDate]) {
-            gameScoreData[formattedDate] = score;
-        }
-    });
+                gamePracticeData[formattedDate] += timeSpent;
 
-    // Prepare data for the duration graph
-    const gamePracticeChartData = {
-        labels: ["M", "T", "W", "T", "F", "S", "S"],
-        datasets: [
-            {
-                data: [
-                    gamePracticeData["Mon"] || 0,
-                    gamePracticeData["Tue"] || 0,
-                    gamePracticeData["Wed"] || 0,
-                    gamePracticeData["Thu"] || 0,
-                    gamePracticeData["Fri"] || 0,
-                    gamePracticeData["Sat"] || 0,
-                    gamePracticeData["Sun"] || 0
+                if (!gameScoreData[formattedDate] || score > gameScoreData[formattedDate]) {
+                    gameScoreData[formattedDate] = score;
+                }
+            });
+
+            // Prepare data for the duration graph
+            const gamePracticeChartData = {
+                labels: ["M", "T", "W", "T", "F", "S", "S"],
+                datasets: [
+                    {
+                        data: [
+                            gamePracticeData["Mon"] || 0,
+                            gamePracticeData["Tue"] || 0,
+                            gamePracticeData["Wed"] || 0,
+                            gamePracticeData["Thu"] || 0,
+                            gamePracticeData["Fri"] || 0,
+                            gamePracticeData["Sat"] || 0,
+                            gamePracticeData["Sun"] || 0
+                        ],
+                    },
                 ],
-            },
-        ],
-    };
+            };
 
-    // Prepare data for the game score graph
-    const gameScoreChartData = {
-        labels: ["M", "T", "W", "T", "F", "S", "S"],
-        datasets: [
-            {
-                data: [
-                    gameScoreData["Mon"] || 0,
-                    gameScoreData["Tue"] || 0,
-                    gameScoreData["Wed"] || 0,
-                    gameScoreData["Thu"] || 0,
-                    gameScoreData["Fri"] || 0,
-                    gameScoreData["Sat"] || 0,
-                    gameScoreData["Sun"] || 0
+            // Prepare data for the game score graph
+            const gameScoreChartData = {
+                labels: ["M", "T", "W", "T", "F", "S", "S"],
+                datasets: [
+                    {
+                        data: [
+                            gameScoreData["Mon"] || 0,
+                            gameScoreData["Tue"] || 0,
+                            gameScoreData["Wed"] || 0,
+                            gameScoreData["Thu"] || 0,
+                            gameScoreData["Fri"] || 0,
+                            gameScoreData["Sat"] || 0,
+                            gameScoreData["Sun"] || 0
+                        ],
+                    },
                 ],
-            },
-        ],
-    };
+            };
 
-
-    const filteredMeditation = Object.values(userData.Meditation)
-        .filter(entry => entry.date >= getMonday(selectedDate));
-
-    filteredMeditation.forEach((meditation) => {
-        const date = meditation.date;
-        const duration = parseFloat(meditation.timeDurationOfPractice);
-
-        // Convert date format to match the labels array format
-        const formattedDate = formatDate(date);
-
-        // Aggregate duration
-        if (meditationData[formattedDate]) {
-            meditationData[formattedDate] += duration;
-        } else {
-            meditationData[formattedDate] = duration;
+            // Set the state with the updated chart data
+            setGamePracticeChartData(gamePracticeChartData);
+            setGameScoreChartData(gameScoreChartData);
         }
-    });
+    }, [patientData, selectedDate]);
 
-    // Prepare data for meditation chart
-    const meditationChartData = {
-        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        datasets: [
-            {
-                data: [
-                    meditationData["Mon"] || 0,
-                    meditationData["Tue"] || 0,
-                    meditationData["Wed"] || 0,
-                    meditationData["Thu"] || 0,
-                    meditationData["Fri"] || 0,
-                    meditationData["Sat"] || 0,
-                    meditationData["Sun"] || 0
+
+    useEffect(() => {
+        if (patientData && patientData.Meditation) {
+            // Filter meditation data by the selected week commencing date
+            const filteredMeditation = Object.values(patientData.Meditation)
+                .filter(entry => entry.date >= getMonday(selectedDate));
+
+            // Initialize meditation data object
+            const meditationData = {
+                Mon: 0,
+                Tue: 0,
+                Wed: 0,
+                Thu: 0,
+                Fri: 0,
+                Sat: 0,
+                Sun: 0
+            };
+
+            // Aggregate meditation duration for each day
+            filteredMeditation.forEach((meditation) => {
+                const date = meditation.date;
+                const duration = parseFloat(meditation.timeDurationOfPractice);
+                const formattedDate = formatDate(date);
+
+                meditationData[formattedDate] += duration;
+            });
+
+            // Prepare data for meditation chart
+            const meditationChartData = {
+                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                datasets: [
+                    {
+                        data: [
+                            meditationData["Mon"] || 0,
+                            meditationData["Tue"] || 0,
+                            meditationData["Wed"] || 0,
+                            meditationData["Thu"] || 0,
+                            meditationData["Fri"] || 0,
+                            meditationData["Sat"] || 0,
+                            meditationData["Sun"] || 0
+                        ],
+                    },
                 ],
-            },
-        ],
-    };
+            };
 
-    console.log("meditationChartData:", JSON.stringify(meditationChartData));
+            // Set the state with the updated chart data
+            setMeditationChartData(meditationChartData);
 
-    const filteredDeepBreathing = Object.values(userData.DeepBreathing)
-        .filter(entry => entry.date >= getMonday(selectedDate));
-
-    console.log("filteredDeepBreathing:", JSON.stringify(filteredDeepBreathing));
-
-    // Prepare data for Deep-Breathing chart
-    filteredDeepBreathing.forEach((breathing) => {
-        const date = breathing.date;
-        const duration = parseFloat(breathing.timeDurationOfPractice);
-
-        // Convert date format to match the labels array format
-        const formattedDate = formatDate(date);
-
-        // Aggregate duration
-        if (deepBreathingData[formattedDate]) {
-            deepBreathingData[formattedDate] += duration;
-        } else {
-            deepBreathingData[formattedDate] = duration;
+            console.log("meditationChartData:", JSON.stringify(meditationChartData));
         }
-    });
+    }, [patientData, selectedDate]);
 
-    // Prepare data for Deep-Breathing chart
-    const deepBreathingChartData = {
-        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        datasets: [
-            {
-                data: [
-                    deepBreathingData["Mon"] || 0,
-                    deepBreathingData["Tue"] || 0,
-                    deepBreathingData["Wed"] || 0,
-                    deepBreathingData["Thu"] || 0,
-                    deepBreathingData["Fri"] || 0,
-                    deepBreathingData["Sat"] || 0,
-                    deepBreathingData["Sun"] || 0
+
+    useEffect(() => {
+        if (patientData && patientData.DeepBreathing) {
+            const filteredDeepBreathing = Object.values(patientData.DeepBreathing)
+                .filter(entry => entry.date >= getMonday(selectedDate));
+
+            console.log("filteredDeepBreathing:", JSON.stringify(filteredDeepBreathing));
+
+            // Initialize deep breathing data object
+            const deepBreathingData = {
+                Mon: 0,
+                Tue: 0,
+                Wed: 0,
+                Thu: 0,
+                Fri: 0,
+                Sat: 0,
+                Sun: 0
+            };
+
+            // Aggregate duration
+            filteredDeepBreathing.forEach((breathing) => {
+                const date = breathing.date;
+                const duration = parseFloat(breathing.timeDurationOfPractice);
+
+                // Convert date format to match the labels array format
+                const formattedDate = formatDate(date);
+
+                // Aggregate duration
+                deepBreathingData[formattedDate] += duration;
+            });
+
+            // Prepare data for Deep-Breathing chart
+            const deepBreathingChartData = {
+                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                datasets: [
+                    {
+                        data: [
+                            deepBreathingData["Mon"] || 0,
+                            deepBreathingData["Tue"] || 0,
+                            deepBreathingData["Wed"] || 0,
+                            deepBreathingData["Thu"] || 0,
+                            deepBreathingData["Fri"] || 0,
+                            deepBreathingData["Sat"] || 0,
+                            deepBreathingData["Sun"] || 0
+                        ],
+                    },
                 ],
-            },
-        ],
-    };
+            };
+
+            // Set the state with the updated chart data
+            setDeepBreathingChartData(deepBreathingChartData);
+        }
+    }, [patientData, selectedDate]);
+
 
 
     const chartConfig = {
@@ -254,16 +313,6 @@ const WeeklyReport = () => {
         color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
         strokeWidth: 2, // Adjust as needed
     };
-
-
-
-    useEffect(() => {
-        // Ensure that the updateUserData function is available
-        if (updateUserData) {
-            // Call the updateUserData function with the current user's UID
-            updateUserData({ uid: auth.currentUser.uid });
-        }
-    }, []);
 
     // Function to parse the deadline date string and return a Date object
     const parseDeadlineDate = (deadlineString) => {
@@ -364,101 +413,106 @@ const WeeklyReport = () => {
                         <Text style={styles.text}>Week Commencing: {getMonday(selectedDate)}</Text>
                     </View>
 
-                    {userData && userData.WeeklyTasks && Object.values(userData.WeeklyTasks)
+                    {patientData && patientData.WeeklyTasks && Object.values(patientData.WeeklyTasks)
                         .filter(task => task.weekCommencing >= getMonday(selectedDate))
                         .length > 0 && (
-                            <View style={styles.taskDetailsContainer}>
-                                <Text style={styles.text1}>Weekly Tasks</Text>
-                                <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
-                                    <Text style={styles.taskHeaderText}>Name</Text>
-                                    <Text style={styles.taskHeaderText}>Details</Text>
-                                    <Text style={styles.taskHeaderText}>Deadline</Text>
-                                    <Text style={styles.taskHeaderText}>Completed</Text>
-                                    <Text style={styles.taskHeaderText}>Status</Text>
-                                </View>
-                                {userData && userData.WeeklyTasks && Object.values(userData.WeeklyTasks)
-                                    .filter(task => task.weekCommencing >= getMonday(selectedDate))
-                                    .sort(customSort)
-                                    .map((task, index) => (
-                                        <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
-                                            <Text style={styles.taskRowText}>{task.taskName}</Text>
-                                            <Text style={styles.taskRowText}>{task.taskDescription}</Text>
-                                            <Text style={styles.taskRowText}>{task.taskDeadline}</Text>
-                                            <Text style={styles.taskRowText}>{task.taskDateCompleted}</Text>
-                                            <Text style={styles.taskRowText}>{task.taskStatus}</Text>
-                                        </View>
-                                    ))}
+                            <>
+                                <View style={styles.taskDetailsContainer}>
+                                    <Text style={styles.text1}>Weekly Tasks</Text>
+                                    <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
+                                        <Text style={styles.taskHeaderText}>Name</Text>
+                                        <Text style={styles.taskHeaderText}>Details</Text>
+                                        <Text style={styles.taskHeaderText}>Deadline</Text>
+                                        <Text style={styles.taskHeaderText}>Completed</Text>
+                                        <Text style={styles.taskHeaderText}>Status</Text>
+                                    </View>
+                                    {patientData && patientData.WeeklyTasks && Object.values(patientData.WeeklyTasks)
+                                        .filter(task => task.weekCommencing >= getMonday(selectedDate))
+                                        .sort(customSort)
+                                        .map((task, index) => (
+                                            <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
+                                                <Text style={styles.taskRowText}>{task.taskName}</Text>
+                                                <Text style={styles.taskRowText}>{task.taskDescription}</Text>
+                                                <Text style={styles.taskRowText}>{task.taskDeadline}</Text>
+                                                <Text style={styles.taskRowText}>{task.taskDateCompleted}</Text>
+                                                <Text style={styles.taskRowText}>{task.taskStatus}</Text>
+                                            </View>
+                                        ))}
 
-                            </View>
+                                </View>
+
+                                {taskChartData && Object.values(patientData.WeeklyTasks)
+                                    .length > 0 && (
+                                        <View style={styles.chartContainer}>
+                                            <PieChart
+                                                data={taskChartData}
+                                                width={Dimensions.get("window").width * 0.9}
+                                                height={200}
+                                                chartConfig={{
+                                                    backgroundColor: '#FFFFFF',
+                                                    backgroundGradientFrom: '#FFFFFF',
+                                                    backgroundGradientTo: '#FFFFFF',
+                                                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                                    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                                }}
+                                                accessor="percentage"
+                                                backgroundColor="transparent"
+                                                paddingLeft="15"
+                                                absolute
+                                            />
+                                        </View>
+                                    )}
+                            </>
                         )}
 
-                    {taskChartData && Object.values(userData.WeeklyTasks).length > 0 && (
-                        <View style={styles.chartContainer}>
-                            <PieChart
-                                data={taskChartData}
-                                width={Dimensions.get("window").width * 0.9}
-                                height={200}
-                                chartConfig={{
-                                    backgroundColor: '#FFFFFF',
-                                    backgroundGradientFrom: '#FFFFFF',
-                                    backgroundGradientTo: '#FFFFFF',
-                                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                                    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                                }}
-                                accessor="percentage"
-                                backgroundColor="transparent"
-                                paddingLeft="15"
-                                absolute
-                            />
-                        </View>
-                    )}
-
-                    {userData && userData.MoodTracker && Object.values(userData.MoodTracker)
+                    {patientData && patientData.MoodTracker && Object.values(patientData.MoodTracker)
                         .filter(entry => entry.date >= getMonday(selectedDate)) // Filter mood entries by week commencing date
                         .length > 0 && (
-                            <View style={styles.taskDetailsContainer}>
-                                <Text style={styles.text1}>Mood Tracker</Text>
-                                <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
-                                    <Text style={styles.taskHeaderText}>Date</Text>
-                                    <Text style={styles.taskHeaderText}>Time</Text>
-                                    <Text style={styles.taskHeaderText}>Mood</Text>
+                            <>
+                                <View style={styles.taskDetailsContainer}>
+                                    <Text style={styles.text1}>Mood Tracker</Text>
+                                    <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
+                                        <Text style={styles.taskHeaderText}>Date</Text>
+                                        <Text style={styles.taskHeaderText}>Time</Text>
+                                        <Text style={styles.taskHeaderText}>Mood</Text>
+                                    </View>
+                                    {patientData && patientData.MoodTracker && Object.values(patientData.MoodTracker)
+                                        .filter(entry => entry.date >= getMonday(selectedDate)) // Filter mood entries by week commencing date
+                                        .sort(sortByDateAndTime) // Sort by date and time
+                                        .map((task, index) => (
+                                            <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
+                                                <Text style={styles.taskRowText}>{task.date}</Text>
+                                                <Text style={styles.taskRowText}>{task.time}</Text>
+                                                <Text style={styles.taskRowText}>{task.mood}</Text>
+                                            </View>
+                                        ))}
                                 </View>
-                                {userData && userData.MoodTracker && Object.values(userData.MoodTracker)
-                                    .filter(entry => entry.date >= getMonday(selectedDate)) // Filter mood entries by week commencing date
-                                    .sort(sortByDateAndTime) // Sort by date and time
-                                    .map((task, index) => (
-                                        <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
-                                            <Text style={styles.taskRowText}>{task.date}</Text>
-                                            <Text style={styles.taskRowText}>{task.time}</Text>
-                                            <Text style={styles.taskRowText}>{task.mood}</Text>
+
+                                {moodChartData && Object.values(patientData.MoodTracker)
+                                    .length > 0 && (
+                                        <View style={styles.chartContainer}>
+                                            <PieChart
+                                                data={moodChartData}
+                                                width={Dimensions.get("window").width * 0.9}
+                                                height={200}
+                                                chartConfig={{
+                                                    backgroundColor: '#FFFFFF',
+                                                    backgroundGradientFrom: '#FFFFFF',
+                                                    backgroundGradientTo: '#FFFFFF',
+                                                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                                    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                                }}
+                                                accessor="percentage"
+                                                backgroundColor="transparent"
+                                                paddingLeft="15"
+                                                absolute
+                                            />
                                         </View>
-                                    ))}
-                            </View>
+                                    )}
+                            </>
                         )}
 
-                    {moodChartData && Object.values(userData.MoodTracker)
-                        .length > 0 && (
-                            <View style={styles.chartContainer}>
-                                <PieChart
-                                    data={moodChartData}
-                                    width={Dimensions.get("window").width * 0.9}
-                                    height={200}
-                                    chartConfig={{
-                                        backgroundColor: '#FFFFFF',
-                                        backgroundGradientFrom: '#FFFFFF',
-                                        backgroundGradientTo: '#FFFFFF',
-                                        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                                        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                                    }}
-                                    accessor="percentage"
-                                    backgroundColor="transparent"
-                                    paddingLeft="15"
-                                    absolute
-                                />
-                            </View>
-                        )}
-
-                    {userData && userData.GamePractice && Object.values(userData.GamePractice)
+                    {patientData && patientData.GamePractice && gamePracticeChartData && gameScoreChartData && Object.values(patientData.GamePractice)
                         .filter(practice => practice.date >= getMonday(selectedDate)) // Filter game practices by week commencing date
                         .length > 0 && (
                             <>
@@ -469,7 +523,7 @@ const WeeklyReport = () => {
                                         <Text style={styles.taskHeaderText}>Duration (min)</Text>
                                         <Text style={styles.taskHeaderText}>Best time (sec)</Text>
                                     </View>
-                                    {userData && userData.GamePractice && Object.values(userData.GamePractice)
+                                    {patientData && patientData.GamePractice && Object.values(patientData.GamePractice)
                                         .filter(practice => practice.date >= getMonday(selectedDate)) // Filter game practices by week commencing date
                                         .sort(sortByDateAndDuration) // Sort by date and duration
                                         .map((task, index) => (
@@ -521,7 +575,7 @@ const WeeklyReport = () => {
                             </>
                         )}
 
-                    {userData && userData.Meditation && Object.values(userData.Meditation)
+                    {patientData && patientData.Meditation && meditationChartData && Object.values(patientData.Meditation)
                         .filter(meditation => meditation.date >= getMonday(selectedDate)) // Filter meditations by week commencing date
                         .length > 0 && (
                             <>
@@ -531,7 +585,7 @@ const WeeklyReport = () => {
                                         <Text style={styles.taskHeaderText}>Date</Text>
                                         <Text style={styles.taskHeaderText}>Duration (min)</Text>
                                     </View>
-                                    {userData && userData.Meditation && Object.values(userData.Meditation)
+                                    {patientData && patientData.Meditation && Object.values(patientData.Meditation)
                                         .filter(meditation => meditation.date >= getMonday(selectedDate)) // Filter meditations by week commencing date
                                         .sort(sortByDateAndDuration) // Sort by date and duration
                                         .map((task, index) => (
@@ -559,7 +613,7 @@ const WeeklyReport = () => {
                             </>
                         )}
 
-                    {userData && userData.DeepBreathing && Object.values(userData.DeepBreathing)
+                    {patientData && patientData.DeepBreathing && deepBreathingChartData && Object.values(patientData.DeepBreathing)
                         .filter(breathing => breathing.date >= getMonday(selectedDate)) // Filter deep breathing exercises by week commencing date
                         .length > 0 && (
                             <>
@@ -569,7 +623,7 @@ const WeeklyReport = () => {
                                         <Text style={styles.taskHeaderText}>Date</Text>
                                         <Text style={styles.taskHeaderText}>Duration (min)</Text>
                                     </View>
-                                    {userData && userData.DeepBreathing && Object.values(userData.DeepBreathing)
+                                    {patientData && patientData.DeepBreathing && Object.values(patientData.DeepBreathing)
                                         .filter(breathing => breathing.date >= getMonday(selectedDate)) // Filter deep breathing exercises by week commencing date
                                         .sort(sortByDateAndDuration) // Sort by date and duration
                                         .map((task, index) => (
@@ -596,7 +650,7 @@ const WeeklyReport = () => {
                             </>
                         )}
 
-                    {userData && userData.Journaling && Object.values(userData.Journaling)
+                    {patientData && patientData.Journaling && Object.values(patientData.Journaling)
                         .filter(entry => entry.date >= getMonday(selectedDate)) // Filter journal entries by week commencing date
                         .length > 0 && (
                             <View style={styles.taskDetailsContainer}>
@@ -606,7 +660,7 @@ const WeeklyReport = () => {
                                     <Text style={styles.taskHeaderText}>Time</Text>
                                     <Text style={styles.taskHeaderText}>Entry</Text>
                                 </View>
-                                {userData && userData.Journaling && Object.values(userData.Journaling)
+                                {patientData && patientData.Journaling && Object.values(patientData.Journaling)
                                     .filter(entry => entry.date >= getMonday(selectedDate)) // Filter journal entries by week commencing date
                                     .sort(sortByDateAndTime) // Sort by date and time
                                     .map((task, index) => (
@@ -634,10 +688,11 @@ const WeeklyReport = () => {
                         )}
                 </ScrollView>
                 <View style={styles.dashboardBottomButtonContainer}>
-                    <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
+                    <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate(isDoctor ? 'DoctorDashboard' : 'PatientDashboard')}>
                         <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
                     </TouchableOpacity>
                 </View>
+
             </View>
         </ImageBackground>
     );

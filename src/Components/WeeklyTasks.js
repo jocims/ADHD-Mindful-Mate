@@ -132,6 +132,12 @@ const WeeklyTasks = () => {
         navigation.navigate('ViewTasksScreen');
     };
 
+    const BackToDashboard = async () => {
+        // Update user data context
+        updateUserData({ uid: auth.currentUser.uid });
+        navigation.navigate('PatientDashboard');
+    };
+
     return (
         <ScrollView contentContainerStyle={styles.scrollView}>
             <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
@@ -248,7 +254,7 @@ const WeeklyTasks = () => {
                         </>
                     )}
 
-                    <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
+                    <TouchableOpacity style={styles.btnDashboard} onPress={BackToDashboard}>
                         <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
                     </TouchableOpacity>
                 </View>

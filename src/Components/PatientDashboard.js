@@ -19,6 +19,14 @@ const PatientDashboard = () => {
   const [feelGoodMessage, setFeelGoodMessage] = useState('');
   const [isImageSelected, setIsImageSelected] = useState([false, false, false, false, false]);
   const [messageLength, setMessageLength] = useState(0);
+  const [patientData, setPatientData] = useState(null); // <-- Add this line
+  const isDoctor = false;
+  const { updateUserData } = useUserData();
+
+  useEffect(() => {
+    // Set the patientData state with the fetched userData
+    setPatientData(userData);
+  }, [userData]);
 
 
   useEffect(() => {
@@ -72,7 +80,6 @@ const PatientDashboard = () => {
 
     fetchSelectedEmoji();
   }, []);
-
 
   useEffect(() => {
     // console.log('User Data Changed:', userData);
@@ -166,6 +173,8 @@ const PatientDashboard = () => {
         await ReactNativeAsyncStorage.setItem('selectedEmoji', index.toString());
         await ReactNativeAsyncStorage.setItem('selectedEmojiDate', new Date().toISOString().split('T')[0]);
 
+        updateUserData({ uid: auth.currentUser.uid });
+
         // Check if one of the first three emojis is selected
         if (index < 3) {
           // Fetch a new feel-good message
@@ -234,7 +243,7 @@ const PatientDashboard = () => {
             <TouchableOpacity onPress={() => navigation.navigate('Journaling')}>
               <Image source={require('../journal.png')} style={styles.btnImage} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('WeeklyReport')}>
+            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('WeeklyReport', { patientToken: storedUserToken, patientData: patientData, isDoctor: isDoctor })}>
               <Image source={require('../report.png')} style={styles.btnImage} />
             </TouchableOpacity>
           </View>
