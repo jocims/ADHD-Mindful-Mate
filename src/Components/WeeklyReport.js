@@ -20,12 +20,60 @@ const WeeklyReport = () => {
     const [selectedTask, setSelectedTask] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState('');
     const { updateUserData } = useUserData();
+    const [moodChartData, setMoodChartData] = useState(null);
+    const [taskChartData, setTaskChartData] = useState(null);
     const gamePracticeData = {};
     const gameScoreData = {};
-    const [moodChartData, setMoodChartData] = useState(null);
+    const meditationData = {};
+    const deepBreathingData = {};
+
+    useEffect(() => {
+        if (userData && userData.WeeklyTasks) {
+            const filteredWeeklyTasks = Object.values(userData.WeeklyTasks)
+                .filter(task => task.weekCommencing >= getMonday(selectedDate));
+
+            // Initialize task status count object
+            const taskStatusCount = {
+                "Completed": 0,
+                "Created": 0,
+                "In Progress": 0,
+                "Started": 0,
+            };
+
+            // Count task statuses
+            filteredWeeklyTasks.forEach((task) => {
+                const status = task.taskStatus;
+                taskStatusCount[status]++;
+            });
+
+            // Define custom colors for each task status
+            const taskStatusColors = {
+                "Completed": '#0C5E51',
+                "Created": '#053B90',
+                "Started": '#D64F5D',
+                "In Progress": '#5F6EB5',
+            };
+
+            // Calculate percentages and assign colors
+            const totalTasks = filteredWeeklyTasks.length;
+            const taskChartData = Object.keys(taskStatusCount).map((status) => {
+                const percentage = (taskStatusCount[status] / totalTasks) * 100;
+                const formattedPercentage = parseFloat(percentage.toFixed(1)); // Ensure percentage is a float with one decimal point
+                return { name: '% ' + status, percentage: formattedPercentage, color: taskStatusColors[status] };
+            });
+
+            setTaskChartData(taskChartData);
+            console.log("taskChartData:", JSON.stringify(taskChartData));
+        }
+    }, [userData]);
+
+
 
     useEffect(() => {
         if (userData && userData.MoodTracker) {
+            const filteredMoodTrackerData = Object.values(userData.MoodTracker)
+                .filter(task => task.weekCommencing >= getMonday(selectedDate));
+
             // Initialize mood count object
             const moodCount = {
                 "Very Happy": 0,
@@ -36,7 +84,7 @@ const WeeklyReport = () => {
             };
 
             // Count mood occurrences
-            Object.values(userData.MoodTracker).forEach((entry) => {
+            filteredMoodTrackerData.forEach((entry) => {
                 const mood = entry.mood;
                 moodCount[mood]++;
             });
@@ -51,7 +99,7 @@ const WeeklyReport = () => {
             };
 
             // Calculate percentages and assign colors
-            const totalEntries = Object.keys(userData.MoodTracker).length;
+            const totalEntries = filteredMoodTrackerData.length;
             const moodChartData = Object.keys(moodCount).map((mood) => {
                 const percentage = (moodCount[mood] / totalEntries) * 100;
                 const formattedPercentage = parseFloat(percentage.toFixed(1)); // Ensure percentage is a float with one decimal point
@@ -61,32 +109,25 @@ const WeeklyReport = () => {
             setMoodChartData(moodChartData);
             console.log("moodChartData:", JSON.stringify(moodChartData));
         }
-    }, [userData]);
+    }, [userData, selectedDate]);
 
-    // Function to format date as "Mon", "Tue", etc.
-    const formatDate = (date) => {
-        const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        const [day, month, year] = date.split("/");
-        const formattedDate = new Date(year, month - 1, day);
-        return dayNames[formattedDate.getDay()];
-    };
+    // Filter game practice and score data by the selected week commencing date
+    const filteredGamePracticeData = Object.values(userData.GamePractice)
+        .filter(entry => entry.date >= getMonday(selectedDate));
 
-    Object.values(userData.GamePractice).forEach((practice) => {
+    // Aggregate game practice time and track the best score for each day
+    filteredGamePracticeData.forEach((practice) => {
         const date = practice.date;
         const timeSpent = parseFloat(practice.timeDurationOfPractice);
-        const score = parseFloat(practice.gamePracticeScore); // Retrieve game score
+        const score = parseFloat(practice.gamePracticeScore);
+        const formattedDate = formatDate(date);
 
-        // Convert date format to match the labels array format
-        const formattedDate = formatDate(date); // Use formatDate function
-
-        // Aggregate time spent
         if (gamePracticeData[formattedDate]) {
             gamePracticeData[formattedDate] += timeSpent;
         } else {
             gamePracticeData[formattedDate] = timeSpent;
         }
 
-        // Track the best score of the day
         if (!gameScoreData[formattedDate] || score > gameScoreData[formattedDate]) {
             gameScoreData[formattedDate] = score;
         }
@@ -128,8 +169,11 @@ const WeeklyReport = () => {
         ],
     };
 
-    const meditationData = {};
-    Object.values(userData.Meditation).forEach((meditation) => {
+
+    const filteredMeditation = Object.values(userData.Meditation)
+        .filter(entry => entry.date >= getMonday(selectedDate));
+
+    filteredMeditation.forEach((meditation) => {
         const date = meditation.date;
         const duration = parseFloat(meditation.timeDurationOfPractice);
 
@@ -162,9 +206,15 @@ const WeeklyReport = () => {
         ],
     };
 
+    console.log("meditationChartData:", JSON.stringify(meditationChartData));
+
+    const filteredDeepBreathing = Object.values(userData.DeepBreathing)
+        .filter(entry => entry.date >= getMonday(selectedDate));
+
+    console.log("filteredDeepBreathing:", JSON.stringify(filteredDeepBreathing));
+
     // Prepare data for Deep-Breathing chart
-    const deepBreathingData = {};
-    Object.values(userData.DeepBreathing).forEach((breathing) => {
+    filteredDeepBreathing.forEach((breathing) => {
         const date = breathing.date;
         const duration = parseFloat(breathing.timeDurationOfPractice);
 
@@ -214,24 +264,6 @@ const WeeklyReport = () => {
             updateUserData({ uid: auth.currentUser.uid });
         }
     }, []);
-
-
-    // Function to get the Monday date of the current week
-    const getMonday = (date) => {
-        const day = date.getDay();
-        const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-        const mondayDate = new Date(date.setDate(diff));
-
-        // Format the day with leading zero if less than 10
-        const formattedDay = String(mondayDate.getDate()).padStart(2, '0');
-        // Format the month with leading zero if less than 10
-        const formattedMonth = String(mondayDate.getMonth() + 1).padStart(2, '0');
-
-        // Format the Monday date as DD/MM/YYYY
-        const formattedMonday = `${formattedDay}/${formattedMonth}/${mondayDate.getFullYear()}`;
-
-        return formattedMonday;
-    };
 
     // Function to parse the deadline date string and return a Date object
     const parseDeadlineDate = (deadlineString) => {
@@ -333,8 +365,7 @@ const WeeklyReport = () => {
                     </View>
 
                     {userData && userData.WeeklyTasks && Object.values(userData.WeeklyTasks)
-                        .filter(task => task.weekCommencing === getMonday(selectedDate))
-                        .sort(customSort)
+                        .filter(task => task.weekCommencing >= getMonday(selectedDate))
                         .length > 0 && (
                             <View style={styles.taskDetailsContainer}>
                                 <Text style={styles.text1}>Weekly Tasks</Text>
@@ -346,7 +377,7 @@ const WeeklyReport = () => {
                                     <Text style={styles.taskHeaderText}>Status</Text>
                                 </View>
                                 {userData && userData.WeeklyTasks && Object.values(userData.WeeklyTasks)
-                                    .filter(task => task.weekCommencing === getMonday(selectedDate))
+                                    .filter(task => task.weekCommencing >= getMonday(selectedDate))
                                     .sort(customSort)
                                     .map((task, index) => (
                                         <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
@@ -361,7 +392,29 @@ const WeeklyReport = () => {
                             </View>
                         )}
 
+                    {taskChartData && Object.values(userData.WeeklyTasks).length > 0 && (
+                        <View style={styles.chartContainer}>
+                            <PieChart
+                                data={taskChartData}
+                                width={Dimensions.get("window").width * 0.9}
+                                height={200}
+                                chartConfig={{
+                                    backgroundColor: '#FFFFFF',
+                                    backgroundGradientFrom: '#FFFFFF',
+                                    backgroundGradientTo: '#FFFFFF',
+                                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                }}
+                                accessor="percentage"
+                                backgroundColor="transparent"
+                                paddingLeft="15"
+                                absolute
+                            />
+                        </View>
+                    )}
+
                     {userData && userData.MoodTracker && Object.values(userData.MoodTracker)
+                        .filter(entry => entry.date >= getMonday(selectedDate)) // Filter mood entries by week commencing date
                         .length > 0 && (
                             <View style={styles.taskDetailsContainer}>
                                 <Text style={styles.text1}>Mood Tracker</Text>
@@ -371,6 +424,7 @@ const WeeklyReport = () => {
                                     <Text style={styles.taskHeaderText}>Mood</Text>
                                 </View>
                                 {userData && userData.MoodTracker && Object.values(userData.MoodTracker)
+                                    .filter(entry => entry.date >= getMonday(selectedDate)) // Filter mood entries by week commencing date
                                     .sort(sortByDateAndTime) // Sort by date and time
                                     .map((task, index) => (
                                         <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
@@ -405,6 +459,7 @@ const WeeklyReport = () => {
                         )}
 
                     {userData && userData.GamePractice && Object.values(userData.GamePractice)
+                        .filter(practice => practice.date >= getMonday(selectedDate)) // Filter game practices by week commencing date
                         .length > 0 && (
                             <>
                                 <View style={styles.taskDetailsContainer}>
@@ -415,6 +470,7 @@ const WeeklyReport = () => {
                                         <Text style={styles.taskHeaderText}>Best time (sec)</Text>
                                     </View>
                                     {userData && userData.GamePractice && Object.values(userData.GamePractice)
+                                        .filter(practice => practice.date >= getMonday(selectedDate)) // Filter game practices by week commencing date
                                         .sort(sortByDateAndDuration) // Sort by date and duration
                                         .map((task, index) => (
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
@@ -466,6 +522,7 @@ const WeeklyReport = () => {
                         )}
 
                     {userData && userData.Meditation && Object.values(userData.Meditation)
+                        .filter(meditation => meditation.date >= getMonday(selectedDate)) // Filter meditations by week commencing date
                         .length > 0 && (
                             <>
                                 <View style={styles.taskDetailsContainer}>
@@ -475,6 +532,7 @@ const WeeklyReport = () => {
                                         <Text style={styles.taskHeaderText}>Duration (min)</Text>
                                     </View>
                                     {userData && userData.Meditation && Object.values(userData.Meditation)
+                                        .filter(meditation => meditation.date >= getMonday(selectedDate)) // Filter meditations by week commencing date
                                         .sort(sortByDateAndDuration) // Sort by date and duration
                                         .map((task, index) => (
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
@@ -502,6 +560,7 @@ const WeeklyReport = () => {
                         )}
 
                     {userData && userData.DeepBreathing && Object.values(userData.DeepBreathing)
+                        .filter(breathing => breathing.date >= getMonday(selectedDate)) // Filter deep breathing exercises by week commencing date
                         .length > 0 && (
                             <>
                                 <View style={styles.taskDetailsContainer}>
@@ -511,6 +570,7 @@ const WeeklyReport = () => {
                                         <Text style={styles.taskHeaderText}>Duration (min)</Text>
                                     </View>
                                     {userData && userData.DeepBreathing && Object.values(userData.DeepBreathing)
+                                        .filter(breathing => breathing.date >= getMonday(selectedDate)) // Filter deep breathing exercises by week commencing date
                                         .sort(sortByDateAndDuration) // Sort by date and duration
                                         .map((task, index) => (
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
@@ -537,6 +597,7 @@ const WeeklyReport = () => {
                         )}
 
                     {userData && userData.Journaling && Object.values(userData.Journaling)
+                        .filter(entry => entry.date >= getMonday(selectedDate)) // Filter journal entries by week commencing date
                         .length > 0 && (
                             <View style={styles.taskDetailsContainer}>
                                 <Text style={styles.text1}>Journal Entries</Text>
@@ -546,6 +607,8 @@ const WeeklyReport = () => {
                                     <Text style={styles.taskHeaderText}>Entry</Text>
                                 </View>
                                 {userData && userData.Journaling && Object.values(userData.Journaling)
+                                    .filter(entry => entry.date >= getMonday(selectedDate)) // Filter journal entries by week commencing date
+                                    .sort(sortByDateAndTime) // Sort by date and time
                                     .map((task, index) => (
                                         <View key={task.id || index} style={[styles.JournalingRowContainer, styles.taskRowLine]}>
                                             <Text style={styles.taskRowText}>{task.date}</Text>
@@ -578,7 +641,31 @@ const WeeklyReport = () => {
             </View>
         </ImageBackground>
     );
+};
 
+// Function to get the Monday date of the current week
+const getMonday = (date) => {
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+    const mondayDate = new Date(date.setDate(diff));
+
+    // Format the day with leading zero if less than 10
+    const formattedDay = String(mondayDate.getDate()).padStart(2, '0');
+    // Format the month with leading zero if less than 10
+    const formattedMonth = String(mondayDate.getMonth() + 1).padStart(2, '0');
+
+    // Format the Monday date as DD/MM/YYYY
+    const formattedMonday = `${formattedDay}/${formattedMonth}/${mondayDate.getFullYear()}`;
+
+    return formattedMonday;
+};
+
+// Function to format date as "Mon", "Tue", etc.
+const formatDate = (date) => {
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const [day, month, year] = date.split("/");
+    const formattedDate = new Date(year, month - 1, day);
+    return dayNames[formattedDate.getDay()];
 };
 
 // Styles

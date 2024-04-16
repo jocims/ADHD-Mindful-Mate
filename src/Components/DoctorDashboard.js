@@ -17,7 +17,7 @@ const DoctorDashboard = () => {
         const storedToken = await ReactNativeAsyncStorage.getItem('userToken');
         setStoredUserToken(storedToken);
 
-        if (storedToken === null && userData && userData.isDoctor) {
+        if (storedToken === null && userData && userData.User.isDoctor) {
           await ReactNativeAsyncStorage.setItem('userToken', userData.uid);
           setStoredUserToken(userData.uid);
         }
@@ -59,7 +59,7 @@ const DoctorDashboard = () => {
         <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PatientRegistration')}>
           <Text style={styles.btnText}>Register new Patient</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btn} >
+        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PatientsList', { userToken: storedUserToken })}>
           <Text style={styles.btnText}>Patient's List</Text>
         </TouchableOpacity>
       </ScrollView>
