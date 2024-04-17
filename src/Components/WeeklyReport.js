@@ -400,6 +400,19 @@ const WeeklyReport = () => {
         return durationB - durationA; // Longer duration first
     };
 
+    const formattedMobileNo = (mobileNo) => {
+        // Remove all non-numeric characters from the mobile number
+        const numericMobileNo = mobileNo.replace(/\D/g, '');
+
+        // Check if the numericMobileNo is empty or null
+        if (!numericMobileNo) return '';
+
+        // Format the mobile number as (XXX) XXX-XXXX
+        const formattedMobileNo = `(${numericMobileNo.substring(0, 3)}) ${numericMobileNo.substring(3, 6)}-${numericMobileNo.substring(6, 10)}`;
+
+        return formattedMobileNo;
+    };
+
     return (
         <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
             <View style={styles.container}>
@@ -412,6 +425,34 @@ const WeeklyReport = () => {
                         <Text style={styles.introduction}>Weekly Report</Text>
                         <Text style={styles.text}>Week Commencing: {getMonday(selectedDate)}</Text>
                     </View>
+                    {isDoctor && patientData && (
+                        <View style={styles.personalDetails}>
+                            <View style={styles.personalDetailsRow}>
+                                <Text style={styles.labelName}>Patient Name: </Text>
+                                <Text style={styles.labelValue}>{patientData.User.firstName + " " + patientData.User.lastName}</Text>
+                            </View>
+                            <View style={styles.personalDetailsRow}>
+                                <Text style={styles.labelName}>Date of Birth: </Text>
+                                <Text style={styles.labelValue}>{patientData.User.dob}</Text>
+                            </View>
+                            <View style={styles.personalDetailsRow}>
+                                <Text style={styles.labelName}>Gender: </Text>
+                                <Text style={styles.labelValue}>{patientData.User.gender}</Text>
+                            </View>
+                            <View style={styles.personalDetailsRow}>
+                                <Text style={styles.labelName}>Weight: </Text>
+                                <Text style={styles.labelValue}>{patientData.User.weight}Kg</Text>
+                            </View>
+                            <View style={styles.personalDetailsRow}>
+                                <Text style={styles.labelName}>Mobile Number: </Text>
+                                <Text style={styles.labelValue}>{formattedMobileNo(patientData.User.mobileNo)}</Text>
+                            </View>
+                            <View style={styles.personalDetailsRow}>
+                                <Text style={styles.labelName}>Email: </Text>
+                                <Text style={styles.labelValue}>{patientData.User.email}</Text>
+                            </View>
+                        </View>
+                    )}
 
                     {patientData && patientData.WeeklyTasks && Object.values(patientData.WeeklyTasks)
                         .filter(task => task.weekCommencing >= getMonday(selectedDate))
@@ -686,13 +727,101 @@ const WeeklyReport = () => {
                                     ))}
                             </View>
                         )}
+
+                    {patientData && patientData.Notes && isDoctor && Object.values(patientData.Notes)
+                        .filter(entry => entry.date >= getMonday(selectedDate)) // Filter journal entries by week commencing date
+                        .length > 0 && (
+                            <View style={styles.taskDetailsContainer}>
+                                <Text style={styles.text1}>Doctor's Notes</Text>
+                                <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
+                                    <Text style={styles.taskHeaderText}>Date</Text>
+                                    <Text style={styles.taskHeaderText}>Time</Text>
+                                    <Text style={styles.taskHeaderText}>Entry</Text>
+                                </View>
+                                {patientData && patientData.Notes && Object.values(patientData.Notes)
+                                    .filter(entry => entry.date >= getMonday(selectedDate)) // Filter journal entries by week commencing date
+                                    .sort(sortByDateAndTime) // Sort by date and time
+                                    .map((task, index) => (
+                                        <View key={task.id || index} style={[styles.JournalingRowContainer, styles.taskRowLine]}>
+                                            <Text style={styles.taskRowText}>{task.date}</Text>
+                                            <Text style={styles.taskRowText}>{task.time}</Text>
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    // Construct the message based on non-empty fields
+                                                    let message = '';
+
+                                                    if (task.date) {
+                                                        message += `Date: ${task.date}\n`;
+                                                    }
+                                                    if (task.time) {
+                                                        message += `Time: ${task.time}\n`;
+                                                    }
+                                                    if (task.patientDiagnosis) {
+                                                        message += `Diagnosis: ${task.patientDiagnosis}\n`;
+                                                    }
+                                                    if (task.meditation1) {
+                                                        message += `Medication #1: ${task.meditation1}\n`;
+                                                    }
+                                                    if (task.dosage1) {
+                                                        message += `Dosage #1: ${task.dosage1}\n`;
+                                                    }
+                                                    if (task.meditation2) {
+                                                        message += `Medication #2: ${task.meditation1}\n`;
+                                                    }
+                                                    if (task.dosage2) {
+                                                        message += `Dosage #2: ${task.dosage1}\n`;
+                                                    }
+                                                    if (task.meditation3) {
+                                                        message += `Medication #3: ${task.meditation1}\n`;
+                                                    }
+                                                    if (task.dosage3) {
+                                                        message += `Dosage #3: ${task.dosage1}\n`;
+                                                    }
+                                                    if (task.identifiedPattern) {
+                                                        message += `Identified Pattern: ${task.identifiedPattern}\n`;
+                                                    }
+                                                    if (task.treatmentNotes) {
+                                                        message += `Treatment Notes: ${task.treatmentNotes}\n`;
+                                                    }
+
+                                                    if (message.trim() === '') {
+                                                        message = 'No content available';
+                                                    }
+
+                                                    // Show the alert with the constructed message
+                                                    Alert.alert(
+                                                        'Notes',
+                                                        message,
+                                                        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+                                                        { cancelable: false }
+                                                    );
+                                                }}
+
+                                                style={[styles.viewEntryButton, styles.taskRowText]}
+                                            >
+                                                <Text style={styles.viewEntryButtonText}>View Entry</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    ))}
+                            </View>
+                        )}
                 </ScrollView>
+
+                {isDoctor && (
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('Notes', { patientToken: patientToken, patientData: patientData, isDoctor: isDoctor })}
+                            style={styles.button}>
+                            <Text style={styles.buttonText}>Create Notes</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+
                 <View style={styles.dashboardBottomButtonContainer}>
                     <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate(isDoctor ? 'DoctorDashboard' : 'PatientDashboard')}>
                         <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
                     </TouchableOpacity>
                 </View>
-
             </View>
         </ImageBackground>
     );
@@ -807,6 +936,24 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'SourceCodePro-Medium',
     },
+    buttonContainer: {
+        alignItems: 'center',
+        width: '100%',
+    },
+    button: {
+        backgroundColor: '#af3e76',
+        width: 175,
+        alignItems: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginBottom: 20,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        fontFamily: 'SourceCodePro-Medium',
+    },
     taskHeaderContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -851,7 +998,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#8E225D',
     },
     viewEntryButton: {
-        backgroundColor: '#af3e76',
+        backgroundColor: '#8E225D',
         paddingVertical: 5,
         borderRadius: 5,
         alignSelf: 'center',
@@ -875,6 +1022,31 @@ const styles = StyleSheet.create({
         marginBottom: 20, // Add bottom margin to create space between the chart and screen edges
         backgroundColor: '#FFFFFF', // Add a background color to separate the charts visually
         borderRadius: 16, // Apply border radius to match the chart style
+    },
+    personalDetails: {
+        marginBottom: 15,
+        backgroundColor: '#fff', // Adjust background color as needed
+        padding: 15,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: '#ccc', // Adjust border color as needed
+    },
+    personalDetailsRow: {
+        flexDirection: 'row',
+        marginBottom: 5,
+    },
+    labelName: {
+        flex: 1,
+        fontFamily: 'SourceCodePro-Bold',
+        fontSize: 13,
+        color: '#333', // Adjust text color as needed
+    },
+    labelValue: {
+        flex: 2,
+        marginStart: 15,
+        fontFamily: 'SourceCodePro-Regular', // Adjust font family as needed
+        fontSize: 13,
+        color: '#555', // Adjust text color as needed
     },
 });
 

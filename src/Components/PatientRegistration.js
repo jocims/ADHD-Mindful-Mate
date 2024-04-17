@@ -12,7 +12,6 @@ import { Picker } from '@react-native-picker/picker';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
-
 const PatientRegistration = () => {
     const [warningMessages, setWarningMessages] = useState({
         patientName: '',
@@ -401,7 +400,7 @@ const PatientRegistration = () => {
                                 User: {
                                     firstName: formatName(patientName),
                                     lastName: formatName(patientSurname),
-                                    dob: patientDOB.toISOString(),
+                                    dob: patientDOB.toLocaleDateString('en-GB'),
                                     gender: patientGender,
                                     weight: patientWeight,
                                     mobileNo: patientMobileNo,

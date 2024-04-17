@@ -197,12 +197,22 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        borderWidth: 1,
-        borderColor: '#af3e76',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 20,
+        borderWidth: 2,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 10,
         textAlignVertical: 'top', // Align text at the top
+        color: '#333',
+        backgroundColor: '#fff',
+        shadowColor: '#af3e76',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
         fontFamily: 'SourceCodePro-Regular',
     },
     button: {
