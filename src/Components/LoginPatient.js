@@ -76,6 +76,14 @@ const LoginPatient = () => {
 
             // Check if the user is a patient
             if (userData && !userData.User.isDoctor) {
+
+                // Check if it's the first time login with provisional password
+                if (userData.User.provisionalPassword) {
+                    setProvisionalPassword(true);
+                    setLoading(false);
+                    return; // Stop further execution to navigate to ChangePasswordPatient
+                }
+
                 console.log('User is a patient');
                 console.log('userData:', userData);
                 navigation.navigate('PatientDashboard');
@@ -90,14 +98,7 @@ const LoginPatient = () => {
                 // Update user data context
                 updateUserData({ uid: response.user.uid });
 
-                console.log('userData.isDoctor:', userData.User.isDoctor);
 
-                // Check if it's the first time login with provisional password
-                if (userData.User.provisionalPassword) {
-                    setProvisionalPassword(true);
-                    setLoading(false);
-                    return; // Stop further execution to navigate to ChangePasswordPatient
-                }
 
                 setLoading(false);
             } else {
@@ -132,11 +133,11 @@ const LoginPatient = () => {
     };
 
     if (provisionalPassword) {
+        console.log('Navigating to ChangePassword');
         return (
             <ChangePassword setProvisionalPassword={setProvisionalPassword} />
         );
     }
-
 
     // Return the LoginPatient component
     return (
@@ -249,14 +250,25 @@ const styles = StyleSheet.create({
         color: '#052458',
         marginBottom: 25,
         fontFamily: 'SourceCodePro-Italic',
-        alignSelf: 'flex-end',
-        textAlign: 'right',
+        alignSelf: 'flex-end', // Align the text to the end of its container
+        textAlign: 'right', // Align the text to the right within its container
     },
     resetArea: {
-        alignSelf: 'flex-end',
-        flexDirection: 'row',
+        alignSelf: 'flex-end', // Align the container to the end of its parent
+        flexDirection: 'row', // Set the direction of the container to row
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    otherLoginArea: {
+        alignSelf: 'center',
+        justifyContent: 'space-between',
+        marginTop: 20,
+        marginBottom: 20,
+    },
+    otherLoginText: {
+        fontSize: 14,
+        color: '#052458',
+        fontFamily: 'SourceCodePro-BlackItalic',
     },
     error: {
         width: 300,

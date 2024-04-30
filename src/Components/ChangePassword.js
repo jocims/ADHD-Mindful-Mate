@@ -1,5 +1,4 @@
 // ChangePassword.js
-
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { getAuth, updatePassword } from "firebase/auth";
@@ -13,6 +12,7 @@ const ChangePassword = ({ setProvisionalPassword }) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const navigation = useNavigation();
 
@@ -20,21 +20,16 @@ const ChangePassword = ({ setProvisionalPassword }) => {
         setLoading(true);
 
         try {
-
             const userToken = await ReactNativeAsyncStorage.getItem('userToken');
 
-            // Validate new password
             if (!isPasswordValid(newPassword)) {
-                Alert.alert(
-                    'Invalid Password',
-                    'A strong password should be a minimum of 8 in length, containing a mix of upper and lower case letters, special characters and digits.'
-                );
+                setErrorMessage('A strong password should be a minimum of 8 characters in length, containing a mix of upper and lower case letters, special characters, and digits.');
                 setLoading(false);
                 return;
             }
 
             if (newPassword !== confirmPassword) {
-                Alert.alert('Passwords do not match');
+                setErrorMessage('Passwords do not match');
                 setLoading(false);
                 return;
             }
@@ -42,48 +37,35 @@ const ChangePassword = ({ setProvisionalPassword }) => {
             const auth = getAuth();
             const user = auth.currentUser;
 
-            // Change password
             await updatePassword(user, newPassword);
 
-            // Password changed successfully
             Alert.alert('Success', 'Password changed successfully.');
 
-            // const patientsCollection = collection(db, 'patient');
-            // await setDoc(doc(patientsCollection, userData.uid), patientData);
-
-            // Set provisionalPassword to false in Firestore
-            const userDatas = doc(db, 'patient', userToken); // Ensure userData is defined
-            console.log('userDatas **************************:', userDatas);
+            const userDatas = doc(db, 'patient', userToken);
             await updateDoc(userDatas, {
-                'User.provisionalPassword': false // Path to the provisionalPassword field
+                'User.provisionalPassword': false
             });
 
-            // Update local state to reflect the change
             setProvisionalPassword(false);
 
             navigation.navigate('PatientDashboard');
 
-
         } catch (error) {
             console.log(error);
-            Alert.alert('Error', 'Failed to change password. Please try again later.');
+            setErrorMessage('Failed to change password. Please try again later.');
         }
         setLoading(false);
     };
 
-    // Password validation function
     const isPasswordValid = (password) => {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;?/><.,])[\w!@#$%^&*()_+}{":;?/><.,]{8,}$/;
         return passwordRegex.test(password);
     };
 
-    // Function to handle log out
     const handleLogout = async () => {
-        // Clear user token and role from AsyncStorage
         await ReactNativeAsyncStorage.removeItem('userToken');
         await ReactNativeAsyncStorage.removeItem('userRole');
 
-        // Navigate back to the login screen
         navigation.navigate('FirstScreen');
     };
 
@@ -109,6 +91,7 @@ const ChangePassword = ({ setProvisionalPassword }) => {
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
             />
+            {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
             <TouchableOpacity style={styles.button} onPress={handleChangePassword} disabled={loading}>
                 <Text style={styles.buttonText}>{loading ? 'Changing Password...' : 'Change Password'}</Text>
             </TouchableOpacity>
@@ -126,7 +109,7 @@ const styles = StyleSheet.create({
     logout: {
         position: 'absolute',
         top: 15,
-        right: 15, // Adjust the right position as needed
+        right: 15,
     },
     logoutImg: {
         width: 50,
@@ -166,6 +149,13 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'SourceCodePro-ExtraBold',
         opacity: 0.9,
+    },
+    errorText: {
+        width: 300,
+        color: 'red',
+        fontSize: 12,
+        marginBottom: 10,
+        fontFamily: 'SourceCodePro-Medium',
     },
 });
 
