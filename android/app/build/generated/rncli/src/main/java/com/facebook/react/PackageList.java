@@ -23,6 +23,8 @@ import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
 import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-date-picker
 import com.henninghall.date_picker.DatePickerPackage;
+// react-native-fs
+import com.rnfs.RNFSPackage;
 // react-native-safe-area-context
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
@@ -84,6 +86,7 @@ public class PackageList {
       new ReactNativeFirebaseAuthPackage(),
       new RNCPickerPackage(),
       new DatePickerPackage(),
+      new RNFSPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
       new SvgPackage(),

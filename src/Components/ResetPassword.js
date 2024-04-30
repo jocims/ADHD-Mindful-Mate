@@ -1,4 +1,4 @@
-//ResetPassword.js
+// ResetPassword.js
 
 //Imports
 import React, { useState } from 'react';
@@ -14,16 +14,37 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { auth, sendPasswordResetEmail } from '../config/firebase'; // Adjust the import
 
-//ResetPassword component
+// ResetPassword component
 const ResetPassword = () => {
 
-    //Variables
+    // Variables
     const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
 
-    //Reset password function
+    // Validate the email and password inputs
+    const validateInputs = () => {
+        let isValid = true;
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            setEmailError('A valid email address should contain a valid email domain (gmail.com, hotmail.com, yahoo.com, outlook.com, live.com) and it should have the `@` sign before it.');
+            isValid = false;
+        } else {
+            setEmailError('');
+        }
+
+        return isValid;
+    };
+
+
+    // Reset password function
     const resetPassword = async () => {
+        if (!validateInputs()) {
+            return;
+        }
+
         setLoading(true);
         try {
             await sendPasswordResetEmail(auth, email);
@@ -31,12 +52,19 @@ const ResetPassword = () => {
             setLoading(false);
             navigation.navigate('FirstScreen');
         } catch (error) {
-            alert(error.message);
             setLoading(false);
+
+            if (error.code === 'auth/user-not-found') {
+                alert('User not found');
+            } else if (error.code === 'auth/invalid-email') {
+                alert('Invalid email');
+            } else {
+                alert('An error occurred. Please try again');
+            }
         }
     };
 
-    //Return
+    // Return
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -55,6 +83,7 @@ const ResetPassword = () => {
                         style={styles.input}
                         onChangeText={(text) => setEmail(text)}
                     />
+                    {!!emailError && <Text style={styles.error}>{emailError}</Text>}
 
                     <TouchableOpacity style={styles.btn} onPress={resetPassword}>
                         <Text style={styles.btnText}>Reset Password</Text>
@@ -73,7 +102,7 @@ const ResetPassword = () => {
     );
 }
 
-//Styles
+// Styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -90,11 +119,9 @@ const styles = StyleSheet.create({
     },
     introduction: {
         fontSize: 20,
-        color: 'black',
-        marginBottom: 20,
-        fontWeight: 'bold',
+        color: '#052458',
         textAlign: 'center',
-
+        fontFamily: 'SourceCodePro-Bold',
     },
     form: {
         paddingTop: 20,
@@ -104,43 +131,53 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 16,
-        color: 'black',
+        color: '#052458',
         marginBottom: 10,
-        fontWeight: 'bold',
+        fontFamily: 'SourceCodePro-Bold',
     },
     input: {
         borderWidth: 1.5,
         width: 300,
-        borderColor: 'black',
+        borderColor: '#052458',
         padding: 10,
         borderRadius: 7,
-        marginBottom: 30,
+        marginBottom: 20,
+        color: '#052458',
+        fontFamily: 'SourceCodePro-Medium',
     },
     btn: {
         width: 150,
         height: 50,
         backgroundColor: '#052458',
         borderRadius: 7,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     btnText: {
-        fontSize: 17,
+        fontSize: 18,
         color: 'white',
-        fontWeight: 'bold',
+        fontFamily: 'SourceCodePro-Bold',
         opacity: 0.9,
+        textAlign: 'center',
     },
     resetText: {
         fontSize: 14,
-        color: 'black',
-        marginTop: 100,
-        fontStyle: 'italic',
+        color: '#052458',
+        marginTop: 40,
+        fontFamily: 'SourceCodePro-Italic',
         textDecorationLine: 'underline',
         textAlign: 'center',
     },
     resetArea: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    error: {
+        width: 300,
+        color: 'red',
+        fontSize: 12,
+        marginBottom: 10,
+        padding: 2,
+        fontFamily: 'SourceCodePro-Medium',
+        textAlign: 'left', // Align the error message to the left
     },
 });
 

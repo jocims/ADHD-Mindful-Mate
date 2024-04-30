@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useUserData } from './UserDataManager';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc } from 'firebase/firestore';
+import messages from '../messages.json'; // Import the JSON file
 
 // Get the width of the screen
 const screenWidth = Dimensions.get('window').width;
@@ -32,12 +33,14 @@ const PatientDashboard = () => {
   useEffect(() => {
     const fetchFeelGoodMessage = async () => {
       try {
-
+        // Get the stored message length
         const storedMessageLength = await ReactNativeAsyncStorage.getItem('messageLength');
         const parseMessageLength = storedMessageLength ? parseInt(storedMessageLength) : 0;
 
+        // Set the message length state
         setMessageLength(parseMessageLength);
 
+        // Get the stored quote and date
         const storedQuote = await ReactNativeAsyncStorage.getItem('feelGoodQuote');
         const storedDate = await ReactNativeAsyncStorage.getItem('feelGoodQuoteDate');
 
@@ -45,7 +48,14 @@ const PatientDashboard = () => {
         if (storedQuote && storedDate === new Date().toISOString().split('T')[0]) {
           setFeelGoodMessage(storedQuote);
         } else {
-          await fetchNewFeelGoodMessage();
+          // Generate a random index to select a message from the JSON file
+          const randomIndex = Math.floor(Math.random() * messages.messages.length);
+          const randomMessage = messages.messages[randomIndex].message;
+
+          // Set the feel-good message state and store it
+          setFeelGoodMessage(randomMessage);
+          await ReactNativeAsyncStorage.setItem('feelGoodQuote', randomMessage);
+          await ReactNativeAsyncStorage.setItem('feelGoodQuoteDate', new Date().toISOString().split('T')[0]);
         }
       } catch (error) {
         console.error('Error fetching feel-good message:', error);
@@ -104,31 +114,15 @@ const PatientDashboard = () => {
 
   const fetchNewFeelGoodMessage = async () => {
     try {
-      let response;
-      let data;
-      let newMessageLength;
+      // Generate a random index to select a message from the JSON file
+      const randomIndex = Math.floor(Math.random() * messages.messages.length);
+      const randomMessage = messages.messages[randomIndex].message;
 
-      do {
-        // Fetch the inspirational quote from the API
-        response = await fetch(`https://favqs.com/api/qotd`);
-        data = await response.json();
-        newMessageLength = data.quote.body.length;
-      } while (newMessageLength < 50 || newMessageLength > 110);
-
-      // Check if a quote is available for the date
-      if (data.quote) {
-        console.log('Data:', data);
-        const quote = data.quote.body;
-        console.log('Quote:', quote);
-
-        setFeelGoodMessage(quote);
-        // Store the quote and its date
-        await ReactNativeAsyncStorage.setItem('feelGoodQuote', quote);
-        await ReactNativeAsyncStorage.setItem('feelGoodQuoteDate', new Date().toISOString().split('T')[0]);
-        await ReactNativeAsyncStorage.setItem('messageLength', newMessageLength.toString());
-      } else {
-        setFeelGoodMessage("No quote available for this day.");
-      }
+      // Set the feel-good message state and store it
+      setFeelGoodMessage(randomMessage);
+      await ReactNativeAsyncStorage.setItem('feelGoodQuote', randomMessage);
+      await ReactNativeAsyncStorage.setItem('feelGoodQuoteDate', new Date().toISOString().split('T')[0]);
+      await ReactNativeAsyncStorage.setItem('messageLength', randomMessage.length.toString());
     } catch (error) {
       console.error('Error fetching feel-good message:', error);
       setFeelGoodMessage("Failed to fetch quote.");

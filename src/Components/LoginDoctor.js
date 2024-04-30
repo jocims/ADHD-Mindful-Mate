@@ -36,12 +36,11 @@ const LoginDoctor = () => {
     }
 
     if (!password) {
-      setPasswordError(`Please enter your password containing:
-      - At least 8 characters with at least one of each of the following:
-        - Uppercase letter
-        - Lowercase letter
-        - Number
-        - Special character`);
+      setPasswordError(`Please enter your password containing at least 8 characters with at least one of each of the following:
+- Uppercase letter
+- Lowercase letter
+- Number
+- Special character`);
       isValid = false;
     } else {
       setPasswordError('');
@@ -240,9 +239,9 @@ const styles = StyleSheet.create({
     width: 300,
     color: 'red',
     fontSize: 12,
-    alignSelf: 'flex-start',
-    padding: 10,
-    marginBottom: 5,
+    marginBottom: 10,
+    padding: 2,
+    fontFamily: 'SourceCodePro-Medium',
   },
 });
 

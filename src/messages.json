@@ -1,0 +1,272 @@
+{
+  "messages": [
+    {
+      "id": 1,
+      "message": "You are capable of amazing things."
+    },
+    {
+      "id": 2,
+      "message": "Your smile brightens the world around you."
+    },
+    {
+      "id": 3,
+      "message": "Every day is a new opportunity for joy and growth."
+    },
+    {
+      "id": 4,
+      "message": "You are loved more than you know."
+    },
+    {
+      "id": 5,
+      "message": "Your presence makes a difference in the lives of others."
+    },
+    {
+      "id": 6,
+      "message": "You deserve all the happiness in the world."
+    },
+    {
+      "id": 7,
+      "message": "You have the power to overcome any challenge."
+    },
+    {
+      "id": 8,
+      "message": "Believe in yourself, because you are truly extraordinary."
+    },
+    {
+      "id": 9,
+      "message": "Your kindness makes the world a better place."
+    },
+    {
+      "id": 10,
+      "message": "The best is yet to come."
+    },
+    {
+      "id": 11,
+      "message": "You are stronger than you think."
+    },
+    {
+      "id": 12,
+      "message": "Your potential is limitless."
+    },
+    {
+      "id": 13,
+      "message": "Today is a gift, that's why it's called the present."
+    },
+    {
+      "id": 14,
+      "message": "You are enough, just as you are."
+    },
+    {
+      "id": 15,
+      "message": "Your dreams are within reach."
+    },
+    {
+      "id": 16,
+      "message": "You are a beacon of hope for others."
+    },
+    {
+      "id": 17,
+      "message": "Your laughter is contagious."
+    },
+    {
+      "id": 18,
+      "message": "You have the power to create positive change in the world."
+    },
+    {
+      "id": 19,
+      "message": "You are a masterpiece in progress."
+    },
+    {
+      "id": 20,
+      "message": "Your journey matters, every step of the way."
+    },
+    {
+      "id": 21,
+      "message": "You are making a difference, even when you don't realize it."
+    },
+    {
+      "id": 22,
+      "message": "Your potential for greatness is infinite."
+    },
+    {
+      "id": 23,
+      "message": "You are braver than you believe, stronger than you seem, and smarter than you think."
+    },
+    {
+      "id": 24,
+      "message": "Your happiness matters."
+    },
+    {
+      "id": 25,
+      "message": "You are worthy of all the good things life has to offer."
+    },
+    {
+      "id": 26,
+      "message": "Your resilience is inspiring."
+    },
+    {
+      "id": 27,
+      "message": "You have a heart of gold."
+    },
+    {
+      "id": 28,
+      "message": "You are a ray of sunshine on even the cloudiest days."
+    },
+    {
+      "id": 29,
+      "message": "Your presence brings joy to those around you."
+    },
+    {
+      "id": 30,
+      "message": "You are cherished and appreciated."
+    },
+    {
+      "id": 31,
+      "message": "Your courage is admirable."
+    },
+    {
+      "id": 32,
+      "message": "You are a source of inspiration for others."
+    },
+    {
+      "id": 33,
+      "message": "Your positivity is infectious."
+    },
+    {
+      "id": 34,
+      "message": "You are capable of achieving anything you set your mind to."
+    },
+    {
+      "id": 35,
+      "message": "Your smile has the power to light up the world."
+    },
+    {
+      "id": 36,
+      "message": "You are surrounded by love and support."
+    },
+    {
+      "id": 37,
+      "message": "Your potential is limitless, and your future is bright."
+    },
+    {
+      "id": 38,
+      "message": "You are making progress every single day."
+    },
+    {
+      "id": 39,
+      "message": "Your smile brightens even the darkest of days."
+    },
+    {
+      "id": 40,
+      "message": "You are a source of hope and inspiration for others."
+    },
+    {
+      "id": 41,
+      "message": "Your kindness makes the world a better place."
+    },
+    {
+      "id": 42,
+      "message": "You are deserving of love and respect, just as you are."
+    },
+    {
+      "id": 43,
+      "message": "Your dreams are within reach, and your goals are achievable."
+    },
+    {
+      "id": 44,
+      "message": "You are capable of overcoming any obstacle that comes your way."
+    },
+    {
+      "id": 45,
+      "message": "Your inner strength will guide you through any challenge."
+    },
+    {
+      "id": 46,
+      "message": "You are surrounded by love and support, now and always."
+    },
+    {
+      "id": 47,
+      "message": "Your presence brings joy and light to those around you."
+    },
+    {
+      "id": 48,
+      "message": "You are making a positive impact on the world, one day at a time."
+    },
+    {
+      "id": 49,
+      "message": "Your resilience in the face of adversity is truly remarkable."
+    },
+    {
+      "id": 50,
+      "message": "You are worthy of all the good things life has to offer."
+    },
+    {
+      "id": 51,
+      "message": "Your journey is unique and beautiful, just like you."
+    },
+    {
+      "id": 52,
+      "message": "You are loved, valued, and appreciated more than you know."
+    },
+    {
+      "id": 53,
+      "message": "Your positive energy radiates from within, touching everyone you meet."
+    },
+    {
+      "id": 54,
+      "message": "You are making a difference in the lives of others, simply by being yourself."
+    },
+    {
+      "id": 55,
+      "message": "Your dreams are valid, and your goals are worth pursuing."
+    },
+    {
+      "id": 56,
+      "message": "You are stronger and braver than you realize."
+    },
+    {
+      "id": 57,
+      "message": "Your presence brings peace and tranquility to those around you."
+    },
+    {
+      "id": 58,
+      "message": "You are a source of light and hope in the world."
+    },
+    {
+      "id": 59,
+      "message": "Your kindness and compassion make the world a better place."
+    },
+    {
+      "id": 60,
+      "message": "You are deserving of all the happiness and success in the world."
+    },
+    {
+      "id": 61,
+      "message": "Your journey is filled with endless possibilities and opportunities."
+    },
+    {
+      "id": 62,
+      "message": "You are capable of achieving anything you set your mind to."
+    },
+    {
+      "id": 63,
+      "message": "Your strength and resilience inspire those around you."
+    },
+    {
+      "id": 64,
+      "message": "You are surrounded by people who believe in you and support you."
+    },
+    {
+      "id": 65,
+      "message": "Your positivity and optimism are contagious."
+    },
+    {
+      "id": 66,
+      "message": "You are making a positive impact on the world, one step at a time."
+    },
+    {
+      "id": 67,
+      "message": "Your presence in the world is a gift, and you are truly appreciated."
+    }
+  ]
+}

@@ -35,7 +35,8 @@ const LoginPatient = () => {
     const validateInputs = () => {
         let isValid = true;
 
-        if (!email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
             setEmailError('A valid email address should contain a valid email domain (gmail.com, hotmail.com, yahoo.com, outlook.com, live.com) and it should have the `@` sign before it.');
             isValid = false;
         } else {
@@ -43,12 +44,11 @@ const LoginPatient = () => {
         }
 
         if (!password) {
-            setPasswordError(`Please enter your password containing:
-            - At least 8 characters with at least one of each of the following:
-              - Uppercase letter
-              - Lowercase letter
-              - Number
-              - Special character`);
+            setPasswordError(`Please enter your password containing at least 8 characters with at least one of each of the following:
+    - Uppercase letter
+    - Lowercase letter
+    - Number
+    - Special character`);
             isValid = false;
         } else {
             setPasswordError('');
@@ -274,9 +274,9 @@ const styles = StyleSheet.create({
         width: 300,
         color: 'red',
         fontSize: 12,
-        alignSelf: 'flex-start',
-        padding: 10,
-        marginBottom: 5,
+        marginBottom: 10,
+        padding: 2,
+        fontFamily: 'SourceCodePro-Medium',
     },
 });
 

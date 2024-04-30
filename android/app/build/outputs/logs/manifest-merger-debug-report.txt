@@ -12,6 +12,7 @@ MERGED from [:react-native-firebase_auth] D:\Users\Joci\ReactNative\ADHD-Mindful
 MERGED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-30:12
 MERGED from [:react-native-picker_picker] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\@react-native-picker\picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-date-picker] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:react-native-fs] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-fs\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-svg] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-svg\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
@@ -288,6 +289,8 @@ MERGED from [:react-native-picker_picker] D:\Users\Joci\ReactNative\ADHD-Mindful
 MERGED from [:react-native-picker_picker] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\@react-native-picker\picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-date-picker] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-date-picker] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-fs] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-fs\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-fs] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-fs\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-safe-area-context] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-screens] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
@@ -596,6 +599,12 @@ ADDED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\ADHD-Mindful-M
 		ADDED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:13-35
 	android:name
 		ADDED from [:react-native-firebase_app] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:24:13-88
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from [:react-native-fs] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-fs\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-81
+	android:name
+		ADDED from [:react-native-fs] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-fs\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:7:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+IMPLIED from D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\android\app\src\debug\AndroidManifest.xml:2:1-12:12 reason: com.rnfs requested WRITE_EXTERNAL_STORAGE
 uses-permission#android.permission.FOREGROUND_SERVICE
 ADDED from [:react-native-track-player] D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-77
 	android:name
