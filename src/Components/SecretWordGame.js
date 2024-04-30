@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { auth, db } from '../config/firebase';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const SecretWordGame = () => {
     const [gameStage, setGameStage] = useState('start');
+    const [startTimer, setStartTimer] = useState(0); // State to track the start time
+    const [endTimer, setEndTimer] = useState(0); // State to track the end time
     const [pickedWord, setPickedWord] = useState('');
     const [pickedCategory, setPickedCategory] = useState('');
     const [letters, setLetters] = useState([]);
@@ -24,6 +28,7 @@ const SecretWordGame = () => {
     }, []);
 
     const startGame = useCallback(() => {
+        setStartTimer(new Date().getTime());
         clearLettersStates();
         const { category, word } = pickWordAndCategory();
         const wordLetters = word.split('');
@@ -39,17 +44,57 @@ const SecretWordGame = () => {
             return;
         }
         if (letters.includes(normalizedLetter)) {
-            setGuessedLetters([...guessedLetters, letter]);
+            // Add the correct letter to guessedLetters
+            setGuessedLetters([...guessedLetters, normalizedLetter]);
         } else {
             setWrongLetters([...wrongLetters, normalizedLetter]);
             setGuesses((prevGuesses) => prevGuesses - 1);
         }
     };
 
-    const retry = () => {
-        setScore(0);
-        setGuesses(3);
-        setGameStage('start');
+    const handleEndGame = async () => {
+
+        if (!(guessedLetters.length > 0 || wrongLetters.length > 0 || score > 0)) {
+            // No guessed letters or wrong letters, do not save game data
+            setGameStage('end');
+            return;
+        }
+
+        const endTime = new Date().getTime();
+        console.log('Start time:', startTimer);
+        console.log('End time:', endTime);
+        setEndTimer(endTime);
+        const durationInSeconds = (endTime - startTimer) / 1000;
+        console.log('Duration in seconds: ', durationInSeconds);
+        const duration = Math.round((durationInSeconds / 60) * 100) / 100;
+        console.log('Duration in minutes: ', duration);
+
+        try {
+            const userDocRef = doc(db, 'patient', auth.currentUser.uid);
+
+            const id = Date.now().toString();
+            const data = {
+                [id]: {
+                    id: id,
+                    gamePracticeScore: score,
+                    game: 'Secret Word',
+                    date: new Date().toLocaleDateString('en-GB'),
+                    timeDurationOfPractice: duration.toFixed(2),
+                    weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
+                },
+            };
+
+            await setDoc(userDocRef, { GamePractice: data }, { merge: true });
+
+        } catch (error) {
+            console.error('Error saving game data:', error);
+        }
+    };
+
+    const getMonday = (date) => {
+        const day = date.getDay();
+        const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+        return new Date(date.setDate(diff));
     };
 
     const clearLettersStates = () => {
@@ -60,6 +105,7 @@ const SecretWordGame = () => {
     useEffect(() => {
         if (guesses === 0) {
             clearLettersStates();
+            handleEndGame();
             setGameStage('end');
         }
     }, [guesses]);
@@ -72,24 +118,31 @@ const SecretWordGame = () => {
         }
     }, [guessedLetters, letters, gameStage, startGame]);
 
+    useEffect(() => {
+        // Start the game when the component mounts
+        startGame();
+    }, []); // Run only once when the component mounts
+
     const renderGameStage = () => {
         switch (gameStage) {
-            case 'start':
-                return (
-                    <View style={styles.container}>
-                        <Text style={styles.title}>Secret Word</Text>
-                        <Text style={styles.instructions}>Click the button below to start playing</Text>
-                        <TouchableOpacity style={styles.button} onPress={startGame}>
-                            <Text style={styles.buttonText}>Start Game</Text>
-                        </TouchableOpacity>
-                    </View>
-                );
             case 'game':
                 return (
                     <View style={styles.container}>
-                        <Text style={styles.title}>Guess the Word:</Text>
                         <Text style={styles.category}>Category: {pickedCategory}</Text>
-                        <Text>You have {guesses} attempts left.</Text>
+                        <Text style={styles.instructions}>You have {guesses} attempts left.</Text>
+
+                        <Text style={styles.instructions}>Try guessing a letter:</Text>
+                        <TextInput
+                            ref={letterInputRef}
+                            style={styles.input}
+                            maxLength={1}
+                            onChangeText={(text) => {
+                                verifyLetter(text);
+                                letterInputRef.current.clear(); // Clear the text input after a letter is typed
+                            }}
+                            value="" // Always set the value to an empty string
+                        />
+
                         <View style={styles.wordContainer}>
                             {letters.map((letter, index) => (
                                 <Text key={index} style={styles.letter}>
@@ -97,16 +150,9 @@ const SecretWordGame = () => {
                                 </Text>
                             ))}
                         </View>
-                        <Text>Try guessing a letter:</Text>
-                        <TextInput
-                            ref={letterInputRef}
-                            style={styles.input}
-                            maxLength={1}
-                            onChangeText={(text) => verifyLetter(text)}
-                            value={guessedLetters}
-                        />
+
                         <View style={styles.wrongLettersContainer}>
-                            <Text>Used letters: {wrongLetters.join(', ')}</Text>
+                            <Text style={styles.instructions}>Used letters: {wrongLetters.join(', ')}</Text>
                         </View>
                     </View>
                 );
@@ -114,10 +160,7 @@ const SecretWordGame = () => {
                 return (
                     <View style={styles.container}>
                         <Text style={styles.title}>Game Over!</Text>
-                        <Text>Your score: {score}</Text>
-                        <TouchableOpacity style={styles.button} onPress={retry}>
-                            <Text style={styles.buttonText}>Retry</Text>
-                        </TouchableOpacity>
+                        <Text style={styles.category}>Your score: {score}</Text>
                     </View>
                 );
             default:
@@ -135,15 +178,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 10,
+        fontFamily: 'SourceCodePro-Bold',
+        color: 'black',
+        fontSize: 30,
+        marginBottom: 20,
     },
     instructions: {
+        fontFamily: 'SourceCodePro-Medium',
+        color: 'black',
         fontSize: 16,
         marginBottom: 20,
     },
     category: {
+        fontSize: 20,
+        fontFamily: 'SourceCodePro-Bold',
+        color: 'black',
         marginBottom: 10,
     },
     button: {
@@ -164,16 +213,21 @@ const styles = StyleSheet.create({
     letter: {
         fontSize: 24,
         marginRight: 5,
+        color: 'black',
+        fontFamily: 'SourceCodePro-Bold',
     },
     input: {
+        fontFamily: 'SourceCodePro-Bold',
         height: 40,
         width: 40,
-        borderColor: 'gray',
+        borderColor: 'black',
         borderWidth: 1,
         marginBottom: 20,
         textAlign: 'center',
     },
     wrongLettersContainer: {
+        fontFamily: 'SourceCodePro-Medium',
+        color: 'black',
         marginTop: 20,
     },
 });

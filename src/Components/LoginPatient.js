@@ -1,3 +1,6 @@
+//Login for Patients
+
+// Import necessary libraries
 import React, { useState } from 'react';
 import {
     View,
@@ -15,16 +18,20 @@ import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useUserData } from './UserDataManager';
 import ChangePassword from './ChangePassword';
 
+// LoginPatient component
 const LoginPatient = () => {
+
+    // Define states for email, password, emailError, passwordError, loading, and provisionalPassword
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [provisionalPassword, setProvisionalPassword] = useState(false); // New state for provisional password
+    const [provisionalPassword, setProvisionalPassword] = useState(false);
     const navigation = useNavigation();
     const { updateUserData } = useUserData();
 
+    // Validate the email and password inputs
     const validateInputs = () => {
         let isValid = true;
 
@@ -50,7 +57,7 @@ const LoginPatient = () => {
         return isValid;
     };
 
-
+    // Sign in the user with the provided email and password
     const signIn = async () => {
         if (!validateInputs()) {
             return;
@@ -121,7 +128,6 @@ const LoginPatient = () => {
             }
 
             setLoading(false);
-
         }
     };
 
@@ -131,8 +137,9 @@ const LoginPatient = () => {
         );
     }
 
-    return (
 
+    // Return the LoginPatient component
+    return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} >
 
@@ -141,9 +148,7 @@ const LoginPatient = () => {
                     style={styles.img}
                 />
 
-
                 <Text style={styles.introduction}>Hello There!</Text>
-
 
                 <View style={styles.form}>
 
@@ -180,12 +185,11 @@ const LoginPatient = () => {
                     </TouchableOpacity>
                 </View>
             </ScrollView >
-
-
         </View >
     );
 }
 
+// Define styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -245,25 +249,14 @@ const styles = StyleSheet.create({
         color: '#052458',
         marginBottom: 25,
         fontFamily: 'SourceCodePro-Italic',
-        alignSelf: 'flex-end', // Align the text to the end of its container
-        textAlign: 'right', // Align the text to the right within its container
+        alignSelf: 'flex-end',
+        textAlign: 'right',
     },
     resetArea: {
-        alignSelf: 'flex-end', // Align the container to the end of its parent
-        flexDirection: 'row', // Set the direction of the container to row
+        alignSelf: 'flex-end',
+        flexDirection: 'row',
         flexDirection: 'row',
         justifyContent: 'space-between',
-    },
-    otherLoginArea: {
-        alignSelf: 'center',
-        justifyContent: 'space-between',
-        marginTop: 20,
-        marginBottom: 20,
-    },
-    otherLoginText: {
-        fontSize: 14,
-        color: '#052458',
-        fontFamily: 'SourceCodePro-BlackItalic',
     },
     error: {
         width: 300,

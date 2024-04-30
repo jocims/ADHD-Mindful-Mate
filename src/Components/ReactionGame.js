@@ -5,7 +5,6 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useUserData } from './UserDataManager';
-import SecretWordGame from './SecretWordGame'; // Import the SecretWordGame component
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -29,7 +28,7 @@ const getRandomColor = () => {
     return color;
 };
 
-const Game = () => {
+const ReactionGame = () => {
     const [shapeStyle, setShapeStyle] = useState({
         width: 0,
         height: 0,
@@ -47,7 +46,6 @@ const Game = () => {
     const navigation = useNavigation();
     const [shapeClickStartTime, setShapeClickStartTime] = useState(0); // State to track the start time of each shape click
     const { updateUserData } = useUserData();
-    const [selectedGame, setSelectedGame] = useState(null); // State to manage selected game
 
     const BackToDashboard = async () => {
         // Update user data context
@@ -57,31 +55,25 @@ const Game = () => {
 
     const fetchBestScore = async () => {
         try {
+            setBestScore(null);
             const userDocRef = doc(db, 'patient', auth.currentUser.uid);
             const docSnap = await getDoc(userDocRef);
             const data = docSnap.data();
             if (data && data.GamePractice) {
-                const gameScores = Object.values(data.GamePractice);
-                const secretWordScores = gameScores
-                    .filter(entry => entry.game === 'Secret Word')
-                    .map(entry => entry.gamePracticeScore);
-                const reactionTestScores = gameScores
-                    .filter(entry => entry.game === 'Reaction Test')
-                    .map(entry => entry.gamePracticeScore);
-                const bestSecretWordScore = secretWordScores.length > 0 ? Math.max(...secretWordScores) : null;
-                const bestReactionTestScore = reactionTestScores.length > 0 ? Math.max(...reactionTestScores) : null;
-                setBestScore({
-                    'Secret Word': bestSecretWordScore,
-                    'Reaction Test': bestReactionTestScore
-                });
+                const scores = Object.values(data.GamePractice).map((entry) => entry.gamePracticeScore);
+                const best = Math.min(...scores);
+                setBestScore(best);
             }
         } catch (error) {
             console.error('Error fetching best score:', error);
         }
     };
 
-    const handleStartGame = (game) => {
-        setSelectedGame(game);
+    useEffect(() => {
+        fetchBestScore();
+    }, []);
+
+    const handleStartGame = () => {
         setStart(true);
         setStartTimer(new Date().getTime());
         setTimeTakenList([]);
@@ -100,8 +92,6 @@ const Game = () => {
         const borderRadius = Math.random() > 0.5 ? 50 : 0;
 
         setShapeClickStartTime(new Date().getTime());
-
-        Vibration.vibrate();
 
         setShapeStyle({
             ...shapeStyle,
@@ -125,6 +115,8 @@ const Game = () => {
 
     const handleShapeClick = () => {
 
+        Vibration.vibrate();
+
         setShapeStyle({
             ...shapeStyle,
             display: 'none',
@@ -140,7 +132,6 @@ const Game = () => {
     };
 
     const handleEndGame = async () => {
-        setSelectedGame(null);
         setStart(false);
         const endTime = new Date().getTime();
         console.log('Start time:', startTimer);
@@ -151,20 +142,18 @@ const Game = () => {
         const duration = Math.round((durationInSeconds / 60) * 100) / 100;
         console.log('Duration in minutes: ', duration);
 
-        // Calculate the score inversely proportional to the time taken
-        const minTime = Math.min(...timeTakenList);
-        const score = isFinite(minTime) ? Math.round(1000 / minTime) : 0;
+        const smallestTime = (1 - Math.min(...timeTakenList)) * 1000;
+        setSmallestTime(smallestTime);
 
         try {
             const userDocRef = doc(db, 'patient', auth.currentUser.uid);
 
-            if (isFinite(score) && score > 0) { // Check if score is a finite number and greater than 0
+            if (isFinite(smallestTime)) { // Check if smallestTime is a finite number
                 const id = Date.now().toString();
                 const data = {
                     [id]: {
                         id: id,
-                        gamePracticeScore: score, // Store the calculated score
-                        game: 'Reaction Test',
+                        gamePracticeScore: smallestTime.toFixed(3),
                         date: new Date().toLocaleDateString('en-GB'),
                         timeDurationOfPractice: duration.toFixed(2),
                         weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
@@ -172,18 +161,30 @@ const Game = () => {
                 };
 
                 await setDoc(userDocRef, { GamePractice: data }, { merge: true });
-            } else {
-                console.log('Score is not greater than 0. Data not saved.');
+
             }
 
             // Fetch the best score again after updating the database
             await fetchBestScore();
 
+            if (timeTakenList.length > 0) {
+                if (bestScore < smallestTime && bestScore !== null) {
+                    // Show scores in an alert
+                    Alert.alert(
+                        'Game Over',
+                        `Your score: ${smallestTime}s\nBest score: ${bestScore}s`
+                    );
+                } else {
+                    Alert.alert(
+                        'Game Over',
+                        `Congratulations!\nNew best score: ${smallestTime}s`
+                    );
+                }
+            }
         } catch (error) {
             console.error('Error saving game data:', error);
         }
     };
-
 
 
     const getMonday = (date) => {
@@ -194,8 +195,7 @@ const Game = () => {
 
     return (
         <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
-            <ScrollView contentContainerStyle={styles.container}>
-
+            <View style={styles.container}>
                 {start ? null : (
                     <>
                         <TouchableOpacity onPress={handleLogout} style={styles.logout}>
@@ -208,33 +208,15 @@ const Game = () => {
                 {start ? (
                     <>
 
-                        {selectedGame === 'ReactionTest' && (
-                            <>
-                                <View style={styles.header}>
-                                    <Text style={styles.title}>Test Your Reactions!</Text>
-                                    <Text style={styles.text}>Click on the boxes and circles as quick as you can!</Text>
-                                    <Text style={styles.bold}>Your time: {timeTaken}s</Text>
-                                </View>
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Test Your Reactions!</Text>
+                            <Text style={styles.title}>Click on the boxes and circles as quick as you can!</Text>
+                            <Text style={styles.bold}>Your time: {timeTaken}s</Text>
+                        </View>
 
-                                <View style={styles.gameContainer}>
-                                    <TouchableOpacity style={[styles.shape, shapeStyle]} onPress={handleShapeClick} />
-                                </View>
-                            </>
-                        )}
-
-                        {selectedGame === 'SecretWord' && (
-
-                            <>
-                                <View style={styles.header}>
-                                    <Text style={styles.title}>Guess the word!</Text>
-                                    <Text style={styles.text}>Click on the boxes and circles as quick as you can!</Text>
-                                </View>
-
-                                <View style={styles.gameContainer}>
-                                    <SecretWordGame />
-                                </View>
-                            </>
-                        )}
+                        <View style={styles.gameContainer}>
+                            <TouchableOpacity style={[styles.shape, shapeStyle]} onPress={handleShapeClick} />
+                        </View>
 
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity style={styles.button} onPress={handleEndGame}>
@@ -244,45 +226,23 @@ const Game = () => {
                     </>
                 ) : (
                     <>
-                        <View style={styles.gameOptions}>
-                            <View style={styles.headerContainer}>
-                                <Text style={styles.introduction}>Anxiety-Relief Games</Text>
+                        <View style={styles.headerContainer}>
 
-                            </View>
-
-                            <View style={styles.gameOptionContainer}>
-                                <View style={styles.gameInfo}>
-                                    <Text style={styles.gameName}>Reaction Test</Text>
-                                    <Text style={styles.gameDescription}>Be fast to click on the forms!</Text>
-                                    {bestScore && bestScore['Reaction Test'] !== null && (
-                                        <Text style={styles.gameDescription}>Best Score: {bestScore['Reaction Test']}</Text>
-                                    )}
-                                </View>
-                                <TouchableOpacity
-                                    style={styles.startButton}
-                                    onPress={() => handleStartGame('ReactionTest')}
-                                >
-                                    <Text style={styles.startButtonText}>Start</Text>
-                                </TouchableOpacity>
-                            </View>
-
-                            <View style={styles.gameOptionContainer}>
-                                <View style={styles.gameInfo}>
-                                    <Text style={styles.gameName}>Secret Word</Text>
-                                    <Text style={styles.gameDescription}>Guess the word!</Text>
-                                    {bestScore && bestScore['Secret Word'] !== null && (
-                                        <Text style={styles.gameDescription}>Best Score: {bestScore['Secret Word']}</Text>
-                                    )}
-                                </View>
-
-                                <TouchableOpacity
-                                    style={styles.startButton}
-                                    onPress={() => handleStartGame('SecretWord')}
-                                >
-                                    <Text style={styles.startButtonText}>Start</Text>
-                                </TouchableOpacity>
-                            </View>
+                            <Text style={styles.introduction}>Anxiety-Relief Game</Text>
+                            <Text style={styles.text1}>Test your reactions!</Text>
+                            <Text style={styles.text}>Click on the boxes and circles</Text>
+                            <Text style={styles.text}>as quick as you can!</Text>
+                            {isFinite(smallestTime) && smallestTime !== null && (
+                                <Text style={styles.scores}>Last Score: {smallestTime.toFixed(3)}</Text>
+                            )}
+                            {isFinite(bestScore) && bestScore !== null && (
+                                <Text style={styles.scores}>Best Score: {bestScore.toFixed(3)}</Text>
+                            )}
                         </View>
+
+                        <TouchableOpacity style={styles.button} onPress={handleStartGame}>
+                            <Text style={styles.buttonText}>Start</Text>
+                        </TouchableOpacity>
 
                     </>
                 )}
@@ -290,8 +250,9 @@ const Game = () => {
                 <TouchableOpacity style={styles.btnDashboard} onPress={BackToDashboard}>
                     <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
                 </TouchableOpacity>
-            </ScrollView>
-        </ImageBackground >
+
+            </View>
+        </ImageBackground>
     );
 };
 
@@ -313,58 +274,21 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         alignItems: 'center',
-        marginBottom: '10%',
-        marginTop: '20%',
-    },
-    gameOptions: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-    },
-    gameOptionContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: '#af3e76',
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        borderRadius: 5,
-        margin: 10,
-        width: windowWidth - 40, // Adjust based on your design
-    },
-    gameInfo: {
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-    },
-    gameName: {
-        color: 'white',
-        fontSize: 15,
-        fontFamily: 'SourceCodePro-Medium',
-        flexWrap: 'wrap',
-        marginRight: 10,
-    },
-    gameDescription: {
-        color: 'white',
-        fontSize: 14,
-        fontFamily: 'SourceCodePro-Regular',
-    },
-    startButton: {
-        backgroundColor: 'white',
-        padding: 10,
-        borderRadius: 5,
-    },
-    startButtonText: {
-        fontSize: 15,
-        color: '#af3e76',
-        fontFamily: 'SourceCodePro-Medium',
+        marginBottom: '25%',
     },
     text: {
-        fontSize: 14,
+        fontSize: 16,
         textAlign: 'center',
         color: 'black',
         fontFamily: 'SourceCodePro-Regular',
-        marginTop: 10,
+        marginBottom: 10,
+    },
+    text1: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: 'black',
+        fontFamily: 'SourceCodePro-Bold',
+        marginBottom: 10,
     },
     btn: {
         backgroundColor: '#AF3E76',
@@ -426,15 +350,15 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     title: {
-        fontSize: 16,
+        fontSize: 14,
         textAlign: 'center',
         color: 'black',
-        fontFamily: 'SourceCodePro-Bold',
+        fontFamily: 'SourceCodePro-Regular',
     },
     bold: {
         fontFamily: 'SourceCodePro-Bold',
         color: 'black',
-        fontSize: 15,
+        fontSize: 16,
         marginTop: 5,
     },
     gameContainer: {
@@ -475,4 +399,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Game;
+export default ReactionGame;

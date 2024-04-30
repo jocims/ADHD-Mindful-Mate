@@ -1,5 +1,6 @@
 //ResetPassword.js
 
+//Imports
 import React, { useState } from 'react';
 import {
     View,
@@ -13,13 +14,15 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { auth, sendPasswordResetEmail } from '../config/firebase'; // Adjust the import
 
+//ResetPassword component
 const ResetPassword = () => {
 
+    //Variables
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
-
     const navigation = useNavigation();
 
+    //Reset password function
     const resetPassword = async () => {
         setLoading(true);
         try {
@@ -33,6 +36,7 @@ const ResetPassword = () => {
         }
     };
 
+    //Return
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -67,9 +71,9 @@ const ResetPassword = () => {
             </ScrollView>
         </View>
     );
-
 }
 
+//Styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -132,10 +136,10 @@ const styles = StyleSheet.create({
         marginTop: 100,
         fontStyle: 'italic',
         textDecorationLine: 'underline',
-        textAlign: 'center', // Align the text to the right within its container
+        textAlign: 'center',
     },
     resetArea: {
-        flexDirection: 'row', // Set the direction of the container to row
+        flexDirection: 'row',
         justifyContent: 'space-between',
     },
 });
