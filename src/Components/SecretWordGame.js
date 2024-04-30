@@ -16,9 +16,14 @@ const SecretWordGame = () => {
     const [score, setScore] = useState(0);
     const letterInputRef = useRef(null);
     const wordsList = {
-        animals: ['cat', 'dog', 'bird'],
-        fruits: ['apple', 'banana', 'orange'],
+        Animals: ['cat', 'dog', 'bird', 'elephant', 'lion', 'tiger', 'giraffe', 'monkey', 'hippo', 'crocodile'],
+        Fruits: ['apple', 'banana', 'orange', 'strawberry', 'watermelon', 'pineapple', 'grape', 'kiwi', 'peach', 'pear'],
+        Colors: ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black', 'white'],
+        Countries: ['Ireland', 'Canada', 'Australia', 'Japan', 'Brazil', 'India', 'France', 'Germany', 'China', 'Italy'],
+        Sports: ['soccer', 'basketball', 'tennis', 'swimming', 'volleyball', 'baseball', 'golf', 'football', 'cricket', 'rugby'],
+        Professions: ['doctor', 'teacher', 'engineer', 'lawyer', 'chef', 'artist', 'scientist', 'pilot', 'architect', 'musician'],
     };
+
 
     const pickWordAndCategory = useCallback(() => {
         const categories = Object.keys(wordsList);
@@ -130,7 +135,6 @@ const SecretWordGame = () => {
                     <View style={styles.container}>
                         <Text style={styles.category}>Category: {pickedCategory}</Text>
                         <Text style={styles.instructions}>You have {guesses} attempts left.</Text>
-
                         <Text style={styles.instructions}>Try guessing a letter:</Text>
                         <TextInput
                             ref={letterInputRef}
@@ -146,13 +150,13 @@ const SecretWordGame = () => {
                         <View style={styles.wordContainer}>
                             {letters.map((letter, index) => (
                                 <Text key={index} style={styles.letter}>
-                                    {guessedLetters.includes(letter) ? letter : '_'}
+                                    {guessedLetters.includes(letter) ? letter.toUpperCase() : '_'}
                                 </Text>
                             ))}
                         </View>
 
                         <View style={styles.wrongLettersContainer}>
-                            <Text style={styles.instructions}>Used letters: {wrongLetters.join(', ')}</Text>
+                            <Text style={styles.instructions}>Used letters: {wrongLetters.join(', ').toUpperCase()}</Text>
                         </View>
                     </View>
                 );
@@ -187,7 +191,6 @@ const styles = StyleSheet.create({
         fontFamily: 'SourceCodePro-Medium',
         color: 'black',
         fontSize: 16,
-        marginBottom: 20,
     },
     category: {
         fontSize: 20,
@@ -223,6 +226,7 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 1,
         marginBottom: 20,
+        marginTop: 20,
         textAlign: 'center',
     },
     wrongLettersContainer: {

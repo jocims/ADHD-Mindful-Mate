@@ -14,23 +14,17 @@ const WeeklyReport = () => {
     const navigation = useNavigation();
     const [start, setStart] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [weekDates, setWeekDates] = useState([]);
-    const [taskFilter, setTaskFilter] = useState('alphabetical');
-    const [selectedTask, setSelectedTask] = useState(null);
-    const [selectedStatus, setSelectedStatus] = useState('');
     const [moodChartData, setMoodChartData] = useState(null);
     const [taskChartData, setTaskChartData] = useState(null);
     const route = useRoute();
     const patientToken = route.params?.patientToken;
     const { patientData } = route.params;
     const isDoctor = route.params?.isDoctor;
-    const gamePracticeData = {};
-    const gameScoreData = {};
-    const meditationData = {};
-    const deepBreathingData = {};
     const [deepBreathingChartData, setDeepBreathingChartData] = useState(null);
     const [gamePracticeChartData, setGamePracticeChartData] = useState(null);
     const [gameScoreChartData, setGameScoreChartData] = useState(null);
+    const [gamePracticeChartData2, setGamePracticeChartData2] = useState(null);
+    const [gameScoreChartData2, setGameScoreChartData2] = useState(null);
     const [meditationChartData, setMeditationChartData] = useState(null);
 
     useEffect(() => {
@@ -72,8 +66,6 @@ const WeeklyReport = () => {
             console.log("taskChartData:", JSON.stringify(taskChartData));
         }
     }, [patientData]);
-
-
 
     useEffect(() => {
         if (patientData && patientData.MoodTracker) {
@@ -121,7 +113,8 @@ const WeeklyReport = () => {
         if (patientData && patientData.GamePractice) {
             // Filter game practice and score data by the selected week commencing date
             const filteredGamePracticeData = Object.values(patientData.GamePractice)
-                .filter(entry => entry.date >= getMonday(selectedDate));
+                .filter(entry => entry.date >= getMonday(selectedDate))
+                .filter(entry => entry.game === 'Reaction Test'); // Filter only the Reaction Test game data
 
             // Initialize game practice and score data objects
             const gamePracticeData = {
@@ -199,6 +192,88 @@ const WeeklyReport = () => {
         }
     }, [patientData, selectedDate]);
 
+    useEffect(() => {
+        if (patientData && patientData.GamePractice) {
+            // Filter game practice and score data by the selected week commencing date
+            const filteredGamePracticeData = Object.values(patientData.GamePractice)
+                .filter(entry => entry.date >= getMonday(selectedDate))
+                .filter(entry => entry.game === 'Secret Word'); // Filter only the Reaction Test game data
+
+            // Initialize game practice and score data objects
+            const gamePracticeData = {
+                Mon: 0,
+                Tue: 0,
+                Wed: 0,
+                Thu: 0,
+                Fri: 0,
+                Sat: 0,
+                Sun: 0
+            };
+            const gameScoreData = {
+                Mon: 0,
+                Tue: 0,
+                Wed: 0,
+                Thu: 0,
+                Fri: 0,
+                Sat: 0,
+                Sun: 0
+            };
+
+            // Aggregate game practice time and track the best score for each day
+            filteredGamePracticeData.forEach((practice) => {
+                const date = practice.date;
+                const timeSpent = parseFloat(practice.timeDurationOfPractice);
+                const score = parseInt(practice.gamePracticeScore);
+                const formattedDate = formatDate(date);
+
+                gamePracticeData[formattedDate] += timeSpent;
+
+                if (!gameScoreData[formattedDate] || score > gameScoreData[formattedDate]) {
+                    gameScoreData[formattedDate] = score;
+                }
+            });
+
+            // Prepare data for the duration graph
+            const gamePracticeChartData = {
+                labels: ["M", "T", "W", "T", "F", "S", "S"],
+                datasets: [
+                    {
+                        data: [
+                            gamePracticeData["Mon"] || 0,
+                            gamePracticeData["Tue"] || 0,
+                            gamePracticeData["Wed"] || 0,
+                            gamePracticeData["Thu"] || 0,
+                            gamePracticeData["Fri"] || 0,
+                            gamePracticeData["Sat"] || 0,
+                            gamePracticeData["Sun"] || 0
+                        ],
+                    },
+                ],
+            };
+
+            // Prepare data for the game score graph
+            const gameScoreChartData = {
+                labels: ["M", "T", "W", "T", "F", "S", "S"],
+                datasets: [
+                    {
+                        data: [
+                            gameScoreData["Mon"] || 0,
+                            gameScoreData["Tue"] || 0,
+                            gameScoreData["Wed"] || 0,
+                            gameScoreData["Thu"] || 0,
+                            gameScoreData["Fri"] || 0,
+                            gameScoreData["Sat"] || 0,
+                            gameScoreData["Sun"] || 0
+                        ],
+                    },
+                ],
+            };
+
+            // Set the state with the updated chart data
+            setGamePracticeChartData2(gamePracticeChartData);
+            setGameScoreChartData2(gameScoreChartData);
+        }
+    }, [patientData, selectedDate]);
 
     useEffect(() => {
         if (patientData && patientData.Meditation) {
@@ -554,18 +629,21 @@ const WeeklyReport = () => {
                         )}
 
                     {patientData && patientData.GamePractice && gamePracticeChartData && gameScoreChartData && Object.values(patientData.GamePractice)
-                        .filter(practice => practice.date >= getMonday(selectedDate)) // Filter game practices by week commencing date
+                        .filter(practice => practice.date >= getMonday(selectedDate))
+                        .filter(entry => entry.game === 'Reaction Test')
                         .length > 0 && (
                             <>
                                 <View style={styles.taskDetailsContainer}>
                                     <Text style={styles.text1}>Anxiety-Relief Game Practice</Text>
+                                    <Text style={styles.text2}>Reaction Test</Text>
                                     <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
                                         <Text style={styles.taskHeaderText}>Date</Text>
                                         <Text style={styles.taskHeaderText}>Duration (min)</Text>
-                                        <Text style={styles.taskHeaderText}>Best time (sec)</Text>
+                                        <Text style={styles.taskHeaderText}>Score</Text>
                                     </View>
                                     {patientData && patientData.GamePractice && Object.values(patientData.GamePractice)
                                         .filter(practice => practice.date >= getMonday(selectedDate)) // Filter game practices by week commencing date
+                                        .filter(entry => entry.game === 'Reaction Test')
                                         .sort(sortByDateAndDuration) // Sort by date and duration
                                         .map((task, index) => (
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
@@ -580,7 +658,6 @@ const WeeklyReport = () => {
                                     <Text style={styles.taskHeaderText}>By Duration</Text>
                                     <Text style={styles.taskHeaderText}>By Score</Text>
                                 </View>
-
 
                                 <View style={styles.chartContainer}>
                                     <View style={styles.chart}>
@@ -610,6 +687,72 @@ const WeeklyReport = () => {
                                                 paddingLeft: 0, // Add some right padding to align the chart with the other chart
                                                 paddingRight: 50, // Add some right padding to align the chart with the other chart
                                             }}
+                                            formatYLabel={(value) => Math.round(value)}
+                                        />
+                                    </View>
+                                </View>
+                            </>
+                        )}
+
+                    {patientData && patientData.GamePractice && gamePracticeChartData && gameScoreChartData && Object.values(patientData.GamePractice)
+                        .filter(practice => practice.date >= getMonday(selectedDate))
+                        .filter(entry => entry.game === 'Secret Word')
+                        .length > 0 && (
+                            <>
+                                <View style={styles.taskDetailsContainer}>
+                                    <Text style={styles.text2}>Secret Word</Text>
+                                    <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
+                                        <Text style={styles.taskHeaderText}>Date</Text>
+                                        <Text style={styles.taskHeaderText}>Duration (min)</Text>
+                                        <Text style={styles.taskHeaderText}>Score</Text>
+                                    </View>
+                                    {patientData && patientData.GamePractice && Object.values(patientData.GamePractice)
+                                        .filter(practice => practice.date >= getMonday(selectedDate)) // Filter game practices by week commencing date
+                                        .filter(entry => entry.game === 'Secret Word')
+                                        .sort(sortByDateAndDuration) // Sort by date and duration
+                                        .map((task, index) => (
+                                            <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
+                                                <Text style={styles.taskRowText}>{task.date}</Text>
+                                                <Text style={styles.taskRowText}>{formattedTime(task.timeDurationOfPractice)}</Text>
+                                                <Text style={styles.taskRowText}>{task.gamePracticeScore}</Text>
+                                            </View>
+                                        ))}
+                                </View>
+
+                                <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
+                                    <Text style={styles.taskHeaderText}>By Duration</Text>
+                                    <Text style={styles.taskHeaderText}>By Score</Text>
+                                </View>
+
+                                <View style={styles.chartContainer}>
+                                    <View style={styles.chart}>
+                                        <LineChart
+                                            data={gamePracticeChartData2}
+                                            width={Dimensions.get("window").width * 0.45} // Adjust width to make the chart smaller
+                                            height={180}
+                                            chartConfig={chartConfig}
+                                            bezier
+                                            style={{
+                                                borderRadius: 16,
+                                                paddingLeft: 0, // Add some right padding to align the chart with the other chart
+                                                paddingRight: 50, // Add some right padding to align the chart with the other chart
+                                            }}
+                                            formatYLabel={(value) => formattedTime(value)} // Use the formattedTime function here
+                                        />
+                                    </View>
+                                    <View style={styles.chart}>
+                                        <LineChart
+                                            data={gameScoreChartData2}
+                                            width={Dimensions.get("window").width * 0.45} // Adjust width to make the chart smaller
+                                            height={180}
+                                            chartConfig={chartConfig}
+                                            bezier
+                                            style={{
+                                                borderRadius: 16,
+                                                paddingLeft: 0, // Add some right padding to align the chart with the other chart
+                                                paddingRight: 50, // Add some right padding to align the chart with the other chart
+                                            }}
+                                            formatYLabel={(value) => Math.round(value)}
                                         />
                                     </View>
                                 </View>
@@ -881,6 +1024,13 @@ const styles = StyleSheet.create({
         fontFamily: 'SourceCodePro-Bold',
         marginBottom: 5,
     },
+    text2: {
+        fontSize: 14,
+        textAlign: 'center',
+        color: 'black',
+        fontFamily: 'SourceCodePro-Medium',
+        marginBottom: 5,
+    },
     taskDetailsContainer: {
         marginBottom: 15,
     },
@@ -1010,6 +1160,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     chartContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10, // Add some top margin
+        marginStart: 15,
+        marginBottom: 20, // Add bottom margin to create space between the chart and screen edges
+    },
+    chartContainerGame1: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 10, // Add some top margin
