@@ -20,7 +20,6 @@ const ChangePassword = ({ setProvisionalPassword }) => {
         setLoading(true);
 
         try {
-            const userToken = await ReactNativeAsyncStorage.getItem('userToken');
 
             if (!isPasswordValid(newPassword)) {
                 setErrorMessage('A strong password should be a minimum of 8 characters in length, containing a mix of upper and lower case letters, special characters, and digits.');
@@ -41,7 +40,9 @@ const ChangePassword = ({ setProvisionalPassword }) => {
 
             Alert.alert('Success', 'Password changed successfully.');
 
-            const userDatas = doc(db, 'patient', userToken);
+            await ReactNativeAsyncStorage.setItem('provisionalPassword', 'false');
+
+            const userDatas = doc(db, 'patient', auth.currentUser.uid);
             await updateDoc(userDatas, {
                 'User.provisionalPassword': false
             });

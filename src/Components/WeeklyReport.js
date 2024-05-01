@@ -5,7 +5,7 @@ import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { LineChart, PieChart } from 'react-native-chart-kit';
 
 
-// Define the ViewTasksScreen component
+// Define the WeeklyReport component
 const WeeklyReport = () => {
     // State variables
     const navigation = useNavigation();
@@ -22,45 +22,6 @@ const WeeklyReport = () => {
     const [gamePracticeChartData2, setGamePracticeChartData2] = useState(null);
     const [gameScoreChartData2, setGameScoreChartData2] = useState(null);
     const [meditationChartData, setMeditationChartData] = useState(null);
-
-    useEffect(() => {
-        if (patientData && patientData.WeeklyTasks) {
-            const filteredWeeklyTasks = Object.values(patientData.WeeklyTasks)
-                .filter(task => task.weekCommencing >= getMonday(selectedDate));
-
-            // Initialize task status count object
-            const taskStatusCount = {
-                "Completed": 0,
-                "Created": 0,
-                "In Progress": 0,
-                "Started": 0,
-            };
-
-            // Count task statuses
-            filteredWeeklyTasks.forEach((task) => {
-                const status = task.taskStatus;
-                taskStatusCount[status]++;
-            });
-
-            // Define custom colors for each task status
-            const taskStatusColors = {
-                "Completed": '#0C5E51',
-                "Created": '#053B90',
-                "Started": '#D64F5D',
-                "In Progress": '#5F6EB5',
-            };
-
-            // Calculate percentages and assign colors
-            const totalTasks = filteredWeeklyTasks.length;
-            const taskChartData = Object.keys(taskStatusCount).map((status) => {
-                const percentage = (taskStatusCount[status] / totalTasks) * 100;
-                const formattedPercentage = parseFloat(percentage.toFixed(1)); // Ensure percentage is a float with one decimal point
-                return { name: '% ' + status, percentage: formattedPercentage, color: taskStatusColors[status] };
-            });
-
-            setTaskChartData(taskChartData);
-        }
-    }, [patientData]);
 
     useEffect(() => {
         if (patientData && patientData.MoodTracker) {
@@ -578,30 +539,7 @@ const WeeklyReport = () => {
                                                 <Text style={styles.taskRowText}>{task.taskStatus}</Text>
                                             </View>
                                         ))}
-
                                 </View>
-
-                                {taskChartData && Object.values(patientData.WeeklyTasks)
-                                    .length > 0 && (
-                                        <View style={styles.chartContainer}>
-                                            <PieChart
-                                                data={taskChartData}
-                                                width={Dimensions.get("window").width * 0.9}
-                                                height={200}
-                                                chartConfig={{
-                                                    backgroundColor: '#FFFFFF',
-                                                    backgroundGradientFrom: '#FFFFFF',
-                                                    backgroundGradientTo: '#FFFFFF',
-                                                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                                                    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                                                }}
-                                                accessor="percentage"
-                                                backgroundColor="transparent"
-                                                paddingLeft="15"
-                                                absolute
-                                            />
-                                        </View>
-                                    )}
                             </>
                         )}
 
@@ -654,6 +592,11 @@ const WeeklyReport = () => {
                             </>
                         )}
 
+                    {patientData && patientData.GamePractice && gamePracticeChartData && gameScoreChartData && Object.values(patientData.GamePractice)
+                        .filter(practice => filterByWeek(practice, startDate, endDate)) // Filter game practices by week commencing date range
+                        .length > 0 && (
+                            <Text style={styles.text1}>Anxiety-Relief Game Practices</Text>
+                        )}
 
                     {patientData && patientData.GamePractice && gamePracticeChartData && gameScoreChartData && Object.values(patientData.GamePractice)
                         .filter(practice => filterByWeek(practice, startDate, endDate)) // Filter game practices by week commencing date range
@@ -661,7 +604,6 @@ const WeeklyReport = () => {
                         .length > 0 && (
                             <>
                                 <View style={styles.taskDetailsContainer}>
-                                    <Text style={styles.text1}>Anxiety-Relief Game Practices</Text>
                                     <Text style={styles.text2}>Reaction Test</Text>
                                     <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
                                         <Text style={styles.taskHeaderText}>Date</Text>
@@ -794,6 +736,7 @@ const WeeklyReport = () => {
                                     <Text style={styles.text1}>Meditation Practice</Text>
                                     <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
                                         <Text style={styles.taskHeaderText}>Date</Text>
+                                        <Text style={styles.taskHeaderText}>Name</Text>
                                         <Text style={styles.taskHeaderText}>Duration (min)</Text>
                                     </View>
                                     {Object.values(patientData.Meditation)
@@ -802,6 +745,7 @@ const WeeklyReport = () => {
                                         .map((task, index) => (
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
                                                 <Text style={styles.taskRowText}>{task.date}</Text>
+                                                <Text style={styles.taskRowText}>{task.meditationName}</Text>
                                                 <Text style={styles.taskRowText}>{formattedTime(task.timeDurationOfPractice)}</Text>
                                             </View>
                                         ))}
@@ -833,6 +777,7 @@ const WeeklyReport = () => {
                                     <Text style={styles.text1}>Deep-Breathing Exercises</Text>
                                     <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
                                         <Text style={styles.taskHeaderText}>Date</Text>
+                                        <Text style={styles.taskHeaderText}>Name</Text>
                                         <Text style={styles.taskHeaderText}>Duration (min)</Text>
                                     </View>
                                     {Object.values(patientData.DeepBreathing)
@@ -841,6 +786,7 @@ const WeeklyReport = () => {
                                         .map((task, index) => (
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
                                                 <Text style={styles.taskRowText}>{task.date}</Text>
+                                                <Text style={styles.taskRowText}>{task.deepBreathingName}</Text>
                                                 <Text style={styles.taskRowText}>{formattedTime(task.timeDurationOfPractice)}</Text>
                                             </View>
                                         ))}
@@ -981,23 +927,25 @@ const WeeklyReport = () => {
 
                 </ScrollView>
 
-                {isDoctor && (
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('Notes', { patientToken: patientToken, patientData: patientData, isDoctor: isDoctor })}
-                            style={styles.button}>
-                            <Text style={styles.buttonText}>Create Notes</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
+                {
+                    isDoctor && (
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Notes', { patientToken: patientToken, patientData: patientData, isDoctor: isDoctor })}
+                                style={styles.button}>
+                                <Text style={styles.buttonText}>Create Notes</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )
+                }
 
                 <View style={styles.dashboardBottomButtonContainer}>
                     <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate(isDoctor ? 'DoctorDashboard' : 'PatientDashboard')}>
                         <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
-        </ImageBackground>
+            </View >
+        </ImageBackground >
     );
 };
 

@@ -40,10 +40,13 @@ const Game = () => {
     const navigation = useNavigation();
 
     const BackToDashboard = async () => {
-        // Update user data context
-        updateUserData({ uid: auth.currentUser.uid });
+        if (auth.currentUser) {
+            // Update user data context
+            updateUserData({ uid: auth.currentUser.uid });
+        }
         navigation.navigate('PatientDashboard');
     };
+
 
     const fetchBestScore = async () => {
         try {
@@ -225,7 +228,7 @@ const Game = () => {
                             <>
                                 <View style={styles.header}>
                                     <Text style={styles.title}>Guess the word!</Text>
-                                    <Text style={styles.text}>Click on the boxes and circles as quick as you can!</Text>
+                                    <Text style={styles.text}>Enter a letter in the box to guess the secret word.</Text>
                                 </View>
 
                                 <View style={styles.gameContainer}>

@@ -640,7 +640,7 @@ const PatientRegistration = () => {
 
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.button} onPress={handleAddPatient}>
-                            <Text style={styles.buttonText}>Create Task</Text>
+                            <Text style={styles.buttonText}>Add Patient</Text>
                         </TouchableOpacity>
                     </View>
 

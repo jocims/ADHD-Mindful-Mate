@@ -44,22 +44,15 @@ const DeepBreathing = () => {
     useEffect(() => {
         // Function to initialize TrackPlayer
         const initializeTrackPlayer = async () => {
-            console.log('!!!!!!!!!!!!!!!!!!!! Initializing TrackPlayer...');
             try {
-                console.log('!!!!!!!!!!!!!!!!!!!! TRY...');
 
                 const isPlayerInit = await TrackPlayer.isServiceRunning();
                 setIsPlayerInitialized(isPlayerInit);
 
                 if (!isPlayerInit) {
-                    console.log('!!!!!!!!!!!!!!!!!!!! NOT INITIALIZED...');
                     await TrackPlayer.setupPlayer();
-                    console.log('!!!!!!!!!!!!!!!!!!!! Player setup...');
                     setIsPlayerInitialized(true);
-                    console.log('!!!!!!!!!!!!!!!!!!!! Player initialized...'); {
-                    }
                 } else {
-                    console.log('!!!!!!!!!!!!!!!!!!!! Player already initialized...');
                     await TrackPlayer.reset();
                 }
             } catch (error) {
@@ -86,7 +79,6 @@ const DeepBreathing = () => {
             const querySnapshot = await getDocs(collection(db, 'deep-breathing-audios'));
             const meditationList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             setMeditations(meditationList);
-            console.log('Fetched meditations:', meditationList);
         } catch (error) {
             console.error('Error fetching meditations:', error);
         }
@@ -112,35 +104,7 @@ const DeepBreathing = () => {
         setStartTimer(new Date().getTime());
     };
 
-    // Function to handle end of deep breathing
-    const handleEnd = async () => {
-        setStart(false);
-        const endTime = new Date().getTime();
-        const duration = (endTime - startTimer) / 1000 / 60;
 
-        try {
-            const userDocRef = doc(db, 'patient', auth.currentUser.uid);
-            const data = {
-                [Date.now().toString()]: {
-                    timeDurationOfPractice: duration.toFixed(2),
-                    date: new Date().toLocaleDateString('en-GB'),
-                    weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
-                },
-            };
-
-            await setDoc(userDocRef, { DeepBreathing: data }, { merge: true });
-
-        } catch (error) {
-            console.error('Error saving deep breathing data:', error);
-        }
-    };
-
-    // Function to get the Monday of the current week
-    const getMonday = (date) => {
-        const day = date.getDay();
-        const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-        return new Date(date.setDate(diff));
-    };
 
     // Function to start the meditation
     const handleMeditationStart = async (meditation) => {
@@ -164,6 +128,39 @@ const DeepBreathing = () => {
         }
     };
 
+    // Function to get the Monday of the current week
+    const getMonday = (date) => {
+        const day = date.getDay();
+        const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+        return new Date(date.setDate(diff));
+    };
+
+    // Function to handle end of deep breathing
+    const handleEnd = async () => {
+        setStart(false);
+        const endTime = new Date().getTime();
+        const duration = (endTime - startTimer) / 1000 / 60;
+
+        try {
+            const userDocRef = doc(db, 'patient', auth.currentUser.uid);
+            const id = Date.now().toString();
+            const data = {
+                [id]: {
+                    id: id,
+                    deepBreathingName: 'Box Breathing',
+                    timeDurationOfPractice: duration.toFixed(2),
+                    date: new Date().toLocaleDateString('en-GB'),
+                    weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
+                },
+            };
+
+            await setDoc(userDocRef, { DeepBreathing: data }, { merge: true });
+
+        } catch (error) {
+            console.error('Error saving deep breathing data:', error);
+        }
+    };
+
     // Function to end the meditation
     const handleMeditationEnd = async () => {
         setstartAudio(false);
@@ -176,6 +173,7 @@ const DeepBreathing = () => {
             const data = {
                 [id]: {
                     id: id,
+                    deepBreathingName: selectedMeditation.name,
                     timeDurationOfPractice: duration.toFixed(2),
                     date: new Date().toLocaleDateString('en-GB'),
                     weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
@@ -183,6 +181,7 @@ const DeepBreathing = () => {
             };
 
             await setDoc(userDocRef, { DeepBreathing: data }, { merge: true });
+            setSelectedMeditation(null);
 
         } catch (error) {
             console.error('Error stopping meditation:', error);

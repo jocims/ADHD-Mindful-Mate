@@ -1,3 +1,6 @@
+//Login for Doctors
+
+// Import necessary libraries
 import React, { useState } from 'react';
 import {
   View,
@@ -25,22 +28,24 @@ const LoginDoctor = () => {
 
   const { updateUserData } = useUserData();
 
+  // Validate the email and password inputs
   const validateInputs = () => {
     let isValid = true;
 
-    if (!email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
       setEmailError('A valid email address should contain a valid email domain (gmail.com, hotmail.com, yahoo.com, outlook.com, live.com) and it should have the `@` sign before it.');
       isValid = false;
     } else {
       setEmailError('');
     }
 
-    if (!password) {
+    if (!password || password.length < 8) {
       setPasswordError(`Please enter your password containing at least 8 characters with at least one of each of the following:
-- Uppercase letter
-- Lowercase letter
-- Number
-- Special character`);
+  - Uppercase letter
+  - Lowercase letter
+  - Number
+  - Special character`);
       isValid = false;
     } else {
       setPasswordError('');
@@ -50,17 +55,13 @@ const LoginDoctor = () => {
   };
 
   const signIn = async () => {
+    if (!validateInputs()) {
+      return;
+    }
+
     setLoading(true);
-    setEmailError('');
-    setPasswordError('');
     try {
       console.log('Signing in as a doctor');
-
-      // Validate the email and password inputs
-      if (!validateInputs()) {
-        return;
-      }
-
       const response = await signInWithEmailAndPassword(auth, email, password);
 
       // Retrieve user data from Firestore based on the user's UID

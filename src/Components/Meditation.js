@@ -85,7 +85,7 @@ const Meditation = () => {
     const handleMeditationStart = async (meditation) => {
         setSelectedMeditation(meditation);
         setStart(true);
-        console.log('Starting meditation:', meditation);
+        console.log('Starting meditation:', meditation.name);
         try {
             await TrackPlayer.reset();
             await TrackPlayer.add({
@@ -114,6 +114,7 @@ const Meditation = () => {
             const data = {
                 [id]: {
                     id: id,
+                    meditationName: selectedMeditation.name,
                     timeDurationOfPractice: duration.toFixed(2),
                     date: new Date().toLocaleDateString('en-GB'),
                     weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),

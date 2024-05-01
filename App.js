@@ -50,6 +50,7 @@ export default function App() {
 
         // Check if provisional password needs to be set
         const provisionalPasswordValue = await ReactNativeAsyncStorage.getItem('provisionalPassword');
+        console.log('Provisional password found in AsyncStorage:', provisionalPasswordValue);
         if (provisionalPasswordValue === 'true') {
           setProvisionalPassword(true);
         }

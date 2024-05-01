@@ -43,7 +43,7 @@ const LoginPatient = () => {
             setEmailError('');
         }
 
-        if (!password) {
+        if (!password || password.length < 8) {
             setPasswordError(`Please enter your password containing at least 8 characters with at least one of each of the following:
     - Uppercase letter
     - Lowercase letter
@@ -77,17 +77,8 @@ const LoginPatient = () => {
             // Check if the user is a patient
             if (userData && !userData.User.isDoctor) {
 
-                // Check if it's the first time login with provisional password
-                if (userData.User.provisionalPassword) {
-                    setProvisionalPassword(true);
-                    setLoading(false);
-                    return; // Stop further execution to navigate to ChangePasswordPatient
-                }
-
                 console.log('User is a patient');
                 console.log('userData:', userData);
-                navigation.navigate('PatientDashboard');
-                alert('User logged-in successfully');
 
                 // Store user authentication token, role, and display name in AsyncStorage
                 await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
@@ -95,10 +86,17 @@ const LoginPatient = () => {
                 await ReactNativeAsyncStorage.setItem('provisionalPassword', userData.User.provisionalPassword.toString());
                 console.log('User Token saved!');
 
+                // Check if it's the first time login with provisional password
+                if (userData.User.provisionalPassword) {
+                    setProvisionalPassword(true);
+                    setLoading(false);
+                    return; // Stop further execution to navigate to ChangePasswordPatient
+                }
+
+                navigation.navigate('PatientDashboard');
+
                 // Update user data context
                 updateUserData({ uid: response.user.uid });
-
-
 
                 setLoading(false);
             } else {
