@@ -164,6 +164,7 @@ const SecretWordGame = () => {
                 return (
                     <View style={styles.container}>
                         <Text style={styles.title}>Game Over!</Text>
+                        <Text style={styles.instructions}>The word was: {pickedWord.toUpperCase()}</Text>
                         <Text style={styles.category}>Your score: {score}</Text>
                     </View>
                 );

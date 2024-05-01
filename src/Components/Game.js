@@ -10,16 +10,6 @@ import SecretWordGame from './SecretWordGame'; // Import the SecretWordGame comp
 
 const windowWidth = Dimensions.get('window').width;
 
-// Function to handle log out
-const handleLogout = async () => {
-    // Clear user token and role from AsyncStorage
-    await ReactNativeAsyncStorage.removeItem('userToken');
-    await ReactNativeAsyncStorage.removeItem('userRole');
-
-    // Navigate back to the login screen
-    navigation.navigate('FirstScreen');
-};
-
 const getRandomColor = () => {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -44,10 +34,10 @@ const Game = () => {
     const [timeTakenList, setTimeTakenList] = useState([]); // State to store all timeTaken values
     const [smallestTime, setSmallestTime] = useState(null); // State to store the smallest timeTaken value
     const [bestScore, setBestScore] = useState(null); // State to store the best score
-    const navigation = useNavigation();
     const [shapeClickStartTime, setShapeClickStartTime] = useState(0); // State to track the start time of each shape click
     const { updateUserData } = useUserData();
     const [selectedGame, setSelectedGame] = useState(null); // State to manage selected game
+    const navigation = useNavigation();
 
     const BackToDashboard = async () => {
         // Update user data context
@@ -184,12 +174,20 @@ const Game = () => {
         }
     };
 
-
-
     const getMonday = (date) => {
         const day = date.getDay();
         const diff = date.getDate() - day + (day === 0 ? -6 : 1);
         return new Date(date.setDate(diff));
+    };
+
+    // Function to handle log out
+    const handleLogout = async () => {
+        // Clear user token and role from AsyncStorage
+        await ReactNativeAsyncStorage.removeItem('userToken');
+        await ReactNativeAsyncStorage.removeItem('userRole');
+
+        // Navigate back to the login screen
+        navigation.navigate('FirstScreen');
     };
 
     return (

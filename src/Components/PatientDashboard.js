@@ -10,9 +10,6 @@ import messages from '../messages.json'; // Import the JSON file
 // Get the width of the screen
 const screenWidth = Dimensions.get('window').width;
 
-// Dynamically calculate the width of the message container based on the screen width
-const messageContainerWidth = screenWidth - 40; // Subtracting padding from both sides
-
 const PatientDashboard = () => {
   const navigation = useNavigation();
   const { userData } = useUserData();
@@ -28,7 +25,6 @@ const PatientDashboard = () => {
     // Set the patientData state with the fetched userData
     setPatientData(userData);
   }, [userData]);
-
 
   useEffect(() => {
     const fetchFeelGoodMessage = async () => {
@@ -87,7 +83,6 @@ const PatientDashboard = () => {
       }
     };
 
-
     fetchSelectedEmoji();
   }, []);
 
@@ -99,18 +94,6 @@ const PatientDashboard = () => {
       console.log('Stored User Token in PatientDashboard:', storedUserToken);
     }
   }, [userData, storedUserToken]);
-
-  // Function to handle log out
-  const handleLogout = async () => {
-    // Clear user token and role from AsyncStorage
-    await ReactNativeAsyncStorage.removeItem('userToken');
-    await ReactNativeAsyncStorage.removeItem('userRole');
-
-    setIsImageSelected([false, false, false, false, false]);
-
-    // Navigate back to the login screen
-    navigation.navigate('FirstScreen');
-  };
 
   const fetchNewFeelGoodMessage = async () => {
     try {
@@ -187,6 +170,22 @@ const PatientDashboard = () => {
     return new Date(date.setDate(diff));
   };
 
+  const weeklyReport = async () => {
+    await updateUserData({ uid: auth.currentUser.uid });
+    navigation.navigate('WeeklyReport', { patientToken: storedUserToken, patientData: patientData, isDoctor: isDoctor });
+  };
+
+  // Function to handle log out
+  const handleLogout = async () => {
+    // Clear user token and role from AsyncStorage
+    await ReactNativeAsyncStorage.removeItem('userToken');
+    await ReactNativeAsyncStorage.removeItem('userRole');
+
+    setIsImageSelected([false, false, false, false, false]);
+
+    // Navigate back to the login screen
+    navigation.navigate('FirstScreen');
+  };
 
   return (
     <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
@@ -237,7 +236,7 @@ const PatientDashboard = () => {
             <TouchableOpacity onPress={() => navigation.navigate('Journaling')}>
               <Image source={require('../journal.png')} style={styles.btnImage} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('WeeklyReport', { patientToken: storedUserToken, patientData: patientData, isDoctor: isDoctor })}>
+            <TouchableOpacity style={styles.btn} onPress={weeklyReport}>
               <Image source={require('../report.png')} style={styles.btnImage} />
             </TouchableOpacity>
           </View>

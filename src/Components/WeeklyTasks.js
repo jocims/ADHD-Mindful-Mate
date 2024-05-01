@@ -128,13 +128,13 @@ const WeeklyTasks = () => {
 
     const ViewTasks = async () => {
         // Update user data context
-        updateUserData({ uid: auth.currentUser.uid });
+        await updateUserData({ uid: auth.currentUser.uid });
         navigation.navigate('ViewTasksScreen');
     };
 
     const BackToDashboard = async () => {
         // Update user data context
-        updateUserData({ uid: auth.currentUser.uid });
+        await updateUserData({ uid: auth.currentUser.uid });
         navigation.navigate('PatientDashboard');
     };
 

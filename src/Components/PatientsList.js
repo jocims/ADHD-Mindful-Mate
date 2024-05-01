@@ -69,6 +69,7 @@ const PatientsList = () => {
     };
 
     const renderPatient = ({ item }) => (
+        console.log('Patient:', item),
         <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('WeeklyReport', { patientToken: item.id, patientData: item, isDoctor: isDoctor })}

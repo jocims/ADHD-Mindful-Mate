@@ -386,44 +386,58 @@ const PatientRegistration = () => {
                         text: "Add",
                         onPress: async () => {
 
-                            // Step 1: Create a user in Firebase Authentication
-                            const authUser = await createUserWithEmailAndPassword(
-                                auth,
-                                patientEmail,
-                                provisionalPassword
-                            );
+                            try {
+                                // Step 1: Create a user in Firebase Authentication
+                                const authUser = await createUserWithEmailAndPassword(
+                                    auth,
+                                    patientEmail,
+                                    provisionalPassword
+                                );
 
-                            // await sendPasswordResetEmail(auth, patientEmail);
+                                // await sendPasswordResetEmail(auth, patientEmail);
 
-                            // Step 2: Add patient data to Firestore
-                            const patientData = {
-                                User: {
-                                    firstName: formatName(patientName),
-                                    lastName: formatName(patientSurname),
-                                    dob: patientDOB.toLocaleDateString('en-GB'),
-                                    gender: patientGender,
-                                    weight: patientWeight,
-                                    mobileNo: patientMobileNo,
-                                    email: patientEmail,
-                                    isDoctor: false,
-                                    doctorId: doctorUid, // Use the doctor's UID as the doctorId
-                                    provisionalPassword: true,
-                                },
-                            };
+                                // Step 2: Add patient data to Firestore
+                                const patientData = {
+                                    User: {
+                                        firstName: formatName(patientName),
+                                        lastName: formatName(patientSurname),
+                                        dob: patientDOB.toLocaleDateString('en-GB'),
+                                        gender: patientGender,
+                                        weight: patientWeight,
+                                        mobileNo: patientMobileNo,
+                                        email: patientEmail,
+                                        isDoctor: false,
+                                        doctorId: doctorUid, // Use the doctor's UID as the doctorId
+                                        provisionalPassword: true,
+                                    },
+                                };
 
-                            const patientsCollection = collection(db, 'patient');
-                            await setDoc(doc(patientsCollection, authUser.user.uid), patientData);
+                                const patientsCollection = collection(db, 'patient');
+                                await setDoc(doc(patientsCollection, authUser.user.uid), patientData);
 
-                            alert('Patient added successfully');
+                                alert('Patient added successfully');
 
-                            // Update userToken only if it hasn't been set already
-                            console.log('storedUserToken after registration:', storedUserToken);
+                                // Update userToken only if it hasn't been set already
+                                console.log('storedUserToken after registration:', storedUserToken);
 
-                            if (storedUserToken === null || storedUserToken === undefined) {
-                                await AsyncStorage.setItem('userToken', doctorUid);
+                                if (storedUserToken === null || storedUserToken === undefined) {
+                                    await AsyncStorage.setItem('userToken', doctorUid);
+                                }
+
+                                navigation.navigate('DoctorDashboard');
+                            } catch (error) {
+                                // Check if the error is due to email already in use
+                                if (error.code === 'auth/email-already-in-use') {
+                                    // Handle the error gracefully, such as displaying a message to the user
+                                    alert('The email address is already in use.');
+                                } else if (error.code === 'auth/weak-password') {
+                                    alert('The password is too weak.');
+                                } else if (error.code === 'auth/invalid-email') {
+                                    alert('The email address is invalid.');
+                                } else {
+                                    console.error('Error adding patient: ', error);
+                                }
                             }
-
-                            navigation.navigate('DoctorDashboard');
                         }
                     }
                 ],

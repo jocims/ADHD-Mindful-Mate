@@ -20,7 +20,6 @@ const Notes = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const patientToken = route.params?.patientToken;
-    const { patientData } = route.params;
     const isDoctor = route.params?.isDoctor;
 
     const confirmCreateTask = async () => {
@@ -70,7 +69,6 @@ const Notes = () => {
         }
     };
 
-
     const handleEnd = async () => {
         setStart(false);
         try {
@@ -103,7 +101,10 @@ const Notes = () => {
 
             await setDoc(userDocRef, { Notes: data }, { merge: true });
 
-            alert('Task created successfully.');
+            alert('Note created successfully.');
+
+            navigation.navigate('DoctorDashboard');
+
         } catch (error) {
             console.error('Error saving task data:', error);
         }
@@ -120,12 +121,6 @@ const Notes = () => {
         const day = date.getDay();
         const diff = date.getDate() - day + (day === 0 ? -6 : 1);
         return new Date(date.setDate(diff));
-    };
-
-    const BackToDashboard = async () => {
-        // Update user data context
-        updateUserData({ uid: patientToken });
-        navigation.navigate('DoctorDashboard');
     };
 
     return (
@@ -235,44 +230,36 @@ const Notes = () => {
                             placeholder="Identified Pattern"
                             value={pattern}
                             onChangeText={text => {
-                                // Limit the input to 50 characters
+                                // Limit the input to 100 characters
                                 if (text.length <= 100) {
                                     setPattern(text);
                                 }
                             }}
                         />
                         <Text style={styles.fieldLabel}>Treatment Notes</Text>
-                        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                            <TextInput
-                                style={styles.input}
-                                multiline={true}
-                                placeholder="Write your notes here..."
-                                value={treatmentNotes}
-                                onChangeText={text => {
-                                    // Limit the number of characters
-                                    if (text.length <= 500) {
-                                        // Limit the number of lines
-                                        const lines = text.split('\n');
-                                        if (lines.length <= 20) {
-                                            settreatmentNotes(text);
-                                        }
+                        <TextInput
+                            style={styles.input}
+                            multiline={true}
+                            placeholder="Write your notes here..."
+                            value={treatmentNotes}
+                            onChangeText={text => {
+                                // Limit the number of characters
+                                if (text.length <= 500) {
+                                    // Limit the number of lines
+                                    const lines = text.split('\n');
+                                    if (lines.length <= 20) {
+                                        settreatmentNotes(text);
                                     }
-                                }}
-                                onKeyPress={({ nativeEvent }) => {
-                                    // Prevent new lines when the maximum number of lines is reached
-                                    if (nativeEvent.key === 'Enter' && journalText.split('\n').length >= 30) {
-                                        nativeEvent.preventDefault();
-                                    }
-                                }}
-                            />
-                        </ScrollView>
+                                }
+                            }}
+                        />
                     </View>
 
                     <TouchableOpacity style={styles.button} onPress={confirmCreateTask}>
-                        <Text style={styles.buttonText}>Create Task</Text>
+                        <Text style={styles.buttonText}>Create Note</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate("Journaling")}>
+                    <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate("DoctorDashboard")}>
                         <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
                     </TouchableOpacity>
                 </View>

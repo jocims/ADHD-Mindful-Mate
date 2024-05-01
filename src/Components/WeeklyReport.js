@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, Image, Alert, Dimensions } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Picker } from '@react-native-picker/picker';
-import { auth, db } from '../config/firebase';
-import { doc, updateDoc, FieldValue, getDoc, setDoc } from 'firebase/firestore'; // Import the necessary functions
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { LineChart, PieChart } from 'react-native-chart-kit';
 
@@ -12,7 +9,6 @@ import { LineChart, PieChart } from 'react-native-chart-kit';
 const WeeklyReport = () => {
     // State variables
     const navigation = useNavigation();
-    const [start, setStart] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [moodChartData, setMoodChartData] = useState(null);
     const [taskChartData, setTaskChartData] = useState(null);
@@ -63,7 +59,6 @@ const WeeklyReport = () => {
             });
 
             setTaskChartData(taskChartData);
-            console.log("taskChartData:", JSON.stringify(taskChartData));
         }
     }, [patientData]);
 
@@ -105,7 +100,6 @@ const WeeklyReport = () => {
             });
 
             setMoodChartData(moodChartData);
-            console.log("moodChartData:", JSON.stringify(moodChartData));
         }
     }, [patientData, selectedDate]);
 
@@ -113,7 +107,7 @@ const WeeklyReport = () => {
         if (patientData && patientData.GamePractice) {
             // Filter game practice and score data by the selected week commencing date
             const filteredGamePracticeData = Object.values(patientData.GamePractice)
-                .filter(entry => entry.date >= getMonday(selectedDate))
+                .filter(practice => filterByWeek(practice, startDate, endDate))
                 .filter(entry => entry.game === 'Reaction Test'); // Filter only the Reaction Test game data
 
             // Initialize game practice and score data objects
@@ -196,7 +190,7 @@ const WeeklyReport = () => {
         if (patientData && patientData.GamePractice) {
             // Filter game practice and score data by the selected week commencing date
             const filteredGamePracticeData = Object.values(patientData.GamePractice)
-                .filter(entry => entry.date >= getMonday(selectedDate))
+                .filter(practice => filterByWeek(practice, startDate, endDate))
                 .filter(entry => entry.game === 'Secret Word'); // Filter only the Reaction Test game data
 
             // Initialize game practice and score data objects
@@ -279,8 +273,7 @@ const WeeklyReport = () => {
         if (patientData && patientData.Meditation) {
             // Filter meditation data by the selected week commencing date
             const filteredMeditation = Object.values(patientData.Meditation)
-                .filter(entry => entry.date >= getMonday(selectedDate));
-
+                .filter(practice => filterByWeek(practice, startDate, endDate))
             // Initialize meditation data object
             const meditationData = {
                 Mon: 0,
@@ -321,8 +314,6 @@ const WeeklyReport = () => {
 
             // Set the state with the updated chart data
             setMeditationChartData(meditationChartData);
-
-            console.log("meditationChartData:", JSON.stringify(meditationChartData));
         }
     }, [patientData, selectedDate]);
 
@@ -330,9 +321,7 @@ const WeeklyReport = () => {
     useEffect(() => {
         if (patientData && patientData.DeepBreathing) {
             const filteredDeepBreathing = Object.values(patientData.DeepBreathing)
-                .filter(entry => entry.date >= getMonday(selectedDate));
-
-            console.log("filteredDeepBreathing:", JSON.stringify(filteredDeepBreathing));
+                .filter(practice => filterByWeek(practice, startDate, endDate))
 
             // Initialize deep breathing data object
             const deepBreathingData = {
@@ -488,6 +477,41 @@ const WeeklyReport = () => {
         return formattedMobileNo;
     };
 
+    const getDayOfWeek = (dateString) => {
+        const [day, month, year] = dateString.split('/').map(Number);
+        const date = new Date(year, month - 1, day); // Month is zero-based in JavaScript
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        return days[date.getDay()];
+    };
+
+    const filterByWeek = (entry, startDate, endDate) => {
+        const entryDateParts = entry.date.split('/'); // Split date string by '/'
+        const entryDate = new Date(`${entryDateParts[2]}-${entryDateParts[1]}-${entryDateParts[0]}`); // Convert to YYYY-MM-DD format
+        return entryDate >= startDate && entryDate <= endDate;
+    };
+
+
+
+    // Function to get the Monday date of the current week
+    const getMondayNew = (date) => {
+        const currentDate = date || new Date(); // Use the current date if no date is provided
+        const dayOfWeek = currentDate.getDay();
+        const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+        return new Date(currentDate.setDate(diff));
+    };
+
+    // Function to get the Sunday date of the current week
+    const getSunday = (date) => {
+        const monday = getMondayNew(date);
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+        return sunday;
+    };
+
+    // Get the range of dates for the selected week
+    const startDate = getMondayNew(selectedDate);
+    const endDate = getSunday(selectedDate);
+
     return (
         <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
             <View style={styles.container}>
@@ -582,21 +606,23 @@ const WeeklyReport = () => {
                         )}
 
                     {patientData && patientData.MoodTracker && Object.values(patientData.MoodTracker)
-                        .filter(entry => entry.date >= getMonday(selectedDate)) // Filter mood entries by week commencing date
+                        .filter(practice => filterByWeek(practice, startDate, endDate)) // Filter game practices by week commencing date range
                         .length > 0 && (
                             <>
                                 <View style={styles.taskDetailsContainer}>
                                     <Text style={styles.text1}>Mood Tracker</Text>
                                     <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
+                                        <Text style={styles.taskHeaderText}>Day</Text>
                                         <Text style={styles.taskHeaderText}>Date</Text>
                                         <Text style={styles.taskHeaderText}>Time</Text>
                                         <Text style={styles.taskHeaderText}>Mood</Text>
                                     </View>
                                     {patientData && patientData.MoodTracker && Object.values(patientData.MoodTracker)
-                                        .filter(entry => entry.date >= getMonday(selectedDate)) // Filter mood entries by week commencing date
+                                        .filter(practice => filterByWeek(practice, startDate, endDate)) // Filter game practices by week commencing date range
                                         .sort(sortByDateAndTime) // Sort by date and time
                                         .map((task, index) => (
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
+                                                <Text style={styles.taskRowText}>{getDayOfWeek(task.date)}</Text>
                                                 <Text style={styles.taskRowText}>{task.date}</Text>
                                                 <Text style={styles.taskRowText}>{task.time}</Text>
                                                 <Text style={styles.taskRowText}>{task.mood}</Text>
@@ -628,13 +654,14 @@ const WeeklyReport = () => {
                             </>
                         )}
 
+
                     {patientData && patientData.GamePractice && gamePracticeChartData && gameScoreChartData && Object.values(patientData.GamePractice)
-                        .filter(practice => practice.date >= getMonday(selectedDate))
+                        .filter(practice => filterByWeek(practice, startDate, endDate)) // Filter game practices by week commencing date range
                         .filter(entry => entry.game === 'Reaction Test')
                         .length > 0 && (
                             <>
                                 <View style={styles.taskDetailsContainer}>
-                                    <Text style={styles.text1}>Anxiety-Relief Game Practice</Text>
+                                    <Text style={styles.text1}>Anxiety-Relief Game Practices</Text>
                                     <Text style={styles.text2}>Reaction Test</Text>
                                     <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
                                         <Text style={styles.taskHeaderText}>Date</Text>
@@ -642,7 +669,7 @@ const WeeklyReport = () => {
                                         <Text style={styles.taskHeaderText}>Score</Text>
                                     </View>
                                     {patientData && patientData.GamePractice && Object.values(patientData.GamePractice)
-                                        .filter(practice => practice.date >= getMonday(selectedDate)) // Filter game practices by week commencing date
+                                        .filter(practice => filterByWeek(practice, startDate, endDate)) // Filter game practices by week commencing date range
                                         .filter(entry => entry.game === 'Reaction Test')
                                         .sort(sortByDateAndDuration) // Sort by date and duration
                                         .map((task, index) => (
@@ -695,8 +722,8 @@ const WeeklyReport = () => {
                         )}
 
                     {patientData && patientData.GamePractice && gamePracticeChartData && gameScoreChartData && Object.values(patientData.GamePractice)
-                        .filter(practice => practice.date >= getMonday(selectedDate))
-                        .filter(entry => entry.game === 'Secret Word')
+                        .filter(practice => filterByWeek(practice, startDate, endDate)) // Filter game practices by week commencing date range
+                        .filter(entry => entry.game === 'Secret Word') // Filter game practices for the "Secret Word" game
                         .length > 0 && (
                             <>
                                 <View style={styles.taskDetailsContainer}>
@@ -706,9 +733,9 @@ const WeeklyReport = () => {
                                         <Text style={styles.taskHeaderText}>Duration (min)</Text>
                                         <Text style={styles.taskHeaderText}>Score</Text>
                                     </View>
-                                    {patientData && patientData.GamePractice && Object.values(patientData.GamePractice)
-                                        .filter(practice => practice.date >= getMonday(selectedDate)) // Filter game practices by week commencing date
-                                        .filter(entry => entry.game === 'Secret Word')
+                                    {Object.values(patientData.GamePractice)
+                                        .filter(practice => filterByWeek(practice, startDate, endDate)) // Filter game practices by week commencing date range
+                                        .filter(entry => entry.game === 'Secret Word') // Filter game practices for the "Secret Word" game
                                         .sort(sortByDateAndDuration) // Sort by date and duration
                                         .map((task, index) => (
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
@@ -760,7 +787,7 @@ const WeeklyReport = () => {
                         )}
 
                     {patientData && patientData.Meditation && meditationChartData && Object.values(patientData.Meditation)
-                        .filter(meditation => meditation.date >= getMonday(selectedDate)) // Filter meditations by week commencing date
+                        .filter(meditation => filterByWeek(meditation, startDate, endDate)) // Filter meditations by week commencing date range
                         .length > 0 && (
                             <>
                                 <View style={styles.taskDetailsContainer}>
@@ -769,8 +796,8 @@ const WeeklyReport = () => {
                                         <Text style={styles.taskHeaderText}>Date</Text>
                                         <Text style={styles.taskHeaderText}>Duration (min)</Text>
                                     </View>
-                                    {patientData && patientData.Meditation && Object.values(patientData.Meditation)
-                                        .filter(meditation => meditation.date >= getMonday(selectedDate)) // Filter meditations by week commencing date
+                                    {Object.values(patientData.Meditation)
+                                        .filter(meditation => filterByWeek(meditation, startDate, endDate)) // Filter meditations by week commencing date range
                                         .sort(sortByDateAndDuration) // Sort by date and duration
                                         .map((task, index) => (
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
@@ -797,8 +824,9 @@ const WeeklyReport = () => {
                             </>
                         )}
 
+
                     {patientData && patientData.DeepBreathing && deepBreathingChartData && Object.values(patientData.DeepBreathing)
-                        .filter(breathing => breathing.date >= getMonday(selectedDate)) // Filter deep breathing exercises by week commencing date
+                        .filter(breathing => filterByWeek(breathing, startDate, endDate)) // Filter deep breathing exercises by week commencing date range
                         .length > 0 && (
                             <>
                                 <View style={styles.taskDetailsContainer}>
@@ -807,8 +835,8 @@ const WeeklyReport = () => {
                                         <Text style={styles.taskHeaderText}>Date</Text>
                                         <Text style={styles.taskHeaderText}>Duration (min)</Text>
                                     </View>
-                                    {patientData && patientData.DeepBreathing && Object.values(patientData.DeepBreathing)
-                                        .filter(breathing => breathing.date >= getMonday(selectedDate)) // Filter deep breathing exercises by week commencing date
+                                    {Object.values(patientData.DeepBreathing)
+                                        .filter(breathing => filterByWeek(breathing, startDate, endDate)) // Filter deep breathing exercises by week commencing date range
                                         .sort(sortByDateAndDuration) // Sort by date and duration
                                         .map((task, index) => (
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
@@ -834,8 +862,9 @@ const WeeklyReport = () => {
                             </>
                         )}
 
+
                     {patientData && patientData.Journaling && Object.values(patientData.Journaling)
-                        .filter(entry => entry.date >= getMonday(selectedDate)) // Filter journal entries by week commencing date
+                        .filter(entry => filterByWeek(entry, startDate, endDate)) // Filter journal entries by week commencing date range
                         .length > 0 && (
                             <View style={styles.taskDetailsContainer}>
                                 <Text style={styles.text1}>Journal Entries</Text>
@@ -844,8 +873,8 @@ const WeeklyReport = () => {
                                     <Text style={styles.taskHeaderText}>Time</Text>
                                     <Text style={styles.taskHeaderText}>Entry</Text>
                                 </View>
-                                {patientData && patientData.Journaling && Object.values(patientData.Journaling)
-                                    .filter(entry => entry.date >= getMonday(selectedDate)) // Filter journal entries by week commencing date
+                                {Object.values(patientData.Journaling)
+                                    .filter(entry => filterByWeek(entry, startDate, endDate)) // Filter journal entries by week commencing date range
                                     .sort(sortByDateAndTime) // Sort by date and time
                                     .map((task, index) => (
                                         <View key={task.id || index} style={[styles.JournalingRowContainer, styles.taskRowLine]}>
@@ -871,8 +900,9 @@ const WeeklyReport = () => {
                             </View>
                         )}
 
+
                     {patientData && patientData.Notes && isDoctor && Object.values(patientData.Notes)
-                        .filter(entry => entry.date >= getMonday(selectedDate)) // Filter journal entries by week commencing date
+                        .filter(entry => filterByWeek(entry, startDate, endDate)) // Filter doctor's notes by week commencing date range
                         .length > 0 && (
                             <View style={styles.taskDetailsContainer}>
                                 <Text style={styles.text1}>Doctor's Notes</Text>
@@ -881,8 +911,8 @@ const WeeklyReport = () => {
                                     <Text style={styles.taskHeaderText}>Time</Text>
                                     <Text style={styles.taskHeaderText}>Entry</Text>
                                 </View>
-                                {patientData && patientData.Notes && Object.values(patientData.Notes)
-                                    .filter(entry => entry.date >= getMonday(selectedDate)) // Filter journal entries by week commencing date
+                                {Object.values(patientData.Notes)
+                                    .filter(entry => filterByWeek(entry, startDate, endDate)) // Filter doctor's notes by week commencing date range
                                     .sort(sortByDateAndTime) // Sort by date and time
                                     .map((task, index) => (
                                         <View key={task.id || index} style={[styles.JournalingRowContainer, styles.taskRowLine]}>
@@ -902,20 +932,20 @@ const WeeklyReport = () => {
                                                     if (task.patientDiagnosis) {
                                                         message += `Diagnosis: ${task.patientDiagnosis}\n`;
                                                     }
-                                                    if (task.meditation1) {
-                                                        message += `Medication #1: ${task.meditation1}\n`;
+                                                    if (task.medication1) {
+                                                        message += `Medication #1: ${task.medication1}\n`;
                                                     }
                                                     if (task.dosage1) {
                                                         message += `Dosage #1: ${task.dosage1}\n`;
                                                     }
-                                                    if (task.meditation2) {
-                                                        message += `Medication #2: ${task.meditation1}\n`;
+                                                    if (task.medication2) {
+                                                        message += `Medication #2: ${task.medication2}\n`;
                                                     }
                                                     if (task.dosage2) {
                                                         message += `Dosage #2: ${task.dosage1}\n`;
                                                     }
-                                                    if (task.meditation3) {
-                                                        message += `Medication #3: ${task.meditation1}\n`;
+                                                    if (task.medication3) {
+                                                        message += `Medication #3: ${task.medication3}\n`;
                                                     }
                                                     if (task.dosage3) {
                                                         message += `Dosage #3: ${task.dosage1}\n`;
@@ -939,7 +969,6 @@ const WeeklyReport = () => {
                                                         { cancelable: false }
                                                     );
                                                 }}
-
                                                 style={[styles.viewEntryButton, styles.taskRowText]}
                                             >
                                                 <Text style={styles.viewEntryButtonText}>View Entry</Text>
@@ -948,6 +977,8 @@ const WeeklyReport = () => {
                                     ))}
                             </View>
                         )}
+
+
                 </ScrollView>
 
                 {isDoctor && (
@@ -970,19 +1001,24 @@ const WeeklyReport = () => {
     );
 };
 
-// Function to get the Monday date of the current week
 const getMonday = (date) => {
-    const day = date.getDay();
-    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-    const mondayDate = new Date(date.setDate(diff));
+    // Create a new Date object with the current date
+    const currentDate = new Date();
 
-    // Format the day with leading zero if less than 10
-    const formattedDay = String(mondayDate.getDate()).padStart(2, '0');
-    // Format the month with leading zero if less than 10
-    const formattedMonth = String(mondayDate.getMonth() + 1).padStart(2, '0');
+    // Calculate the difference between the current day of the week and Monday
+    const dayOfWeek = currentDate.getDay();
+    const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+
+    // Set the currentDate to the Monday of the current week
+    currentDate.setDate(diff);
+
+    // Format the Monday date
+    const formattedDay = String(currentDate.getDate()).padStart(2, '0');
+    const formattedMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const formattedYear = currentDate.getFullYear();
 
     // Format the Monday date as DD/MM/YYYY
-    const formattedMonday = `${formattedDay}/${formattedMonth}/${mondayDate.getFullYear()}`;
+    const formattedMonday = `${formattedDay}/${formattedMonth}/${formattedYear}`;
 
     return formattedMonday;
 };

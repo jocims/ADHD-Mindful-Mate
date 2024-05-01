@@ -19,6 +19,8 @@ const ViewTasksScreen = () => {
     const [selectedTask, setSelectedTask] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState('');
     const [taskId, setTaskId] = useState(''); // Add taskId state variable
+    const { updateUserData } = useUserData();
+
 
     // useEffect to generate week dates when userData changes
     useEffect(() => {
@@ -254,6 +256,17 @@ const ViewTasksScreen = () => {
         navigation.navigate('FirstScreen');
     };
 
+    const ViewTasks = async () => {
+        setStart(false);
+        await updateUserData({ uid: auth.currentUser.uid });
+    };
+
+    const BackToDashboard = async () => {
+        // Update user data context
+        updateUserData({ uid: auth.currentUser.uid });
+        navigation.navigate('PatientDashboard');
+    };
+
     // Render the component
     return (
         <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
@@ -301,7 +314,7 @@ const ViewTasksScreen = () => {
                         </View>
 
                         <View style={styles.ViewTasksBtnContainer}>
-                            <TouchableOpacity style={styles.ViewTasksBtn} onPress={() => { setStart(false); }}>
+                            <TouchableOpacity style={styles.ViewTasksBtn} onPress={ViewTasks}>
                                 <Text style={styles.btnDashboardText}>View Tasks</Text>
                             </TouchableOpacity>
                         </View>
@@ -354,7 +367,7 @@ const ViewTasksScreen = () => {
                 )}
 
                 <View style={styles.dashboardBottomButtonContainer}>
-                    <TouchableOpacity style={styles.btnDashboard} onPress={() => navigation.navigate('PatientDashboard')}>
+                    <TouchableOpacity style={styles.btnDashboard} onPress={BackToDashboard}>
                         <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
                     </TouchableOpacity>
                 </View>
