@@ -32,7 +32,6 @@ const PatientsList = () => {
                 patientsData.sort((a, b) => a.User.firstName.localeCompare(b.User.firstName));
                 setOriginalPatients(patientsData);
                 setPatients(patientsData);
-                console.log('Fetched patients:', patientsData);
             }
         } catch (error) {
             console.error('Error fetching patients:', error);
@@ -69,7 +68,6 @@ const PatientsList = () => {
     };
 
     const renderPatient = ({ item }) => (
-        console.log('Patient:', item),
         <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('WeeklyReport', { patientToken: item.id, patientData: item, isDoctor: isDoctor })}

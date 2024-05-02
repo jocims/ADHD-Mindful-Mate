@@ -16,11 +16,49 @@ const Notes = () => {
     const [dosage3, setDosage3] = useState('');
     const [pattern, setPattern] = useState('');
     const [treatmentNotes, settreatmentNotes] = useState('');
+    const [lastNote, setLastNote] = useState(null);
 
     const navigation = useNavigation();
     const route = useRoute();
     const patientToken = route.params?.patientToken;
     const isDoctor = route.params?.isDoctor;
+    const patientData = route.params?.patientData;
+
+    // Function to retrieve the last note data
+    const retrieveLastNote = () => {
+        const notes = route.params?.patientData?.Notes;
+        if (notes) {
+            const noteIds = Object.keys(notes);
+            // Sort note IDs by date and time in descending order
+            noteIds.sort((a, b) => {
+                const noteA = notes[a];
+                const noteB = notes[b];
+                // Convert date and time strings to Date objects for comparison
+                const dateA = new Date(`${noteA.date} ${noteA.time}`);
+                const dateB = new Date(`${noteB.date} ${noteB.time}`);
+                return dateB - dateA; // Sort in descending order
+            });
+            const lastNoteId = noteIds[0]; // Get the ID of the latest note
+            const lastNoteData = notes[lastNoteId];
+            setLastNote(lastNoteData);
+            console.log('Last note:', lastNoteData);
+
+            // Set initial state of input fields to last note data
+            setDiagnosis(lastNoteData.patientDiagnosis || '');
+            setMedication1(lastNoteData.medication1 || '');
+            setDosage1(lastNoteData.dosage1 || '');
+            setMedication2(lastNoteData.medication2 || '');
+            setDosage2(lastNoteData.dosage2 || '');
+            setMedication3(lastNoteData.medication3 || '');
+            setDosage3(lastNoteData.dosage3 || '');
+            setPattern(lastNoteData.identifiedPattern || '');
+            settreatmentNotes(lastNoteData.treatmentNotes || '');
+        }
+    };
+
+    useEffect(() => {
+        retrieveLastNote();
+    }, []);
 
     const confirmCreateTask = async () => {
         // Check if any medication is entered without dosage
@@ -49,25 +87,52 @@ const Notes = () => {
             return;
         }
 
-        // Proceed with creating the note
-        if (diagnosis !== '' || medication1 !== '' || dosage1 !== '' || medication2 !== '' || dosage2 !== '' || medication3 !== '' || dosage3 !== '' || pattern !== '' || treatmentNotes !== '') {
-            Alert.alert(
-                'Confirmation',
-                'Are you sure you want to create this note?',
-                [
-                    {
-                        text: 'Cancel',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel',
-                    },
-                    { text: 'Yes', onPress: () => handleEnd() },
-                ],
-                { cancelable: false }
-            );
+        // Check if the input data matches the last note data
+        if (
+            diagnosis === lastNote?.patientDiagnosis &&
+            medication1 === lastNote?.medication1 &&
+            dosage1 === lastNote?.dosage1 &&
+            medication2 === lastNote?.medication2 &&
+            dosage2 === lastNote?.dosage2 &&
+            medication3 === lastNote?.medication3 &&
+            dosage3 === lastNote?.dosage3 &&
+            pattern === lastNote?.identifiedPattern &&
+            treatmentNotes === lastNote?.treatmentNotes
+        ) {
+            alert('You have not made any changes to the note.');
+
         } else {
-            alert('Please fill in the desired fields');
+            // Proceed with creating the note
+            if (
+                diagnosis !== '' ||
+                medication1 !== '' ||
+                dosage1 !== '' ||
+                medication2 !== '' ||
+                dosage2 !== '' ||
+                medication3 !== '' ||
+                dosage3 !== '' ||
+                pattern !== '' ||
+                treatmentNotes !== ''
+            ) {
+                Alert.alert(
+                    'Confirmation',
+                    'Are you sure you want to create this note?',
+                    [
+                        {
+                            text: 'Cancel',
+                            onPress: () => console.log('Cancel Pressed'),
+                            style: 'cancel',
+                        },
+                        { text: 'Yes', onPress: () => handleEnd() },
+                    ],
+                    { cancelable: false }
+                );
+            } else {
+                alert('Please fill in the desired fields');
+            }
         }
     };
+
 
     const handleEnd = async () => {
         setStart(false);

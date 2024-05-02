@@ -933,7 +933,7 @@ const WeeklyReport = () => {
                             <TouchableOpacity
                                 onPress={() => navigation.navigate('Notes', { patientToken: patientToken, patientData: patientData, isDoctor: isDoctor })}
                                 style={styles.button}>
-                                <Text style={styles.buttonText}>Create Notes</Text>
+                                <Text style={styles.buttonText}>Update Notes</Text>
                             </TouchableOpacity>
                         </View>
                     )
