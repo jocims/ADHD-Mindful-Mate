@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { LineChart, PieChart } from 'react-native-chart-kit';
-
+import { Picker } from '@react-native-picker/picker';
 
 // Define the WeeklyReport component
 const WeeklyReport = () => {
@@ -11,7 +11,6 @@ const WeeklyReport = () => {
     const navigation = useNavigation();
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [moodChartData, setMoodChartData] = useState(null);
-    const [taskChartData, setTaskChartData] = useState(null);
     const route = useRoute();
     const patientToken = route.params?.patientToken;
     const { patientData } = route.params;
@@ -22,6 +21,23 @@ const WeeklyReport = () => {
     const [gamePracticeChartData2, setGamePracticeChartData2] = useState(null);
     const [gameScoreChartData2, setGameScoreChartData2] = useState(null);
     const [meditationChartData, setMeditationChartData] = useState(null);
+    const [weekCommencingDates, setWeekCommencingDates] = useState([]);
+    const [selectedValue, setSelectedValue] = useState(selectedDate.toLocaleDateString('en-GB'));
+
+    useEffect(() => {
+        const fetchWeekCommencingDates = () => {
+            const maps = Object.values(patientData);
+            const dates = maps.reduce((acc, map) => {
+                const mapDates = Object.values(map).map(item => item.weekCommencing);
+                return [...acc, ...mapDates];
+            }, []);
+            // Remove duplicate dates and filter out undefined values
+            const uniqueDates = [...new Set(dates)].filter(date => date !== undefined);
+            setWeekCommencingDates(uniqueDates);
+        };
+
+        fetchWeekCommencingDates();
+    }, [patientData]);
 
     useEffect(() => {
         if (patientData && patientData.MoodTracker) {
@@ -451,8 +467,6 @@ const WeeklyReport = () => {
         return entryDate >= startDate && entryDate <= endDate;
     };
 
-
-
     // Function to get the Monday date of the current week
     const getMondayNew = (date) => {
         const currentDate = date || new Date(); // Use the current date if no date is provided
@@ -473,6 +487,28 @@ const WeeklyReport = () => {
     const startDate = getMondayNew(selectedDate);
     const endDate = getSunday(selectedDate);
 
+    useEffect(() => {
+        console.log('Selected date before:', selectedDate);
+    }, [selectedDate]);
+
+
+    const handleDateChange = (itemValue) => {
+        // Parse the selected date string into day, month, and year
+        const [day, month, year] = itemValue.split('/').map(Number);
+
+        // Create a new Date object using the parsed components
+        let selectedDateObject = new Date(year, month - 1, day); // Month is zero-based
+
+        // Add an hour to the selected date to account for time zone differences
+        selectedDateObject = new Date(selectedDateObject.getTime() + (60 * 60 * 1000));
+
+        // Update the selectedDate state with the new Date object
+        setSelectedDate(selectedDateObject);
+
+        // Update the selectedValue of the Picker
+        setSelectedValue(itemValue);
+    };
+
     return (
         <ImageBackground source={require('../lgray.png')} style={styles.backgroundImage}>
             <View style={styles.container}>
@@ -483,7 +519,36 @@ const WeeklyReport = () => {
                 <ScrollView showsVerticalScrollIndicator={false} style={styles.taskContainer}>
                     <View style={styles.header}>
                         <Text style={styles.introduction}>Weekly Report</Text>
-                        <Text style={styles.text}>Week Commencing: {getMonday(selectedDate)}</Text>
+                        {isDoctor ? (
+                            <View style={styles.datePickerContainer}>
+                                <Text style={styles.text}>Week Commencing: </Text>
+                                <Picker
+                                    selectedValue={selectedValue}
+                                    style={styles.datePicker}
+                                    onValueChange={(itemValue, itemIndex) => handleDateChange(itemValue)}
+                                >
+                                    {/* Always include the current week's Monday date */}
+                                    {weekCommencingDates.includes(getMonday(selectedDate)) ? null : (
+                                        <Picker.Item label={getMonday(selectedDate)} value={getMonday(selectedDate)} />
+                                    )}
+                                    {weekCommencingDates
+                                        .sort((a, b) => {
+                                            // Convert date strings to Date objects for comparison
+                                            const dateA = new Date(a);
+                                            const dateB = new Date(b);
+                                            // Sort in descending order (latest to earliest)
+                                            return dateB - dateA;
+                                        })
+                                        .map((date, index) => (
+                                            <Picker.Item key={index} label={date} value={date} />
+                                        ))}
+                                </Picker>
+                            </View>
+                        ) : (
+                            <Text style={styles.text}>Week Commencing: {getMonday(selectedDate)}</Text>
+                        )}
+
+
                     </View>
                     {isDoctor && patientData && (
                         <View style={styles.personalDetails}>
@@ -515,7 +580,7 @@ const WeeklyReport = () => {
                     )}
 
                     {patientData && patientData.WeeklyTasks && Object.values(patientData.WeeklyTasks)
-                        .filter(task => task.weekCommencing >= getMonday(selectedDate))
+                        .filter(task => filterByWeek(task, startDate, endDate)) // Filter tasks by week commencing date range
                         .length > 0 && (
                             <>
                                 <View style={styles.taskDetailsContainer}>
@@ -527,8 +592,8 @@ const WeeklyReport = () => {
                                         <Text style={styles.taskHeaderText}>Completed</Text>
                                         <Text style={styles.taskHeaderText}>Status</Text>
                                     </View>
-                                    {patientData && patientData.WeeklyTasks && Object.values(patientData.WeeklyTasks)
-                                        .filter(task => task.weekCommencing >= getMonday(selectedDate))
+                                    {Object.values(patientData.WeeklyTasks)
+                                        .filter(task => filterByWeek(task, startDate, endDate)) // Filter tasks by week commencing date range
                                         .sort(customSort)
                                         .map((task, index) => (
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
@@ -923,8 +988,6 @@ const WeeklyReport = () => {
                                     ))}
                             </View>
                         )}
-
-
                 </ScrollView>
 
                 {
@@ -933,7 +996,7 @@ const WeeklyReport = () => {
                             <TouchableOpacity
                                 onPress={() => navigation.navigate('Notes', { patientToken: patientToken, patientData: patientData, isDoctor: isDoctor })}
                                 style={styles.button}>
-                                <Text style={styles.buttonText}>Update Notes</Text>
+                                <Text style={styles.buttonText}>{patientData && patientData.Notes ? 'Update Notes' : 'Create Notes'}</Text>
                             </TouchableOpacity>
                         </View>
                     )
@@ -989,6 +1052,13 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 5,
     },
+    header: {
+        fontSize: 20,
+        fontFamily: 'SourceCodePro-Bold', // Apply font family here
+        marginBottom: 20,
+        color: '#0C5E51', // Add color to make header text visible
+        textAlign: 'center',
+    },
     introduction: {
         fontSize: 25,
         textAlign: 'center',
@@ -1015,6 +1085,14 @@ const styles = StyleSheet.create({
         fontFamily: 'SourceCodePro-Medium',
         marginBottom: 5,
     },
+    datePickerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    datePicker: {
+        width: '45%',
+    },
     taskDetailsContainer: {
         marginBottom: 15,
     },
@@ -1033,13 +1111,6 @@ const styles = StyleSheet.create({
     logoutImg: {
         width: 50,
         height: 50,
-    },
-    header: {
-        fontSize: 20,
-        fontFamily: 'SourceCodePro-Bold', // Apply font family here
-        marginBottom: 20,
-        color: '#0C5E51', // Add color to make header text visible
-        textAlign: 'center',
     },
     taskContainer: {
         marginTop: 70,

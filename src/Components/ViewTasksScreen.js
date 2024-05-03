@@ -55,7 +55,7 @@ const ViewTasksScreen = () => {
         return (
             <View style={styles.selectedTaskContainer}>
                 <Text style={styles.selectedTaskDetails}>Description: {selectedTask.taskDescription}</Text>
-                <Text style={styles.selectedTaskDetails}>Start Date: {selectedTask.commecingDate}</Text>
+                <Text style={styles.selectedTaskDetails}>Start Date: {selectedTask.date}</Text>
                 <Text style={styles.selectedTaskDetails}>Deadline: {formattedDeadline}</Text>
                 <Text style={styles.selectedTaskDetails}>Status: {selectedTask.taskStatus}</Text>
                 {/* Conditionally render completion date */}

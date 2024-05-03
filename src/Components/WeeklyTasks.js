@@ -96,7 +96,7 @@ const WeeklyTasks = () => {
                 [id]: {
                     id: id,
                     taskName: taskName,
-                    commecingDate: currentDate.toLocaleDateString('en-GB'), // Local date and time
+                    date: currentDate.toLocaleDateString('en-GB'), // Local date and time
                     taskDescription: taskDescription,
                     taskDeadline: formattedDeadline, // Local date and time
                     taskStatus: taskStatus,
