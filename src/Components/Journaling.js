@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Image, ImageBackground, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Image, ImageBackground, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useUserData } from './UserDataManager';
-
-
-const windowWidth = Dimensions.get('window').width;
+import DatePicker from 'react-native-date-picker'; // Import DatePicker
 
 const Journaling = () => {
     const [start, setStart] = useState(false);
@@ -15,6 +13,40 @@ const Journaling = () => {
     const [prevText, setPrevText] = useState('');
     const navigation = useNavigation();
     const { updateUserData } = useUserData();
+    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+    const [startDate, setStartDate] = useState(new Date());
+    const [minimumDate, setMinimumDate] = useState(new Date());
+    const [maximumDate, setMaximumDate] = useState(new Date());
+    const [weekDates, setWeekDates] = useState([]);
+
+    useEffect(() => {
+        // Function to generate dates for the current week (Monday to Sunday)
+        const generateWeekDates = () => {
+            const currentDate = new Date();
+            const monday = getMonday(currentDate);
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(monday);
+                date.setDate(monday.getDate() + i);
+                dates.push(date);
+            }
+            return dates;
+        };
+
+        setMinimumDate(getMonday(new Date()));
+
+        // Set week dates
+        const dates = generateWeekDates();
+        setWeekDates(dates);
+
+        // Set maximum date to end of last date in the week list
+        const lastDate = dates[dates.length - 1];
+        const maxDate = new Date(lastDate);
+        maxDate.setHours(23, 59, 59); // Set time to end of the day
+        setMaximumDate(maxDate);
+
+        console.log('Start Date:', startDate);
+    }, []);
 
     const BackToDashboard = async () => {
         // Update user data context
@@ -29,8 +61,6 @@ const Journaling = () => {
 
     // Function to handle end of journaling
     const handleEnd = async () => {
-        setStart(false);
-
         console.log('Journal Text:', journalText);
 
         try {
@@ -47,7 +77,7 @@ const Journaling = () => {
                     [id]: {
                         id: id,
                         journalTextEntryText: journalText,
-                        date: new Date().toLocaleDateString('en-GB'),
+                        date: startDate.toLocaleDateString('en-GB'),
                         time: timeWithoutSeconds,
                         weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
                     },
@@ -63,6 +93,8 @@ const Journaling = () => {
         // Clear the journal text
         setJournalText('');
         setPrevText('');
+        setStartDate(new Date());
+        setStart(false);
     };
 
     // Function to handle log out
@@ -140,6 +172,40 @@ const Journaling = () => {
                             <Text style={styles.introduction}>Journaling</Text>
                             <Text style={styles.text}>Record your thoughts and reflections.</Text>
                         </View>
+
+                        <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
+                            <Text style={styles.fieldLabel}>Start Date</Text>
+                            <Text
+                                style={styles.input}
+                                onPress={() => setShowStartDatePicker(true)}
+                            >
+                                {startDate instanceof Date ? startDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : ''}
+                            </Text>
+                        </TouchableOpacity>
+
+                        {showStartDatePicker && !start && ( // Conditionally render the modal containing the date picker
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={showStartDatePicker}
+                                onRequestClose={() => setShowStartDatePicker(false)}
+                            >
+                                <View style={styles.modalContainer}>
+                                    <View style={styles.modalContent}>
+                                        <DatePicker
+                                            date={startDate}
+                                            onDateChange={setStartDate}
+                                            mode="date"
+                                            minimumDate={minimumDate}
+                                            maximumDate={maximumDate}
+                                        />
+                                        <TouchableOpacity onPress={() => setShowStartDatePicker(false)}>
+                                            <Text>Done</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </Modal>
+                        )}
 
                         <TouchableOpacity style={styles.button} onPress={handleStart}>
                             <Text style={styles.buttonText}>Start</Text>
@@ -257,6 +323,45 @@ const styles = StyleSheet.create({
         color: 'black',
         fontFamily: 'SourceCodePro-Regular',
         marginBottom: 10,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 16,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        width: '100%',
+    },
+    fieldLabel: {
+        fontSize: 14,
+        color: 'black',
+        marginBottom: 1,
+        fontFamily: 'SourceCodePro-Medium',
+        marginStart: 5,
+        textAlign: 'center',
+    },
+    input: {
+        borderWidth: 2,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 10,
+        fontFamily: 'SourceCodePro-Regular',
+        color: '#333',
+        backgroundColor: '#fff',
+        shadowColor: '#af3e76',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
 });
 

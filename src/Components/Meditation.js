@@ -138,7 +138,6 @@ const Meditation = () => {
 
     // Function to end the meditation
     const handleMeditationEnd = async () => {
-        setStart(false);
         const endTime = new Date().getTime();
         const duration = (endTime - startTimer) / 1000 / 60;
         try {

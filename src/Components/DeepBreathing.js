@@ -11,7 +11,6 @@ import DatePicker from 'react-native-date-picker'; // Import DatePicker
 
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const DeepBreathing = () => {
     const [start, setStart] = useState(false);
@@ -173,7 +172,6 @@ const DeepBreathing = () => {
 
     // Function to handle end of deep breathing
     const handleEnd = async () => {
-        setStart(false);
         const endTime = new Date().getTime();
         const duration = (endTime - startTimer) / 1000 / 60;
 
@@ -185,7 +183,7 @@ const DeepBreathing = () => {
                     id: id,
                     deepBreathingName: 'Box Breathing',
                     timeDurationOfPractice: duration.toFixed(2),
-                    date: new Date().toLocaleDateString('en-GB'),
+                    date: startDate.toLocaleDateString('en-GB'),
                     weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
                 },
             };
@@ -195,6 +193,8 @@ const DeepBreathing = () => {
         } catch (error) {
             console.error('Error saving deep breathing data:', error);
         }
+        setStartDate(new Date());
+        setStart(false);
     };
 
     // Function to end the meditation
@@ -211,7 +211,7 @@ const DeepBreathing = () => {
                     id: id,
                     deepBreathingName: selectedMeditation.name,
                     timeDurationOfPractice: duration.toFixed(2),
-                    date: new Date().toLocaleDateString('en-GB'),
+                    date: startDate.toLocaleDateString('en-GB'),
                     weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
                 },
             };
@@ -222,6 +222,8 @@ const DeepBreathing = () => {
         } catch (error) {
             console.error('Error stopping meditation:', error);
         }
+        setStartDate(new Date());
+        setStart(false);
     };
 
     return (
@@ -460,6 +462,8 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     btnDashboard: {
+        position: 'absolute',
+        bottom: 20,
         backgroundColor: '#052458',
         padding: 10,
         borderRadius: 5,
@@ -467,7 +471,6 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: '-7%',
     },
     btnDashboardText: {
         fontSize: 15,

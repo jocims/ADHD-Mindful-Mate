@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView, ImageBackground, Dimensions } from 'react-native';
+import { View, StyleSheet, Text, Modal, TouchableOpacity, Image, ScrollView, ImageBackground, Dimensions } from 'react-native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useUserData } from './UserDataManager';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import messages from '../messages.json'; // Import the JSON file
+import DatePicker from 'react-native-date-picker'; // Import DatePicker
 
 // Get the width of the screen
 const screenWidth = Dimensions.get('window').width;
@@ -20,6 +21,40 @@ const PatientDashboard = () => {
   const [patientData, setPatientData] = useState(null); // <-- Add this line
   const isDoctor = false;
   const { updateUserData } = useUserData();
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [minimumDate, setMinimumDate] = useState(new Date());
+  const [maximumDate, setMaximumDate] = useState(new Date());
+  const [weekDates, setWeekDates] = useState([]);
+
+  useEffect(() => {
+    // Function to generate dates for the current week (Monday to Sunday)
+    const generateWeekDates = () => {
+      const currentDate = new Date();
+      const monday = getMonday(currentDate);
+      const dates = [];
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(monday);
+        date.setDate(monday.getDate() + i);
+        dates.push(date);
+      }
+      return dates;
+    };
+
+    setMinimumDate(getMonday(new Date()));
+
+    // Set week dates
+    const dates = generateWeekDates();
+    setWeekDates(dates);
+
+    // Set maximum date to end of last date in the week list
+    const lastDate = dates[dates.length - 1];
+    const maxDate = new Date(lastDate);
+    maxDate.setHours(23, 59, 59); // Set time to end of the day
+    setMaximumDate(maxDate);
+
+    console.log('Start Date:', startDate);
+  }, []);
 
   useEffect(() => {
     // Set the patientData state with the fetched userData
@@ -131,7 +166,7 @@ const PatientDashboard = () => {
           [id]: {
             id: id,
             mood: emotions[index],
-            date: new Date().toLocaleDateString('en-GB'),
+            date: startDate.toLocaleDateString('en-GB'),
             time: timeWithoutSeconds, // Current time
             weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
           },
@@ -160,6 +195,7 @@ const PatientDashboard = () => {
       } catch (error) {
         console.error('Error saving mood data:', error);
       }
+      setStartDate(new Date());
     }
   };
 
@@ -198,6 +234,43 @@ const PatientDashboard = () => {
           <Text style={styles.introduction}>
             Hi {userData ? userData.User.firstName + '!\nHow are you today?' : ''}
           </Text>
+
+          <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={styles.fieldLabel}>Start Date</Text>
+              <Text
+                style={styles.input}
+                onPress={() => setShowStartDatePicker(true)}
+              >
+                {startDate instanceof Date ? startDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : ''}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          {showStartDatePicker && ( // Conditionally render the modal containing the date picker
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={showStartDatePicker}
+              onRequestClose={() => setShowStartDatePicker(false)}
+            >
+              <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                  <DatePicker
+                    date={startDate}
+                    onDateChange={setStartDate}
+                    mode="date"
+                    minimumDate={minimumDate}
+                    maximumDate={maximumDate}
+                  />
+                  <TouchableOpacity onPress={() => setShowStartDatePicker(false)}>
+                    <Text>Done</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+          )}
+
           <View style={styles.emojiContainer}>
             <TouchableOpacity onPress={() => handleImageSelection(0)}>
               <Image source={isImageSelected[0] ? require('../red.png') : require('../red-clear.png')} style={styles.emojiButton} />
@@ -315,6 +388,54 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     marginTop: 10,
     marginBottom: 15,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 16,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    width: '100%',
+  },
+  fieldLabel: {
+    fontSize: 16,
+    color: 'black',
+    marginBottom: 1,
+    fontFamily: 'SourceCodePro-Medium',
+    marginStart: 5,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    marginTop: -7,
+    marginEnd: 20,
+  },
+  input: {
+    fontSize: 16,
+    width: 200,
+    height: 40,
+    borderWidth: 2,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 10,
+    fontFamily: 'SourceCodePro-Regular',
+    color: '#333',
+    backgroundColor: '#fff',
+    shadowColor: '#af3e76',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    textAlign: 'center',
+    padding: 10,
   },
 });
 
