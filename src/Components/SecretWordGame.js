@@ -2,8 +2,9 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
-const SecretWordGame = () => {
+const SecretWordGame = ({ selectedDate }) => {
     const [gameStage, setGameStage] = useState('start');
     const [startTimer, setStartTimer] = useState(0); // State to track the start time
     const [endTimer, setEndTimer] = useState(0); // State to track the end time
@@ -23,7 +24,6 @@ const SecretWordGame = () => {
         Sports: ['soccer', 'basketball', 'tennis', 'swimming', 'volleyball', 'baseball', 'golf', 'football', 'cricket', 'rugby'],
         Professions: ['doctor', 'teacher', 'engineer', 'lawyer', 'chef', 'artist', 'scientist', 'pilot', 'architect', 'musician'],
     };
-
 
     const pickWordAndCategory = useCallback(() => {
         const categories = Object.keys(wordsList);
@@ -51,6 +51,11 @@ const SecretWordGame = () => {
         if (letters.includes(normalizedLetter)) {
             // Add the correct letter to guessedLetters
             setGuessedLetters([...guessedLetters, normalizedLetter]);
+            // Increment the score
+            const newScore = score + 100; // Adjust score calculation as needed
+            setScore(newScore);
+            // Save the score in AsyncStorage
+            ReactNativeAsyncStorage.setItem('secretWordGameScore', newScore.toString()).catch(error => console.error('Error saving score to AsyncStorage:', error));
         } else {
             setWrongLetters([...wrongLetters, normalizedLetter]);
             setGuesses((prevGuesses) => prevGuesses - 1);
@@ -58,12 +63,9 @@ const SecretWordGame = () => {
     };
 
     const handleEndGame = async () => {
-
-        if (!(guessedLetters.length > 0 || wrongLetters.length > 0 || score > 0)) {
-            // No guessed letters or wrong letters, do not save game data
-            setGameStage('end');
-            return;
-        }
+        // Retrieve the score from AsyncStorage
+        const storedScore = await ReactNativeAsyncStorage.getItem('secretWordGameScore');
+        const scoreToSave = storedScore ? parseInt(storedScore, 10) : 0;
 
         const endTime = new Date().getTime();
         console.log('Start time:', startTimer);
@@ -81,7 +83,7 @@ const SecretWordGame = () => {
             const data = {
                 [id]: {
                     id: id,
-                    gamePracticeScore: score,
+                    gamePracticeScore: scoreToSave,
                     game: 'Secret Word',
                     date: new Date().toLocaleDateString('en-GB'),
                     timeDurationOfPractice: duration.toFixed(2),
@@ -94,7 +96,9 @@ const SecretWordGame = () => {
         } catch (error) {
             console.error('Error saving game data:', error);
         }
+        await ReactNativeAsyncStorage.removeItem('secretWordGameScore');
     };
+
 
     const getMonday = (date) => {
         const day = date.getDay();

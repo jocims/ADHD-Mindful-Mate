@@ -754,7 +754,6 @@ const styles = StyleSheet.create({
     },
     resetArea: {
         alignSelf: 'flex-end', // Align the container to the end of its parent
-        flexDirection: 'row', // Set the direction of the container to row
         flexDirection: 'row',
         justifyContent: 'space-between',
     },

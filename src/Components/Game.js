@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, ScrollView, Image, Alert, Vibration } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, ScrollView, Image, Alert, Vibration, Modal, TextInput } from 'react-native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useUserData } from './UserDataManager';
 import SecretWordGame from './SecretWordGame'; // Import the SecretWordGame component
-
+import DatePicker from 'react-native-date-picker'; // Import DatePicker
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -38,6 +38,40 @@ const Game = () => {
     const { updateUserData } = useUserData();
     const [selectedGame, setSelectedGame] = useState(null); // State to manage selected game
     const navigation = useNavigation();
+    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+    const [startDate, setStartDate] = useState(new Date());
+    const [minimumDate, setMinimumDate] = useState(new Date());
+    const [maximumDate, setMaximumDate] = useState(new Date());
+    const [weekDates, setWeekDates] = useState([]);
+
+    useEffect(() => {
+        // Function to generate dates for the current week (Monday to Sunday)
+        const generateWeekDates = () => {
+            const currentDate = new Date();
+            const monday = getMonday(currentDate);
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(monday);
+                date.setDate(monday.getDate() + i);
+                dates.push(date);
+            }
+            return dates;
+        };
+
+        setMinimumDate(getMonday(new Date()));
+
+        // Set week dates
+        const dates = generateWeekDates();
+        setWeekDates(dates);
+
+        // Set maximum date to end of last date in the week list
+        const lastDate = dates[dates.length - 1];
+        const maxDate = new Date(lastDate);
+        maxDate.setHours(23, 59, 59); // Set time to end of the day
+        setMaximumDate(maxDate);
+
+        console.log('Start Date:', startDate);
+    }, []);
 
     const BackToDashboard = async () => {
         if (auth.currentUser) {
@@ -81,6 +115,7 @@ const Game = () => {
         setSmallestTime(null);
         setTimeTaken(0);
         makeShapeAppear(); // Start the game directly
+        setShowStartDatePicker(true); // Show the date picker popup
     };
 
     const makeShapeAppear = () => {
@@ -134,7 +169,6 @@ const Game = () => {
 
     const handleEndGame = async () => {
         setSelectedGame(null);
-        setStart(false);
         const endTime = new Date().getTime();
         console.log('Start time:', startTimer);
         console.log('End time:', endTime);
@@ -158,12 +192,13 @@ const Game = () => {
                         id: id,
                         gamePracticeScore: score, // Store the calculated score
                         game: 'Reaction Test',
-                        date: new Date().toLocaleDateString('en-GB'),
+                        date: startDate.toLocaleDateString('en-GB'),
                         timeDurationOfPractice: duration.toFixed(2),
                         weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
                     },
                 };
 
+                // Save the game data to Firestore
                 await setDoc(userDocRef, { GamePractice: data }, { merge: true });
             } else {
                 console.log('Score is not greater than 0. Data not saved.');
@@ -175,6 +210,36 @@ const Game = () => {
         } catch (error) {
             console.error('Error saving game data:', error);
         }
+
+        // Check if the Secret Word game score is stored in AsyncStorage
+        const storedScore = await ReactNativeAsyncStorage.getItem('secretWordGameScore');
+        if (storedScore) {
+            // Retrieve the score from AsyncStorage and save it to Firestore
+            const secretWordScore = parseInt(storedScore, 10);
+            try {
+                const userDocRef = doc(db, 'patient', auth.currentUser.uid);
+                const id = Date.now().toString();
+                const data = {
+                    [id]: {
+                        id: id,
+                        gamePracticeScore: secretWordScore,
+                        game: 'Secret Word',
+                        date: startDate.toLocaleDateString('en-GB'),
+                        timeDurationOfPractice: duration.toFixed(2),
+                        weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
+                    },
+                };
+                // Save the Secret Word game data to Firestore
+                await setDoc(userDocRef, { GamePractice: data }, { merge: true });
+            } catch (error) {
+                console.error('Error saving Secret Word game data:', error);
+            }
+            await ReactNativeAsyncStorage.removeItem('secretWordGameScore');
+
+        }
+
+        setStartDate(new Date());
+        setStart(false);
     };
 
     const getMonday = (date) => {
@@ -232,7 +297,7 @@ const Game = () => {
                                 </View>
 
                                 <View style={styles.gameContainer}>
-                                    <SecretWordGame />
+                                    <SecretWordGame selectedDate={startDate} />
                                 </View>
                             </>
                         )}
@@ -248,8 +313,42 @@ const Game = () => {
                         <View style={styles.gameOptions}>
                             <View style={styles.headerContainer}>
                                 <Text style={styles.introduction}>Anxiety-Relief Games</Text>
-
                             </View>
+
+                            <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
+                                <Text style={styles.fieldLabel}>Start Date</Text>
+                                <Text
+                                    style={styles.input}
+                                    onPress={() => setShowStartDatePicker(true)}
+                                >
+                                    {startDate instanceof Date ? startDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : ''}
+                                </Text>
+                            </TouchableOpacity>
+
+                            {showStartDatePicker && !start && ( // Conditionally render the modal containing the date picker
+                                <Modal
+                                    animationType="slide"
+                                    transparent={true}
+                                    visible={showStartDatePicker}
+                                    onRequestClose={() => setShowStartDatePicker(false)}
+                                >
+                                    <View style={styles.modalContainer}>
+                                        <View style={styles.modalContent}>
+                                            <DatePicker
+                                                date={startDate}
+                                                onDateChange={setStartDate}
+                                                mode="date"
+                                                minimumDate={minimumDate}
+                                                maximumDate={maximumDate}
+                                            />
+                                            <TouchableOpacity onPress={() => setShowStartDatePicker(false)}>
+                                                <Text>Done</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                </Modal>
+                            )}
+
 
                             <View style={styles.gameOptionContainer}>
                                 <View style={styles.gameInfo}>
@@ -261,7 +360,10 @@ const Game = () => {
                                 </View>
                                 <TouchableOpacity
                                     style={styles.startButton}
-                                    onPress={() => handleStartGame('ReactionTest')}
+                                    onPress={() => {
+                                        handleStartGame('ReactionTest')
+                                        setShowStartDatePicker(false); // Close the date picker when starting the game
+                                    }}
                                 >
                                     <Text style={styles.startButtonText}>Start</Text>
                                 </TouchableOpacity>
@@ -278,7 +380,10 @@ const Game = () => {
 
                                 <TouchableOpacity
                                     style={styles.startButton}
-                                    onPress={() => handleStartGame('SecretWord')}
+                                    onPress={() => {
+                                        handleStartGame('SecretWord')
+                                        setShowStartDatePicker(false); // Close the date picker when starting the game
+                                    }}
                                 >
                                     <Text style={styles.startButtonText}>Start</Text>
                                 </TouchableOpacity>
@@ -472,7 +577,45 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'SourceCodePro-Medium',
         color: 'black',
-
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 16,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        width: '100%',
+    },
+    fieldLabel: {
+        fontSize: 14,
+        color: 'black',
+        marginBottom: 1,
+        fontFamily: 'SourceCodePro-Medium',
+        marginStart: 5,
+        textAlign: 'center',
+    },
+    input: {
+        borderWidth: 2,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 10,
+        fontFamily: 'SourceCodePro-Regular',
+        color: '#333',
+        backgroundColor: '#fff',
+        shadowColor: '#af3e76',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
 });
 
