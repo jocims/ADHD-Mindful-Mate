@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, Image, Modal } from 'react-native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -7,9 +7,11 @@ import breathingGif from '../breathing.gif';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
 import { useUserData } from './UserDataManager';
+import DatePicker from 'react-native-date-picker'; // Import DatePicker
 
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const DeepBreathing = () => {
     const [start, setStart] = useState(false);
@@ -21,6 +23,40 @@ const DeepBreathing = () => {
     const [isPlayerInitialized, setIsPlayerInitialized] = useState(false);
     const [selectedMeditation, setSelectedMeditation] = useState(null);
     const { updateUserData } = useUserData();
+    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+    const [startDate, setStartDate] = useState(new Date());
+    const [minimumDate, setMinimumDate] = useState(new Date());
+    const [maximumDate, setMaximumDate] = useState(new Date());
+    const [weekDates, setWeekDates] = useState([]);
+
+    useEffect(() => {
+        // Function to generate dates for the current week (Monday to Sunday)
+        const generateWeekDates = () => {
+            const currentDate = new Date();
+            const monday = getMonday(currentDate);
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(monday);
+                date.setDate(monday.getDate() + i);
+                dates.push(date);
+            }
+            return dates;
+        };
+
+        setMinimumDate(getMonday(new Date()));
+
+        // Set week dates
+        const dates = generateWeekDates();
+        setWeekDates(dates);
+
+        // Set maximum date to end of last date in the week list
+        const lastDate = dates[dates.length - 1];
+        const maxDate = new Date(lastDate);
+        maxDate.setHours(23, 59, 59); // Set time to end of the day
+        setMaximumDate(maxDate);
+
+        console.log('Start Date:', startDate);
+    }, []);
 
     const cleanup = async () => {
         try {
@@ -241,8 +277,41 @@ const DeepBreathing = () => {
                         <View style={styles.headerContainer}>
                             <Text style={styles.introduction}>Deep Breathing Technique</Text>
                             <Text style={styles.text}>Perform deep breathing to relax</Text>
-
                         </View>
+
+                        <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
+                            <Text style={styles.fieldLabel}>Start Date</Text>
+                            <Text
+                                style={styles.input}
+                                onPress={() => setShowStartDatePicker(true)}
+                            >
+                                {startDate instanceof Date ? startDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : ''}
+                            </Text>
+                        </TouchableOpacity>
+
+                        {showStartDatePicker && !start && ( // Conditionally render the modal containing the date picker
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={showStartDatePicker}
+                                onRequestClose={() => setShowStartDatePicker(false)}
+                            >
+                                <View style={styles.modalContainer}>
+                                    <View style={styles.modalContent}>
+                                        <DatePicker
+                                            date={startDate}
+                                            onDateChange={setStartDate}
+                                            mode="date"
+                                            minimumDate={minimumDate}
+                                            maximumDate={maximumDate}
+                                        />
+                                        <TouchableOpacity onPress={() => setShowStartDatePicker(false)}>
+                                            <Text>Done</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </Modal>
+                        )}
 
                         <View style={styles.meditationOptions}>
 
@@ -307,39 +376,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'transparent',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-start',
         padding: 20,
-    },
-    header: {
-        alignItems: 'center',
-        marginBottom: 20,
-    },
-    headerContainer: {
-        alignItems: 'center',
-        marginBottom: '10%',
-        marginTop: '20%',
-    },
-    text: {
-        fontSize: 16,
-        textAlign: 'center',
-        color: 'black',
-        fontFamily: 'SourceCodePro-Regular',
-        marginBottom: 15,
-    },
-    btnDashboard: {
-        backgroundColor: '#052458',
-        padding: 10,
-        borderRadius: 5,
-        width: 200,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    btnDashboardText: {
-        fontSize: 15,
-        color: 'white',
-        textAlign: 'center',
-        fontFamily: 'SourceCodePro-Medium',
     },
     img: {
         position: 'absolute',
@@ -357,35 +395,19 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
     },
-    introduction: {
-        fontSize: 25,
-        textAlign: 'center',
-        color: '#0C5E51',
-        fontFamily: 'SourceCodePro-Bold',
-        marginBottom: 15,
-    },
-    exerciseContainer: {
-        borderWidth: 2,
-        width: '100%',
-        aspectRatio: 1,
-        marginBottom: 20,
-        position: 'relative',
-    },
-    shape: {
-        position: 'absolute',
-        width: '100%', // Adjust the width to fill the container
-        height: '100%', // Adjust the height to fill the container
-    },
-    timerContainer: {
-        justifyContent: 'center',
-        flex: 1,
+    header: {
         alignItems: 'center',
-        marginTop: 20,
+        marginBottom: 20,
     },
-    timerText: {
-        fontSize: 20,
+    headerContainer: {
+        alignItems: 'center',
+        marginTop: '20%',
+    },
+    text: {
+        fontSize: 16,
+        textAlign: 'center',
         color: 'black',
-        fontFamily: 'SourceCodePro-Bold',
+        fontFamily: 'SourceCodePro-Regular',
         marginBottom: 10,
     },
     meditationOptions: {
@@ -430,6 +452,41 @@ const styles = StyleSheet.create({
         color: '#af3e76',
         fontFamily: 'SourceCodePro-Medium',
     },
+    introduction: {
+        fontSize: 25,
+        textAlign: 'center',
+        color: '#0C5E51',
+        fontFamily: 'SourceCodePro-Bold',
+        marginBottom: 15,
+    },
+    btnDashboard: {
+        backgroundColor: '#052458',
+        padding: 10,
+        borderRadius: 5,
+        width: 200,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '-7%',
+    },
+    btnDashboardText: {
+        fontSize: 15,
+        color: 'white',
+        textAlign: 'center',
+        fontFamily: 'SourceCodePro-Medium',
+    },
+    timerContainer: {
+        justifyContent: 'center',
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    timerText: {
+        fontSize: 20,
+        color: 'black',
+        fontFamily: 'SourceCodePro-Bold',
+        marginBottom: 10,
+    },
     endButton: {
         backgroundColor: '#af3e76',
         padding: 10,
@@ -439,6 +496,18 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: 'white',
         fontFamily: 'SourceCodePro-Medium',
+    },
+    exerciseContainer: {
+        borderWidth: 2,
+        width: '100%',
+        aspectRatio: 1,
+        marginBottom: 20,
+        position: 'relative',
+    },
+    shape: {
+        position: 'absolute',
+        width: '100%', // Adjust the width to fill the container
+        height: '100%', // Adjust the height to fill the container
     },
     button: {
         backgroundColor: '#af3e76',
@@ -453,6 +522,45 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
         fontFamily: 'SourceCodePro-Medium',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 16,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        width: '100%',
+    },
+    fieldLabel: {
+        fontSize: 14,
+        color: 'black',
+        marginBottom: 1,
+        fontFamily: 'SourceCodePro-Medium',
+        marginStart: 5,
+        textAlign: 'center',
+    },
+    input: {
+        borderWidth: 2,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 10,
+        fontFamily: 'SourceCodePro-Regular',
+        color: '#333',
+        backgroundColor: '#fff',
+        shadowColor: '#af3e76',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
 });
 

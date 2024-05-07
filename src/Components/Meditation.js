@@ -341,7 +341,6 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         alignItems: 'center',
-        marginBottom: '10%',
         marginTop: '20%',
     },
     text: {
@@ -408,7 +407,7 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: '22.5%',
+        marginTop: '8%',
     },
     btnDashboardText: {
         fontSize: 15,
