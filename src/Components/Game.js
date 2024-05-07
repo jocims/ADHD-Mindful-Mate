@@ -235,7 +235,6 @@ const Game = () => {
                 console.error('Error saving Secret Word game data:', error);
             }
             await ReactNativeAsyncStorage.removeItem('secretWordGameScore');
-
         }
 
         setStartDate(new Date());
@@ -348,7 +347,6 @@ const Game = () => {
                                     </View>
                                 </Modal>
                             )}
-
 
                             <View style={styles.gameOptionContainer}>
                                 <View style={styles.gameInfo}>
