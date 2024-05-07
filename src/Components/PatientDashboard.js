@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   properContent: {
-    marginTop: 85,
+    marginTop: 70,
   },
   introduction: {
     fontSize: 25,
