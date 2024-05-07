@@ -14,15 +14,29 @@ const WeeklyTasks = () => {
     const [taskDescription, setTaskDescription] = useState('');
     const [taskStatus, setTaskStatus] = useState('Created');
     const [deadline, setDeadline] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date());
     const [minimumDate, setMinimumDate] = useState(new Date());
     const [maximumDate, setMaximumDate] = useState(new Date());
     const { updateUserData } = useUserData();
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
-    const [showDatePicker, setShowDatePicker] = useState(false);
     const [deadlinePlaceholder, setDeadlinePlaceholder] = useState('Choose Date and Time');
     const [weekDates, setWeekDates] = useState([]);
+    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+    const [showDeadlineDatePicker, setShowDeadlineDatePicker] = useState(false);
+    const [deadlineMinimumDate, setDeadlineMinimumDate] = useState(new Date()); // State for the minimum date of Deadline Date picker
 
+
+    // Update the minimum date of the Deadline Date picker whenever Start Date changes
+    useEffect(() => {
+        setDeadlineMinimumDate(startDate); // Set minimum date to the selected Start Date
+    }, [startDate]);
+
+    const handleStartDateChange = (newStartDate) => {
+        setStartDate(newStartDate);
+        // Update deadline when Start Date changes
+        setDeadline(newStartDate);
+    };
 
     useEffect(() => {
         // Function to generate dates for the current week (Monday to Sunday)
@@ -38,7 +52,7 @@ const WeeklyTasks = () => {
             return dates;
         };
 
-        setMinimumDate(new Date());
+        setMinimumDate(getMonday(new Date()));
 
         // Set week dates
         const dates = generateWeekDates();
@@ -49,6 +63,8 @@ const WeeklyTasks = () => {
         const maxDate = new Date(lastDate);
         maxDate.setHours(23, 59, 59); // Set time to end of the day
         setMaximumDate(maxDate);
+
+        console.log('Start Date:', startDate);
     }, []);
 
     const resetFields = () => {
@@ -56,6 +72,7 @@ const WeeklyTasks = () => {
         setTaskDescription('');
         setTaskStatus('Created');
         setDeadline(new Date());
+        setStartDate(new Date()); // Reset start date field
     };
 
     const handleStart = () => {
@@ -65,6 +82,7 @@ const WeeklyTasks = () => {
 
     const confirmCreateTask = async () => {
         if (taskName !== '' && taskDescription !== '' && taskStatus !== '') {
+
             Alert.alert(
                 'Confirmation',
                 'Are you sure you want to create this task?',
@@ -96,7 +114,7 @@ const WeeklyTasks = () => {
                 [id]: {
                     id: id,
                     taskName: taskName,
-                    date: currentDate.toLocaleDateString('en-GB'), // Local date and time
+                    date: startDate.toLocaleDateString('en-GB'), // Local date and time
                     taskDescription: taskDescription,
                     taskDeadline: formattedDeadline, // Local date and time
                     taskStatus: taskStatus,
@@ -182,37 +200,72 @@ const WeeklyTasks = () => {
                                         }
                                     }}
                                 />
+
                                 <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-                                    <Text style={styles.fieldLabel}>Deadline Date</Text>
+                                    <Text style={styles.fieldLabel}>Start Date</Text>
                                     <TextInput
                                         style={styles.input}
-                                        value={deadline instanceof Date ? deadline.toLocaleString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric', hour12: true }) : ''}
-                                        onTouchStart={() => setShowDatePicker(true)}
+                                        value={startDate instanceof Date ? startDate.toLocaleString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric', hour12: true }) : ''}
+                                        onTouchStart={() => setShowStartDatePicker(true)}
                                     />
                                 </TouchableOpacity>
-                                {showDatePicker && (
+                                {showStartDatePicker && (
                                     <Modal
                                         animationType="slide"
                                         transparent={true}
-                                        visible={showDatePicker}
-                                        onRequestClose={() => setShowDatePicker(false)}
+                                        visible={showStartDatePicker}
+                                        onRequestClose={() => setShowStartDatePicker(false)}
                                     >
                                         <View style={styles.modalContainer}>
                                             <View style={styles.modalContent}>
                                                 <DatePicker
-                                                    date={deadline}
-                                                    onDateChange={setDeadline}
+                                                    date={startDate}
+                                                    onDateChange={handleStartDateChange}
                                                     mode="datetime"
                                                     minimumDate={minimumDate}
                                                     maximumDate={maximumDate}
                                                 />
-                                                <TouchableOpacity onPress={() => setShowDatePicker(false)}>
+                                                <TouchableOpacity onPress={() => setShowStartDatePicker(false)}>
                                                     <Text>Done</Text>
                                                 </TouchableOpacity>
                                             </View>
                                         </View>
                                     </Modal>
                                 )}
+
+                                <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                                    <Text style={styles.fieldLabel}>Deadline Date</Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        value={deadline instanceof Date ? deadline.toLocaleString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric', hour12: true }) : ''}
+                                        onTouchStart={() => setShowDeadlineDatePicker(true)}
+                                    />
+                                </TouchableOpacity>
+                                {showDeadlineDatePicker && (
+                                    <Modal
+                                        animationType="slide"
+                                        transparent={true}
+                                        visible={showDeadlineDatePicker}
+                                        onRequestClose={() => setShowDeadlineDatePicker(false)}
+                                    >
+                                        <View style={styles.modalContainer}>
+                                            <View style={styles.modalContent}>
+                                                <DatePicker
+                                                    date={startDate}
+                                                    onDateChange={setDeadline}
+                                                    mode="datetime"
+                                                    minimumDate={startDate}
+                                                    maximumDate={maximumDate}
+                                                />
+                                                <TouchableOpacity onPress={() => setShowDeadlineDatePicker(false)}>
+                                                    <Text>Done</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </Modal>
+                                )}
+
+
                                 <Text style={styles.fieldLabel}>Status</Text>
                                 <View style={[styles.input, styles.statusInput]}>
                                     <Picker
