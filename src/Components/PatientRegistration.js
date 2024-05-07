@@ -195,10 +195,11 @@ const PatientRegistration = () => {
         }
 
         // Validate provisional password
-        if (provisionalPassword.length < 6) {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;?/><.,])[\w!@#$%^&*()_+}{":;?/><.,]{8,}$/;
+        if (!passwordRegex.test(provisionalPassword)) {
             setWarningMessages((prevMessages) => ({
                 ...prevMessages,
-                provisionalPassword: 'Password must be at least 6 characters long.',
+                provisionalPassword: 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
             }));
             isValid = false;
         } else {
@@ -300,10 +301,11 @@ const PatientRegistration = () => {
                 break;
 
             case 'provisionalPassword':
-                if (provisionalPassword.length < 6) {
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;?/><.,])[\w!@#$%^&*()_+}{":;?/><.,]{8,}$/;
+                if (!passwordRegex.test(provisionalPassword)) {
                     setWarningMessages((prevMessages) => ({
                         ...prevMessages,
-                        [fieldName]: 'Password must be at least 6 characters long.',
+                        [fieldName]: 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
                     }));
                 } else {
                     setWarningMessages((prevMessages) => ({
@@ -761,6 +763,7 @@ const styles = StyleSheet.create({
         color: 'red',
         fontSize: 12,
         marginBottom: 5,
+        width: 300,
     },
     modalContainer: {
         flex: 1,

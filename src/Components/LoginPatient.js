@@ -24,37 +24,95 @@ const LoginPatient = () => {
     // Define states for email, password, emailError, passwordError, loading, and provisionalPassword
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
     const [loading, setLoading] = useState(false);
     const [provisionalPassword, setProvisionalPassword] = useState(false);
     const navigation = useNavigation();
     const { updateUserData } = useUserData();
+    const [warningMessages, setWarningMessages] = useState({
+        patientEmail: '',
+        password: '',
+    });
 
     // Validate the email and password inputs
     const validateInputs = () => {
         let isValid = true;
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;?/><.,])[\w!@#$%^&*()_+}{":;?/><.,]{8,}$/;
+
         if (!emailRegex.test(email)) {
-            setEmailError('A valid email address should contain a valid email domain (gmail.com, hotmail.com, yahoo.com, outlook.com, live.com) and it should have the `@` sign before it.');
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                email: `A valid email address should contain a valid domain (Eg. gmail.com. hotmail.com, yahoo.com, outlook.com, live.com) and it should have the @ sign before it.`,
+            }));
             isValid = false;
         } else {
-            setEmailError('');
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                email: '',
+            }));
         }
 
-        if (!password || password.length < 8) {
-            setPasswordError(`Please enter your password containing at least 8 characters with at least one of each of the following:
-    - Uppercase letter
-    - Lowercase letter
-    - Number
-    - Special character`);
+        if (!passwordRegex.test(password)) { // Changed from provisionalPassword
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                password: `Please enter your password containing at least 8 characters with at least one of each of the following:
+- Uppercase letter
+- Lowercase letter
+- Number
+- Special character`,
+            }));
             isValid = false;
         } else {
-            setPasswordError('');
+            setWarningMessages((prevMessages) => ({
+                ...prevMessages,
+                password: '',
+            }));
         }
 
         return isValid;
+    };
+
+    // Handle onBlur event for email and password inputs
+    const handleBlur = (fieldName) => {
+        switch (fieldName) {
+            case 'email':
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+                if (!emailRegex.test(email)) {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        email: `A valid email address should contain a valid domain (Eg. gmail.com. hotmail.com, yahoo.com, outlook.com, live.com) and it should have the @ sign before it.`,
+                    }));
+                } else {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: '',
+                    }));
+                }
+                break;
+
+            case 'password':
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;?/><.,])[\w!@#$%^&*()_+}{":;?/><.,]{8,}$/;
+                if (!passwordRegex.test(password)) {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: `Please enter your password containing at least 8 characters with at least one of each of the following:
+- Uppercase letter
+- Lowercase letter
+- Number
+- Special character`,
+                    }));
+                } else {
+                    setWarningMessages((prevMessages) => ({
+                        ...prevMessages,
+                        [fieldName]: '',
+                    }));
+                }
+                break;
+
+            default:
+                break;
+        }
     };
 
     // Sign in the user with the provided email and password
@@ -139,7 +197,7 @@ const LoginPatient = () => {
 
     // Return the LoginPatient component
     return (
-        <View style={styles.container}>
+        <View style={styles.container} >
             <ScrollView showsVerticalScrollIndicator={false} >
 
                 <Image
@@ -157,8 +215,9 @@ const LoginPatient = () => {
                         placeholder="Enter your Email Address"
                         style={styles.input}
                         onChangeText={(text) => setEmail(text)}
+                        onBlur={() => handleBlur('email')}
                     />
-                    {!!emailError && <Text style={styles.error}>{emailError}</Text>}
+                    {warningMessages.email && <Text style={styles.error}>{warningMessages.email}</Text>}
 
                     <Text style={styles.label}> Password: </Text>
 
@@ -167,8 +226,9 @@ const LoginPatient = () => {
                         secureTextEntry
                         style={styles.input}
                         onChangeText={(text) => setPassword(text)}
+                        onBlur={() => handleBlur('password')}
                     />
-                    {!!passwordError && <Text style={styles.error}>{passwordError}</Text>}
+                    {warningMessages.password && <Text style={styles.error}>{warningMessages.password}</Text>}
 
                     <View style={styles.resetArea}>
                         <TouchableOpacity style={styles.resetBtn} onPress={() => navigation.navigate('ResetPassword')} >
