@@ -959,13 +959,13 @@ const WeeklyReport = () => {
                                                         message += `Medication #2: ${task.medication2}\n`;
                                                     }
                                                     if (task.dosage2) {
-                                                        message += `Dosage #2: ${task.dosage1}\n`;
+                                                        message += `Dosage #2: ${task.dosage2}\n`;
                                                     }
                                                     if (task.medication3) {
                                                         message += `Medication #3: ${task.medication3}\n`;
                                                     }
                                                     if (task.dosage3) {
-                                                        message += `Dosage #3: ${task.dosage1}\n`;
+                                                        message += `Dosage #3: ${task.dosage3}\n`;
                                                     }
                                                     if (task.identifiedPattern) {
                                                         message += `Identified Pattern: ${task.identifiedPattern}\n`;
