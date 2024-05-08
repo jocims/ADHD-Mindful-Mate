@@ -464,8 +464,14 @@ const WeeklyReport = () => {
     const filterByWeek = (entry, startDate, endDate) => {
         const entryDateParts = entry.date.split('/'); // Split date string by '/'
         const entryDate = new Date(`${entryDateParts[2]}-${entryDateParts[1]}-${entryDateParts[0]}`); // Convert to YYYY-MM-DD format
-        return entryDate >= startDate && entryDate <= endDate;
+
+        // Remove the time part from startDate and endDate
+        const startDateWithoutTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+        const endDateWithoutTime = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+
+        return entryDate >= startDateWithoutTime && entryDate <= endDate;
     };
+
 
     // Function to get the Monday date of the current week
     const getMondayNew = (date) => {

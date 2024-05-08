@@ -232,7 +232,7 @@ const PatientDashboard = () => {
         <Image source={require('../logotop.png')} style={styles.img} />
         <ScrollView showsVerticalScrollIndicator={false} style={styles.properContent}>
           <Text style={styles.introduction}>
-            Hi {userData ? userData.User.firstName + '!\nHow are you today?' : ''}
+            Hi {userData && userData.User ? userData.User.firstName + '!\nHow are you today?' : ''}
           </Text>
 
           <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>

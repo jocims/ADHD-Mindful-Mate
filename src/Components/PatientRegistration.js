@@ -154,7 +154,7 @@ const PatientRegistration = () => {
         if (isNaN(patientWeight) || patientWeight === '' || parseInt(patientWeight) > 500 || parseInt(patientWeight) < 40) {
             setWarningMessages((prevMessages) => ({
                 ...prevMessages,
-                patientWeight: 'Please enter a valid weight above 40kg.',
+                patientWeight: 'Please enter a valid weight above 40kg. (Formats: 40 or 40.0 only.)',
             }));
             isValid = false;
         } else {
@@ -260,7 +260,7 @@ const PatientRegistration = () => {
                 if (isNaN(patientWeight) || patientWeight === '' || parseInt(patientWeight) > 500 || parseInt(patientWeight) < 40) {
                     setWarningMessages((prevMessages) => ({
                         ...prevMessages,
-                        [fieldName]: 'Please enter a valid weight above 40kg.',
+                        [fieldName]: 'Please enter a valid weight above 40kg. (Enter numbers only in one of the formats: 40 or 40.0 only.)',
                     }));
                 } else {
                     setWarningMessages((prevMessages) => ({
@@ -405,7 +405,7 @@ const PatientRegistration = () => {
                                         lastName: formatName(patientSurname),
                                         dob: patientDOB.toLocaleDateString('en-GB'),
                                         gender: patientGender,
-                                        weight: patientWeight,
+                                        weight: parseFloat(patientWeight).toFixed(2),
                                         mobileNo: patientMobileNo,
                                         email: patientEmail,
                                         isDoctor: false,

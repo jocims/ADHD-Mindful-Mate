@@ -17,12 +17,12 @@ const SecretWordGame = ({ selectedDate }) => {
     const [score, setScore] = useState(0);
     const letterInputRef = useRef(null);
     const wordsList = {
-        Animals: ['cat', 'dog', 'bird', 'elephant', 'lion', 'tiger', 'giraffe', 'monkey', 'hippo', 'crocodile'],
-        Fruits: ['apple', 'banana', 'orange', 'strawberry', 'watermelon', 'pineapple', 'grape', 'kiwi', 'peach', 'pear'],
-        Colors: ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black', 'white'],
-        Countries: ['Ireland', 'Canada', 'Australia', 'Japan', 'Brazil', 'India', 'France', 'Germany', 'China', 'Italy'],
-        Sports: ['soccer', 'basketball', 'tennis', 'swimming', 'volleyball', 'baseball', 'golf', 'football', 'cricket', 'rugby'],
-        Professions: ['doctor', 'teacher', 'engineer', 'lawyer', 'chef', 'artist', 'scientist', 'pilot', 'architect', 'musician'],
+        Animals: ['cat', 'dog', 'bird'],
+        Fruits: ['apple', 'banana', 'orange'],
+        Colors: ['red', 'blue', 'green'],
+        Countries: ['ireland', 'canada', 'brazil'],
+        Sports: ['soccer', 'basketball', 'tennis'],
+        Professions: ['doctor', 'teacher', 'engineer'],
     };
 
     const pickWordAndCategory = useCallback(() => {
@@ -41,6 +41,7 @@ const SecretWordGame = ({ selectedDate }) => {
         setPickedWord(word);
         setLetters(wordLetters);
         setGameStage('game');
+        setGuesses(3);
     }, [pickWordAndCategory]);
 
     const verifyLetter = (letter) => {
