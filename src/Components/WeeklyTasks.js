@@ -80,6 +80,7 @@ const WeeklyTasks = () => {
         setTaskStatus('Created');
         setDeadline(new Date());
         setStartDate(new Date()); // Reset start date field
+        setSelectedDeadline(new Date()); // Reset selected deadline field
     };
 
     const handleStart = () => {
@@ -115,7 +116,7 @@ const WeeklyTasks = () => {
             const userDocRef = doc(db, 'patient', auth.currentUser.uid);
             const currentDate = new Date();
             const options = { day: 'numeric', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
-            const formattedDeadline = deadline.toLocaleString('en-GB', options); // Format deadline in en-GB locale
+            const formattedDeadline = selectedDeadline.toLocaleString('en-GB', options); // Format deadline in en-GB locale
             const id = Date.now().toString();
             const data = {
                 [id]: {
