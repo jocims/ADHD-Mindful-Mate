@@ -146,10 +146,11 @@ const styles = StyleSheet.create({
         fontFamily: 'SourceCodePro-Medium',
     },
     btn: {
-        width: 150,
+        width: 200,
         height: 50,
         backgroundColor: '#052458',
         borderRadius: 7,
+        justifyContent: 'center',
     },
     btnText: {
         fontSize: 18,

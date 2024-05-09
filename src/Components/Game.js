@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, ScrollView, Image, Alert, Vibration, Modal, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, ScrollView, Image, Alert, Modal, TextInput } from 'react-native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -128,8 +128,6 @@ const Game = () => {
         const borderRadius = Math.random() > 0.5 ? 50 : 0;
 
         setShapeClickStartTime(new Date().getTime());
-
-        Vibration.vibrate();
 
         setShapeStyle({
             ...shapeStyle,
@@ -317,7 +315,7 @@ const Game = () => {
                             <View style={styles.gameOptionContainer}>
                                 <View style={styles.gameInfo}>
                                     <Text style={styles.gameName}>Reaction Test</Text>
-                                    <Text style={styles.gameDescription}>Be fast to click on the forms!</Text>
+                                    <Text style={styles.gameDescription}>Click quickly on the forms!</Text>
                                     {bestScore && bestScore['Reaction Test'] !== null && (
                                         <Text style={styles.gameDescription}>Best Score: {bestScore['Reaction Test']}</Text>
                                     )}
@@ -416,7 +414,7 @@ const styles = StyleSheet.create({
     },
     gameDescription: {
         color: 'white',
-        fontSize: 14,
+        fontSize: 12,
         fontFamily: 'SourceCodePro-Regular',
     },
     startButton: {

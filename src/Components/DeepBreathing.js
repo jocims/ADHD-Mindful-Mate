@@ -407,7 +407,7 @@ const styles = StyleSheet.create({
     },
     meditationTime: {
         color: 'white',
-        fontSize: 14,
+        fontSize: 12,
         fontFamily: 'SourceCodePro-Regular',
     },
     startButton: {
