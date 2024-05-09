@@ -179,7 +179,7 @@ const LoginDoctor = () => {
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image source={require('../logo3.png')} style={styles.img} />
-        <Text style={styles.introduction}>Hello Doctor!</Text>
+        <Text style={styles.introduction}>Hello there!</Text>
         <View style={styles.form}>
           <Text style={styles.label}>Username: </Text>
           <TextInput
