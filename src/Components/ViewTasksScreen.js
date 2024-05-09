@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ImageBackground, ScrollView, Image } from 'react-native';
 import { useUserData } from './UserDataManager';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { auth, db } from '../config/firebase';
 import { doc, updateDoc, FieldValue, getDoc, setDoc } from 'firebase/firestore'; // Import the necessary functions
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+
+const windowWidth = Dimensions.get('window').width;
 
 // Define the ViewTasksScreen component
 const ViewTasksScreen = () => {
@@ -392,10 +394,10 @@ const styles = StyleSheet.create({
     },
     img: {
         position: 'absolute',
-        width: 337.5,
-        height: 67.5,
-        top: 10,
-        left: 1,
+        width: windowWidth * 0.75,
+        height: 50.625, // Adjust the height proportionally to maintain aspect ratio
+        top: 15,
+        left: 1, // Adjust the right position as needed
     },
     logout: {
         position: 'absolute',

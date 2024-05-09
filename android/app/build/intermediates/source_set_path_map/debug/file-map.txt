@@ -57,7 +57,9 @@ com.myapp-packaged_res-55 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modul
 com.myapp-packaged_res-56 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\@react-native-firebase\auth\android\build\intermediates\packaged_res\debug
 com.myapp-packaged_res-57 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\@react-native-picker\picker\android\build\intermediates\packaged_res\debug
 com.myapp-packaged_res-58 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-date-picker\android\build\intermediates\packaged_res\debug
-com.myapp-packaged_res-59 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug
-com.myapp-packaged_res-60 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug
-com.myapp-packaged_res-61 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\packaged_res\debug
-com.myapp-packaged_res-62 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-vector-icons\android\build\intermediates\packaged_res\debug
+com.myapp-packaged_res-59 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-fs\android\build\intermediates\packaged_res\debug
+com.myapp-packaged_res-60 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug
+com.myapp-packaged_res-61 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug
+com.myapp-packaged_res-62 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-svg\android\build\intermediates\packaged_res\debug
+com.myapp-packaged_res-63 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-track-player\android\build\intermediates\packaged_res\debug
+com.myapp-packaged_res-64 D:\Users\Joci\ReactNative\ADHD-Mindful-Mate\node_modules\react-native-vector-icons\android\build\intermediates\packaged_res\debug

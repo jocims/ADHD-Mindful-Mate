@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ImageBackground, Image, TextInput, Modal, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, StyleSheet, ScrollView, ImageBackground, Image, TextInput, Modal, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+
+const windowWidth = Dimensions.get('window').width;
 
 const Notes = () => {
     const [start, setStart] = useState(false);
@@ -351,10 +353,10 @@ const styles = StyleSheet.create({
     },
     img: {
         position: 'absolute',
-        width: 337.5,
-        height: 67.5,
-        top: 10,
-        left: 1,
+        width: windowWidth * 0.75,
+        height: 50.625, // Adjust the height proportionally to maintain aspect ratio
+        top: 15,
+        left: 1, // Adjust the right position as needed
     },
     logout: {
         position: 'absolute',

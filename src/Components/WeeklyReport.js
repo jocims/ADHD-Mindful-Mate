@@ -5,6 +5,8 @@ import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { LineChart, PieChart } from 'react-native-chart-kit';
 import { Picker } from '@react-native-picker/picker';
 
+const windowWidth = Dimensions.get('window').width;
+
 // Define the WeeklyReport component
 const WeeklyReport = () => {
     // State variables
@@ -1104,10 +1106,10 @@ const styles = StyleSheet.create({
     },
     img: {
         position: 'absolute',
-        width: 337.5,
-        height: 67.5,
-        top: 10,
-        left: 1,
+        width: windowWidth * 0.75,
+        height: 50.625, // Adjust the height proportionally to maintain aspect ratio
+        top: 15,
+        left: 1, // Adjust the right position as needed
     },
     logout: {
         position: 'absolute',

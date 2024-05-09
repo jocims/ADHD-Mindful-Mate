@@ -10,7 +10,6 @@ import LoginDoctor from './src/Components/LoginDoctor';
 import LoginPatient from './src/Components/LoginPatient';
 import ChangePassword from './src/Components/ChangePassword';
 import Game from './src/Components/Game';
-import ReactionGame from './src/Components/ReactionGame';
 import SecretWordGame from './src/Components/SecretWordGame';
 import DeepBreathing from './src/Components/DeepBreathing';
 import Meditation from './src/Components/Meditation';
@@ -102,7 +101,6 @@ export default function App() {
           <Stack.Screen name="WeeklyReport" component={WeeklyReport} />
           <Stack.Screen name="PatientsList" component={PatientsList} />
           <Stack.Screen name="Notes" component={Notes} />
-          <Stack.Screen name="ReactionGame" component={ReactionGame} />
         </Stack.Navigator>
       </UserDataProvider>
     </NavigationContainer>

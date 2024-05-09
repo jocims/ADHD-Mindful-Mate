@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ImageBackground, Image, FlatList, TextInput } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ImageBackground, Image, FlatList, TextInput, Dimensions } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { db, auth } from '../config/firebase'; // Adjust the import
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useUserData } from './UserDataManager';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+
+const windowWidth = Dimensions.get('window').width;
 
 const PatientsList = () => {
     const navigation = useNavigation();
@@ -121,9 +123,9 @@ const styles = StyleSheet.create({
     },
     img: {
         position: 'absolute',
-        width: 337.5,
-        height: 67.5,
-        top: 10,
+        width: windowWidth * 0.75,
+        height: 50.625, // Adjust the height proportionally to maintain aspect ratio
+        top: 15,
         left: 1, // Adjust the right position as needed
     },
     logout: {

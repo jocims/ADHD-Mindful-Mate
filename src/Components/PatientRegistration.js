@@ -1,7 +1,7 @@
 //PatientRegistration.js
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, ImageBackground, ScrollView, Image, Alert, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, StyleSheet, Modal, ImageBackground, ScrollView, Image, Alert, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../config/firebase';
 import { collection, doc, setDoc } from 'firebase/firestore';
@@ -11,6 +11,8 @@ import DatePicker from 'react-native-date-picker';
 import { Picker } from '@react-native-picker/picker';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+
+const windowWidth = Dimensions.get('window').width;
 
 const PatientRegistration = () => {
     const [warningMessages, setWarningMessages] = useState({
@@ -669,10 +671,10 @@ const styles = StyleSheet.create({
     },
     img: {
         position: 'absolute',
-        width: 337.5,
-        height: 67.5,
-        top: 10,
-        left: 1,
+        width: windowWidth * 0.75,
+        height: 50.625, // Adjust the height proportionally to maintain aspect ratio
+        top: 15,
+        left: 1, // Adjust the right position as needed
     },
     logout: {
         position: 'absolute',

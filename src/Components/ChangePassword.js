@@ -1,12 +1,13 @@
 // ChangePassword.js
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity, Alert, Image } from 'react-native';
 import { getAuth, updatePassword } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
+const windowWidth = Dimensions.get('window').width;
 
 const ChangePassword = ({ setProvisionalPassword }) => {
     const [newPassword, setNewPassword] = useState('');

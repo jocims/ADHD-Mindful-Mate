@@ -296,9 +296,9 @@ const styles = StyleSheet.create({
   },
   img: {
     position: 'absolute',
-    width: 337.5,
-    height: 67.5,
-    top: 10,
+    width: screenWidth * 0.75,
+    height: 50.625, // Adjust the height proportionally to maintain aspect ratio
+    top: 15,
     left: 1, // Adjust the right position as needed
   },
   logout: {
