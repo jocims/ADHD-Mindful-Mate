@@ -1,5 +1,3 @@
-//Login.js
-
 //Imports from libraries
 import React, { Component, useState } from 'react';
 import {
@@ -40,7 +38,7 @@ const Login = () => {
 
                     <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('LoginDoctor')}>
                         <View style={styles.btnArea}>
-                            <Text style={styles.btnText}>Doctor</Text>
+                            <Text style={styles.btnText}>Healthcare Professional</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -93,6 +91,7 @@ const styles = StyleSheet.create({
         color: 'white',
         opacity: 0.9,
         fontFamily: 'SourceCodePro-Medium',
+        textAlign: 'center',
     },
 });
 
