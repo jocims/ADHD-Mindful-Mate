@@ -1,0 +1,33 @@
+R_DEF: Internal format may change without notice
+local
+drawable node_modules_reactnavigation_elements_src_assets_backicon
+drawable node_modules_reactnavigation_elements_src_assets_backiconmask
+drawable rn_edit_text_material
+drawable src_breathing
+drawable src_darkgreen
+drawable src_darkgreenclear
+drawable src_deepbreathing
+drawable src_game
+drawable src_green
+drawable src_greenclear
+drawable src_journal
+drawable src_lgray
+drawable src_logo3
+drawable src_logotop
+drawable src_logout
+drawable src_meditation
+drawable src_message35094
+drawable src_orange
+drawable src_orangeclear
+drawable src_red
+drawable src_redclear
+drawable src_report
+drawable src_tasks
+drawable src_yellow
+drawable src_yellowclear
+integer react_native_dev_server_port
+integer react_native_inspector_proxy_port
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style AppTheme
