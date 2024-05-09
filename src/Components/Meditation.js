@@ -237,40 +237,6 @@ const Meditation = () => {
                             <Text style={styles.text}>Choose a meditation option below:</Text>
                         </View>
 
-                        <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
-                            <Text style={styles.fieldLabel}>Start Date</Text>
-                            <Text
-                                style={styles.input}
-                                onPress={() => setShowStartDatePicker(true)}
-                            >
-                                {startDate instanceof Date ? startDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : ''}
-                            </Text>
-                        </TouchableOpacity>
-
-                        {showStartDatePicker && !start && ( // Conditionally render the modal containing the date picker
-                            <Modal
-                                animationType="slide"
-                                transparent={true}
-                                visible={showStartDatePicker}
-                                onRequestClose={() => setShowStartDatePicker(false)}
-                            >
-                                <View style={styles.modalContainer}>
-                                    <View style={styles.modalContent}>
-                                        <DatePicker
-                                            date={startDate}
-                                            onDateChange={setStartDate}
-                                            mode="date"
-                                            minimumDate={minimumDate}
-                                            maximumDate={maximumDate}
-                                        />
-                                        <TouchableOpacity onPress={() => setShowStartDatePicker(false)}>
-                                            <Text>Done</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </Modal>
-                        )}
-
                         <View style={styles.meditationOptions}>
                             {/* Render meditation options */}
                             {meditations.map(meditation => (
@@ -399,6 +365,8 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     btnDashboard: {
+        position: 'absolute',
+        bottom: 20,
         backgroundColor: '#052458',
         padding: 10,
         borderRadius: 5,
@@ -406,7 +374,6 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: '8%',
     },
     btnDashboardText: {
         fontSize: 15,

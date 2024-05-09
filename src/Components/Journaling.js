@@ -173,40 +173,6 @@ const Journaling = () => {
                             <Text style={styles.text}>Record your thoughts and reflections.</Text>
                         </View>
 
-                        <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
-                            <Text style={styles.fieldLabel}>Start Date</Text>
-                            <Text
-                                style={styles.input}
-                                onPress={() => setShowStartDatePicker(true)}
-                            >
-                                {startDate instanceof Date ? startDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : ''}
-                            </Text>
-                        </TouchableOpacity>
-
-                        {showStartDatePicker && !start && ( // Conditionally render the modal containing the date picker
-                            <Modal
-                                animationType="slide"
-                                transparent={true}
-                                visible={showStartDatePicker}
-                                onRequestClose={() => setShowStartDatePicker(false)}
-                            >
-                                <View style={styles.modalContainer}>
-                                    <View style={styles.modalContent}>
-                                        <DatePicker
-                                            date={startDate}
-                                            onDateChange={setStartDate}
-                                            mode="date"
-                                            minimumDate={minimumDate}
-                                            maximumDate={maximumDate}
-                                        />
-                                        <TouchableOpacity onPress={() => setShowStartDatePicker(false)}>
-                                            <Text>Done</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </Modal>
-                        )}
-
                         <TouchableOpacity style={styles.button} onPress={handleStart}>
                             <Text style={styles.buttonText}>Start</Text>
                         </TouchableOpacity>

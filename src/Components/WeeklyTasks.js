@@ -209,38 +209,6 @@ const WeeklyTasks = () => {
                                     }}
                                 />
 
-                                <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
-                                    <Text style={styles.fieldLabel}>Start Date</Text>
-                                    <TextInput
-                                        style={styles.input}
-                                        value={startDate instanceof Date ? startDate.toLocaleString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric', hour12: true }) : ''}
-                                        onTouchStart={() => setShowStartDatePicker(true)}
-                                    />
-                                </TouchableOpacity>
-                                {showStartDatePicker && (
-                                    <Modal
-                                        animationType="slide"
-                                        transparent={true}
-                                        visible={showStartDatePicker}
-                                        onRequestClose={() => setShowStartDatePicker(false)}
-                                    >
-                                        <View style={styles.modalContainer}>
-                                            <View style={styles.modalContent}>
-                                                <DatePicker
-                                                    date={startDate}
-                                                    onDateChange={handleStartDateChange}
-                                                    mode="datetime"
-                                                    minimumDate={minimumDate}
-                                                    maximumDate={maximumDate}
-                                                />
-                                                <TouchableOpacity onPress={() => setShowStartDatePicker(false)}>
-                                                    <Text>Done</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    </Modal>
-                                )}
-
                                 <TouchableOpacity onPress={() => setShowDeadlineDatePicker(true)}>
                                     <Text style={styles.fieldLabel}>Deadline Date</Text>
                                     <TextInput
