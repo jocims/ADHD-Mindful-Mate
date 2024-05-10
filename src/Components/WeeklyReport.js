@@ -590,7 +590,7 @@ const WeeklyReport = () => {
                     {patientData && patientData.WeeklyTasks && Object.values(patientData.WeeklyTasks)
                         .filter(task => filterByWeek(task, startDate, endDate)) // Filter tasks by week commencing date range
                         .length > 0 && (
-                            <>
+                            <ScrollView>
                                 <View style={styles.taskDetailsContainer}>
                                     <Text style={styles.text1}>Weekly Tasks</Text>
                                     <View style={[styles.taskHeaderContainer, styles.taskHeaderLine]}>
@@ -607,13 +607,22 @@ const WeeklyReport = () => {
                                             <View key={task.id || index} style={[styles.taskRowContainer, styles.taskRowLine]}>
                                                 <Text style={styles.taskRowText}>{task.taskName}</Text>
                                                 <Text style={styles.taskRowText}>{task.taskDescription}</Text>
-                                                <Text style={styles.taskRowText}>{task.taskDeadline}</Text>
+                                                {/* Split the deadline date string */}
+                                                <Text style={styles.taskRowText1}>
+                                                    {task.taskDeadline.split(',').map((item, index) => (
+                                                        <React.Fragment key={index}>
+                                                            {item}
+                                                            {index === 0 && "\n"}
+                                                        </React.Fragment>
+                                                    ))}
+                                                </Text>
                                                 <Text style={styles.taskRowText}>{task.taskDateCompleted}</Text>
                                                 <Text style={styles.taskRowText}>{task.taskStatus}</Text>
                                             </View>
+
                                         ))}
                                 </View>
-                            </>
+                            </ScrollView>
                         )}
 
                     {patientData && patientData.MoodTracker && Object.values(patientData.MoodTracker)
@@ -1175,7 +1184,7 @@ const styles = StyleSheet.create({
     taskHeaderText: {
         flex: 1,
         fontFamily: 'SourceCodePro-Bold',
-        fontSize: 14,
+        fontSize: 11,
         color: '#fff',
         textAlign: 'center',
     },
@@ -1198,6 +1207,13 @@ const styles = StyleSheet.create({
         flex: 1,
         fontFamily: 'SourceCodePro-Medium',
         fontSize: 11,
+        color: 'black',
+        textAlign: 'center',
+    },
+    taskRowText1: {
+        flex: 1,
+        fontFamily: 'SourceCodePro-Medium',
+        fontSize: 9,
         color: 'black',
         textAlign: 'center',
     },

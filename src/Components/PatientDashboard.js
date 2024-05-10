@@ -10,6 +10,8 @@ import DatePicker from 'react-native-date-picker'; // Import DatePicker
 
 // Get the width of the screen
 const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
+
 
 const PatientDashboard = () => {
   const navigation = useNavigation();
@@ -26,6 +28,8 @@ const PatientDashboard = () => {
   const [minimumDate, setMinimumDate] = useState(new Date());
   const [maximumDate, setMaximumDate] = useState(new Date());
   const [weekDates, setWeekDates] = useState([]);
+
+  const smallScreenWidthThreshold = 600;
 
   useEffect(() => {
     // Function to generate dates for the current week (Monday to Sunday)
@@ -251,7 +255,7 @@ const PatientDashboard = () => {
               <Image source={isImageSelected[4] ? require('../dark-green.png') : require('../dark-green-clear.png')} style={styles.emojiButton} />
             </TouchableOpacity>
           </View>
-          <ImageBackground source={require('../message-350-94.png')} style={styles.fellGoodMessageContainer}>
+          <ImageBackground source={require('../message-350-94.png')} style={styles.feelGoodMessageContainer}>
             <Text style={styles.feelGoodMessage}>{feelGoodMessage}</Text>
           </ImageBackground>
           <View style={styles.functionalities}>
@@ -319,14 +323,14 @@ const styles = StyleSheet.create({
     height: (screenWidth / 3) - 10,
   },
   emojiButton: {
-    width: 50,
-    height: 50,
+    width: screenWidth * 0.12, // Adjust width based on screen width
+    height: screenWidth * 0.12, // Adjust height based on screen width
   },
   properContent: {
     marginTop: 85,
   },
   introduction: {
-    fontSize: 25,
+    fontSize: 20,
     textAlign: 'center',
     color: '#0C5E51',
     fontFamily: 'SourceCodePro-Bold',
@@ -338,7 +342,7 @@ const styles = StyleSheet.create({
     fontFamily: 'SourceCodePro-Regular',
     padding: 15,
   },
-  fellGoodMessageContainer: {
+  feelGoodMessageContainer: {
     width: 350,
     height: 94, // Fixed height
     left: (screenWidth - 350) / 2.5, // Center horizontally
