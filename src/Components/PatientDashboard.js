@@ -238,6 +238,43 @@ const PatientDashboard = () => {
           <Text style={styles.introduction}>
             Hi {userData && userData.User ? userData.User.firstName + '!\nHow are you today?' : ''}
           </Text>
+
+          <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={styles.fieldLabel}>Start Date</Text>
+              <Text
+                style={styles.input}
+                onPress={() => setShowStartDatePicker(true)}
+              >
+                {startDate instanceof Date ? startDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : ''}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          {showStartDatePicker && ( // Conditionally render the modal containing the date picker
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={showStartDatePicker}
+              onRequestClose={() => setShowStartDatePicker(false)}
+            >
+              <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                  <DatePicker
+                    date={startDate}
+                    onDateChange={setStartDate}
+                    mode="date"
+                    minimumDate={minimumDate}
+                    maximumDate={maximumDate}
+                  />
+                  <TouchableOpacity onPress={() => setShowStartDatePicker(false)}>
+                    <Text>Done</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+          )}
+
           <View style={styles.emojiContainer}>
             <TouchableOpacity onPress={() => handleImageSelection(0)}>
               <Image source={isImageSelected[0] ? require('../red.png') : require('../red-clear.png')} style={styles.emojiButton} />
