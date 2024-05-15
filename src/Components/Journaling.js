@@ -86,6 +86,8 @@ const Journaling = () => {
                 };
 
                 await setDoc(userDocRef, { Journaling: data }, { merge: true });
+                alert('Journal entry saved successfully!');
+
             }
 
         } catch (error) {

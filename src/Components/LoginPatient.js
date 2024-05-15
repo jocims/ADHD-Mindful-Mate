@@ -152,6 +152,7 @@ const LoginPatient = () => {
                 }
 
                 navigation.navigate('PatientDashboard');
+                alert('User logged-in successfully');
 
                 // Update user data context
                 updateUserData({ uid: response.user.uid });
