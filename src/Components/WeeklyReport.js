@@ -27,16 +27,25 @@ const WeeklyReport = () => {
     const [selectedValue, setSelectedValue] = useState(selectedDate.toLocaleDateString('en-GB'));
 
     useEffect(() => {
+
+        console.log('Patient Data:', patientData);
+
         const fetchWeekCommencingDates = () => {
+            const currentWeekMonday = getMonday(selectedDate);
+
             const maps = Object.values(patientData);
             const dates = maps.reduce((acc, map) => {
                 const mapDates = Object.values(map).map(item => item.weekCommencing);
                 return [...acc, ...mapDates];
             }, []);
-            // Remove duplicate dates and filter out undefined values
-            const uniqueDates = [...new Set(dates)].filter(date => date !== undefined);
+
+            // Add the current week's Monday date if it's not already in the array
+            const uniqueDates = [...new Set(dates), currentWeekMonday].filter(date => date !== undefined);
+
             setWeekCommencingDates(uniqueDates);
+            console.log('Week commencing dates:', uniqueDates);
         };
+
 
         fetchWeekCommencingDates();
     }, [patientData]);
@@ -544,9 +553,9 @@ const WeeklyReport = () => {
                                     onValueChange={(itemValue, itemIndex) => handleDateChange(itemValue)}
                                 >
                                     {/* Always include the current week's Monday date */}
-                                    {weekCommencingDates.includes(getMonday(selectedDate)) ? null : (
-                                        <Picker.Item label={getMonday(selectedDate)} value={getMonday(selectedDate)} />
-                                    )}
+                                    <Picker.Item label={getMonday(selectedDate)} value={getMonday(selectedDate)} />
+
+                                    {/* Render other dates */}
                                     {weekCommencingDates
                                         .sort((a, b) => {
                                             // Convert date strings to Date objects for comparison
@@ -556,7 +565,10 @@ const WeeklyReport = () => {
                                             return dateB - dateA;
                                         })
                                         .map((date, index) => (
-                                            <Picker.Item key={index} label={date} value={date} />
+                                            // Exclude the current week's Monday date from rendering
+                                            date !== getMonday(selectedDate) && (
+                                                <Picker.Item key={index} label={date} value={date} />
+                                            )
                                         ))}
                                 </Picker>
                             </View>
