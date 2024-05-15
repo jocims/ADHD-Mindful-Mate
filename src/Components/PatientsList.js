@@ -34,6 +34,7 @@ const PatientsList = () => {
                 patientsData.sort((a, b) => a.User.firstName.localeCompare(b.User.firstName));
                 setOriginalPatients(patientsData);
                 setPatients(patientsData);
+
             }
         } catch (error) {
             console.error('Error fetching patients:', error);
@@ -167,6 +168,7 @@ const styles = StyleSheet.create({
         marginRight: 5,
         marginBottom: 10,
         width: 150,
+        justifyContent: 'center',
     },
     buttonText: {
         color: '#fff',

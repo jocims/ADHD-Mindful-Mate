@@ -43,8 +43,11 @@ const WeeklyReport = () => {
 
     useEffect(() => {
         if (patientData && patientData.MoodTracker) {
+
             const filteredMoodTrackerData = Object.values(patientData.MoodTracker)
-                .filter(task => task.weekCommencing >= getMonday(selectedDate));
+                .filter(practice => filterByWeek(practice, startDate, endDate))
+
+            console.log('Filtered Mood Tracker Data:', filteredMoodTrackerData);
 
             // Initialize mood count object
             const moodCount = {
@@ -70,15 +73,20 @@ const WeeklyReport = () => {
                 "Very Sad": '#D64F5D'
             };
 
+            // Calculate total mood entries
+            const totalMoodEntries = Object.values(moodCount).reduce((acc, count) => acc + count, 0);
+
             // Calculate percentages and assign colors
-            const totalEntries = filteredMoodTrackerData.length;
             const moodChartData = Object.keys(moodCount).map((mood) => {
-                const percentage = (moodCount[mood] / totalEntries) * 100;
+                const percentage = totalMoodEntries === 0 ? 0 : (moodCount[mood] / totalMoodEntries) * 100;
                 const formattedPercentage = parseFloat(percentage.toFixed(1)); // Ensure percentage is a float with one decimal point
                 return { name: '% ' + mood, percentage: formattedPercentage, color: moodColors[mood] };
             });
 
+
             setMoodChartData(moodChartData);
+
+            console.log('Mood Chart Data:', moodChartData);
         }
     }, [patientData, selectedDate]);
 
