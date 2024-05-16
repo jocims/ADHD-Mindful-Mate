@@ -38,7 +38,7 @@ const Login = () => {
 
                     <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('LoginDoctor')}>
                         <View style={styles.btnArea}>
-                            <Text style={styles.btnText}>Healthcare Professional</Text>
+                            <Text style={styles.btnText}>Doctor</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

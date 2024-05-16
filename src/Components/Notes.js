@@ -35,11 +35,19 @@ const Notes = () => {
             noteIds.sort((a, b) => {
                 const noteA = notes[a];
                 const noteB = notes[b];
-                // Convert date and time strings to Date objects for comparison
-                const dateA = new Date(`${noteA.date} ${noteA.time}`);
-                const dateB = new Date(`${noteB.date} ${noteB.time}`);
+
+                // Parse date and time strings to Date objects
+                const [dayA, monthA, yearA] = noteA.date.split('/');
+                const [dayB, monthB, yearB] = noteB.date.split('/');
+                const [hourA, minuteA] = noteA.time.split(':');
+                const [hourB, minuteB] = noteB.time.split(':');
+
+                const dateA = new Date(yearA, monthA - 1, dayA, hourA, minuteA);
+                const dateB = new Date(yearB, monthB - 1, dayB, hourB, minuteB);
+
                 return dateB - dateA; // Sort in descending order
             });
+
             const lastNoteId = noteIds[0]; // Get the ID of the latest note
             const lastNoteData = notes[lastNoteId];
             setLastNote(lastNoteData);
