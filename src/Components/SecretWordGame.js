@@ -10,6 +10,7 @@ const SecretWordGame = ({ selectedDate }) => {
     const [endTimer, setEndTimer] = useState(0); // State to track the end time
     const [pickedWord, setPickedWord] = useState('');
     const [pickedCategory, setPickedCategory] = useState('');
+    const [previousWord, setPreviousWord] = useState(''); // State for the previous word
     const [letters, setLetters] = useState([]);
     const [guessedLetters, setGuessedLetters] = useState([]);
     const [wrongLetters, setWrongLetters] = useState([]);
@@ -25,24 +26,27 @@ const SecretWordGame = ({ selectedDate }) => {
         Professions: ['doctor', 'teacher', 'engineer'],
     };
 
-    const pickWordAndCategory = useCallback(() => {
-        const categories = Object.keys(wordsList);
-        const category = categories[Math.floor(Math.random() * categories.length)];
-        const word = wordsList[category][Math.floor(Math.random() * wordsList[category].length)];
+    const pickWordAndCategory = useCallback((prevWord) => {
+        let categories = Object.keys(wordsList);
+        let category, word;
+        do {
+            category = categories[Math.floor(Math.random() * categories.length)];
+            word = wordsList[category][Math.floor(Math.random() * wordsList[category].length)];
+        } while (word === prevWord);
         return { category, word };
     }, []);
 
     const startGame = useCallback(() => {
         setStartTimer(new Date().getTime());
         clearLettersStates();
-        const { category, word } = pickWordAndCategory();
+        const { category, word } = pickWordAndCategory(pickedWord);
         const wordLetters = word.split('');
         setPickedCategory(category);
         setPickedWord(word);
         setLetters(wordLetters);
         setGameStage('game');
         setGuesses(3);
-    }, [pickWordAndCategory]);
+    }, [pickWordAndCategory, pickedWord]);
 
     const verifyLetter = (letter) => {
         const normalizedLetter = letter.toLowerCase();
@@ -124,6 +128,7 @@ const SecretWordGame = ({ selectedDate }) => {
         const uniqueLetters = [...new Set(letters)];
         if (guessedLetters.length === uniqueLetters.length && gameStage === 'game') {
             setScore((prevScore) => prevScore + 100);
+            setPreviousWord(pickedWord); // Set the previous word
             startGame();
         }
     }, [guessedLetters, letters, gameStage, startGame]);
@@ -132,6 +137,12 @@ const SecretWordGame = ({ selectedDate }) => {
         // Start the game when the component mounts
         startGame();
     }, []); // Run only once when the component mounts
+
+    const retryGame = () => {
+        setScore(0);
+        startGame();
+        setPreviousWord(''); // Reset the previous word
+    };
 
     const renderGameStage = () => {
         switch (gameStage) {
@@ -163,6 +174,13 @@ const SecretWordGame = ({ selectedDate }) => {
                         <View style={styles.wrongLettersContainer}>
                             <Text style={styles.instructions}>Used letters: {wrongLetters.join(', ').toUpperCase()}</Text>
                         </View>
+
+                        {previousWord ? (
+                            <View style={styles.wrongLettersContainer}>
+                                <Text style={styles.instructions}>Previous word: {previousWord.toUpperCase()}</Text>
+                            </View>
+                        ) : null}
+
                     </View>
                 );
             case 'end':
@@ -171,6 +189,9 @@ const SecretWordGame = ({ selectedDate }) => {
                         <Text style={styles.title}>Game Over!</Text>
                         <Text style={styles.instructions}>The word was: {pickedWord.toUpperCase()}</Text>
                         <Text style={styles.category}>Your score: {score}</Text>
+                        <TouchableOpacity style={styles.button} onPress={retryGame}>
+                            <Text style={styles.buttonText}>Retry</Text>
+                        </TouchableOpacity>
                     </View>
                 );
             default:

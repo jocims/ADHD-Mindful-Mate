@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Dimensions, Image, ImageBackground, ScrollView, Keyboard } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Dimensions, Image, ImageBackground, ScrollView, Keyboard, Alert } from 'react-native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -226,6 +226,17 @@ const Game = () => {
             // Fetch the best score again after updating the database
             await fetchBestScore();
 
+            // Display the alert based on game outcome
+            if (timeTakenList.length > 0) {
+                if (minTime !== null) {
+                    // Show scores in an alert
+                    Alert.alert(
+                        'Game Over',
+                        `Your score: ${score}\nYour best time: ${minTime}s`
+                    );
+                }
+            }
+
         } catch (error) {
             console.error('Error saving game data:', error);
         }
@@ -296,7 +307,7 @@ const Game = () => {
                             <>
                                 <View style={styles.header}>
                                     <Text style={styles.title}>Test Your Reactions!</Text>
-                                    <Text style={styles.text}>Click on the boxes and circles as quick as you can!</Text>
+                                    <Text style={styles.text}>Press the boxes and circles as quick as you can!</Text>
                                     <Text style={styles.bold}>Your time: {timeTaken}s</Text>
                                 </View>
 
@@ -374,7 +385,7 @@ const Game = () => {
                             <View style={styles.gameOptionContainer}>
                                 <View style={styles.gameInfo}>
                                     <Text style={styles.gameName}>Reaction Test</Text>
-                                    <Text style={styles.gameDescription}>Click quickly on the forms!</Text>
+                                    <Text style={styles.gameDescription}> Press the shapes quickly!</Text>
                                     {bestScore && bestScore['Reaction Test'] !== null && (
                                         <Text style={styles.gameDescription}>Best Score: {bestScore['Reaction Test']}</Text>
                                     )}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Dimensions, Image, ImageBackground, ScrollView, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../config/firebase';
@@ -24,6 +24,7 @@ const Journaling = () => {
     const [weekDates, setWeekDates] = useState([]);
     const [characterCount, setCharacterCount] = useState(0); // State to store the current character count
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+    const textInputRef = useRef(null); // Reference for the TextInput
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -83,6 +84,11 @@ const Journaling = () => {
     // Function to handle start of journaling
     const handleStart = () => {
         setStart(true);
+        setTimeout(() => {
+            if (textInputRef.current) {
+                textInputRef.current.focus(); // Focus the TextInput when journaling starts
+            }
+        }, 100); // Slight delay to ensure the component is fully rendered
     };
 
     // Function to handle end of journaling
@@ -171,6 +177,7 @@ const Journaling = () => {
                         <View style={styles.inputContainer}>
                             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                                 <TextInput
+                                    ref={textInputRef} // Reference for the TextInput
                                     style={styles.input}
                                     multiline={true}
                                     placeholder="Write your journal entry here..."
