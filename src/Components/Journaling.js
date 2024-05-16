@@ -86,7 +86,7 @@ const Journaling = () => {
                 };
 
                 await setDoc(userDocRef, { Journaling: data }, { merge: true });
-                alert('Journal entry saved successfully!');
+                alert('Journal entry saved successfully! You can see your entries in the Weekly Report.');
             }
 
         } catch (error) {
