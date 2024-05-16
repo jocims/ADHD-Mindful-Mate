@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, ScrollView, Image, Alert, Modal, TextInput, Keyboard } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Dimensions, Image, ImageBackground, ScrollView, Keyboard } from 'react-native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -44,7 +44,6 @@ const Game = () => {
     const [maximumDate, setMaximumDate] = useState(new Date());
     const [weekDates, setWeekDates] = useState([]);
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-    const [countdown, setCountdown] = useState(15); // State to hold the remaining time
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -138,7 +137,6 @@ const Game = () => {
         setTimeTaken(0);
         makeShapeAppear(); // Start the game directly
         setShowStartDatePicker(true); // Show the date picker popup
-        setCountdown(20); // Reset the countdown timer
     };
 
     const makeShapeAppear = () => {
@@ -165,21 +163,11 @@ const Game = () => {
     };
 
     useEffect(() => {
-        let intervalId;
+        let timeoutId;
         if (start) {
-            intervalId = setInterval(() => {
-                setCountdown(prevCountdown => {
-                    if (prevCountdown === 0) {
-                        clearInterval(intervalId);
-                        handleEndGame();
-                        return 0;
-                    } else {
-                        return prevCountdown - 1;
-                    }
-                });
-            }, 1000);
+            timeoutId = setTimeout(makeShapeAppear, Math.random() * 2000 + 2000);
         }
-        return () => clearInterval(intervalId);
+        return () => clearTimeout(timeoutId);
     }, [start]);
 
     const handleShapeClick = () => {
@@ -237,22 +225,6 @@ const Game = () => {
 
             // Fetch the best score again after updating the database
             await fetchBestScore();
-
-            // Display the alert based on game outcome
-            if (timeTakenList.length > 0) {
-                if (minTime !== null) {
-                    // Show scores in an alert
-                    Alert.alert(
-                        'Game Over',
-                        `Your score: ${score}\nYour best time: ${minTime}s`
-                    );
-                }
-            } else {
-                Alert.alert(
-                    'Game Over',
-                    `Your score: 0.`
-                );
-            }
 
         } catch (error) {
             console.error('Error saving game data:', error);
@@ -325,7 +297,7 @@ const Game = () => {
                                 <View style={styles.header}>
                                     <Text style={styles.title}>Test Your Reactions!</Text>
                                     <Text style={styles.text}>Press the boxes and circles as quick as you can!</Text>
-                                    <Text style={styles.bold}>Your time: {timeTaken}s | Countdown: {countdown}s</Text>
+                                    <Text style={styles.bold}>Your time: {timeTaken}s</Text>
                                 </View>
 
                                 <View style={styles.gameContainer}>
