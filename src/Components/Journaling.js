@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Dimensions, Image, ImageBackground, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Dimensions, Image, ImageBackground, ScrollView, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
@@ -10,6 +10,8 @@ import DatePicker from 'react-native-date-picker'; // Import DatePicker
 const windowWidth = Dimensions.get('window').width;
 
 const Journaling = () => {
+    const MAX_CHARACTER_LIMIT = 700; // Define the maximum character limit
+
     const [start, setStart] = useState(false);
     const [journalText, setJournalText] = useState('');
     const [prevText, setPrevText] = useState('');
@@ -20,6 +22,28 @@ const Journaling = () => {
     const [minimumDate, setMinimumDate] = useState(new Date());
     const [maximumDate, setMaximumDate] = useState(new Date());
     const [weekDates, setWeekDates] = useState([]);
+    const [characterCount, setCharacterCount] = useState(0); // State to store the current character count
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => {
+                setKeyboardVisible(true);
+            }
+        );
+        const keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => {
+                setKeyboardVisible(false);
+            }
+        );
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
 
     useEffect(() => {
         // Function to generate dates for the current week (Monday to Sunday)
@@ -71,6 +95,12 @@ const Journaling = () => {
             const currentTime = new Date().toLocaleTimeString('en-GB', { hour12: false });
             const [hours, minutes] = currentTime.split(':');
             const timeWithoutSeconds = `${hours}:${minutes}`;
+
+            // Check if journalText is empty
+            if (journalText.trim() === '') {
+                alert('Please write something in your journal before saving.');
+                return; // Exit function early if journalText is empty
+            }
 
             if (journalText !== '') {
                 const userDocRef = doc(db, 'patient', auth.currentUser.uid);
@@ -146,11 +176,12 @@ const Journaling = () => {
                                     value={journalText}
                                     onChangeText={text => {
                                         // Limit the number of characters
-                                        if (text.length <= 700) {
+                                        if (text.length <= MAX_CHARACTER_LIMIT) {
                                             // Limit the number of lines
                                             const lines = text.split('\n');
                                             if (lines.length <= 20) {
                                                 setJournalText(text);
+                                                setCharacterCount(text.length); // Update character count
                                             }
                                         }
                                     }}
@@ -162,11 +193,16 @@ const Journaling = () => {
                                     }}
                                 />
                             </ScrollView>
+                            {isKeyboardVisible && (
+                                <Text style={styles.characterCount}>{characterCount}/{MAX_CHARACTER_LIMIT}</Text>
+                            )}
                         </View>
                         <View>
-                            <TouchableOpacity style={styles.button} onPress={handleEnd}>
-                                <Text style={styles.buttonText}>End</Text>
-                            </TouchableOpacity>
+                            {!isKeyboardVisible && (
+                                <TouchableOpacity style={styles.button} onPress={handleEnd}>
+                                    <Text style={styles.buttonText}>Save</Text>
+                                </TouchableOpacity>
+                            )}
                         </View>
                     </>
                 ) : (
@@ -182,9 +218,11 @@ const Journaling = () => {
                     </>
                 )}
 
-                <TouchableOpacity style={styles.btnDashboard} onPress={BackToDashboard}>
-                    <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
-                </TouchableOpacity>
+                {!isKeyboardVisible && (
+                    <TouchableOpacity style={styles.btnDashboard} onPress={BackToDashboard}>
+                        <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
+                    </TouchableOpacity>
+                )}
             </View>
         </ImageBackground>
     );
@@ -331,6 +369,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+    },
+    characterCount: {
+        alignSelf: 'flex-end',
+        marginTop: 5,
+        fontSize: 12,
+        color: '#999',
+        fontFamily: 'SourceCodePro-Regular',
     },
 });
 
