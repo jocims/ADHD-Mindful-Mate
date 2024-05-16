@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, ScrollView, Image, Alert, Modal, TextInput } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Dimensions, Image, ImageBackground, ScrollView, Keyboard } from 'react-native';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -43,6 +43,27 @@ const Game = () => {
     const [minimumDate, setMinimumDate] = useState(new Date());
     const [maximumDate, setMaximumDate] = useState(new Date());
     const [weekDates, setWeekDates] = useState([]);
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => {
+                setKeyboardVisible(true);
+            }
+        );
+        const keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => {
+                setKeyboardVisible(false);
+            }
+        );
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
 
     useEffect(() => {
         // Function to generate dates for the current week (Monday to Sunday)
@@ -299,11 +320,15 @@ const Game = () => {
                             </>
                         )}
 
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={handleEndGame}>
-                                <Text style={styles.buttonText}>End</Text>
-                            </TouchableOpacity>
-                        </View>
+                        {!isKeyboardVisible && (
+
+                            <View style={styles.buttonContainer}>
+                                <TouchableOpacity style={styles.button} onPress={handleEndGame}>
+                                    <Text style={styles.buttonText}>End</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+
                     </>
                 ) : (
                     <>
@@ -389,9 +414,12 @@ const Game = () => {
                     </>
                 )}
 
-                <TouchableOpacity style={styles.btnDashboard} onPress={BackToDashboard}>
-                    <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
-                </TouchableOpacity>
+                {!isKeyboardVisible && (
+                    <TouchableOpacity style={styles.btnDashboard} onPress={BackToDashboard}>
+                        <Text style={styles.btnDashboardText}>Back to Dashboard</Text>
+                    </TouchableOpacity>
+                )}
+
             </ScrollView>
         </ImageBackground >
     );
