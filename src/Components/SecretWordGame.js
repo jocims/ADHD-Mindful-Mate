@@ -26,25 +26,27 @@ const SecretWordGame = ({ selectedDate }) => {
         Professions: ['doctor', 'teacher', 'engineer'],
     };
 
-    const pickWordAndCategory = useCallback(() => {
-        const categories = Object.keys(wordsList);
-        const category = categories[Math.floor(Math.random() * categories.length)];
-        const word = wordsList[category][Math.floor(Math.random() * wordsList[category].length)];
+    const pickWordAndCategory = useCallback((prevWord) => {
+        let categories = Object.keys(wordsList);
+        let category, word;
+        do {
+            category = categories[Math.floor(Math.random() * categories.length)];
+            word = wordsList[category][Math.floor(Math.random() * wordsList[category].length)];
+        } while (word === prevWord);
         return { category, word };
     }, []);
 
     const startGame = useCallback(() => {
         setStartTimer(new Date().getTime());
         clearLettersStates();
-        const { category, word } = pickWordAndCategory();
+        const { category, word } = pickWordAndCategory(pickedWord);
         const wordLetters = word.split('');
         setPickedCategory(category);
         setPickedWord(word);
         setLetters(wordLetters);
         setGameStage('game');
         setGuesses(3);
-        setPreviousWord(''); // Reset the previous word
-    }, [pickWordAndCategory]);
+    }, [pickWordAndCategory, pickedWord]);
 
     const verifyLetter = (letter) => {
         const normalizedLetter = letter.toLowerCase();
