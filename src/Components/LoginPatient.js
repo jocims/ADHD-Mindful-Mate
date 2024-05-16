@@ -142,7 +142,14 @@ const LoginPatient = () => {
                 await ReactNativeAsyncStorage.setItem('userToken', response.user.uid);
                 await ReactNativeAsyncStorage.setItem('userRole', 'patient');
                 await ReactNativeAsyncStorage.setItem('provisionalPassword', userData.User.provisionalPassword.toString());
+
+                await ReactNativeAsyncStorage.removeItem('selectedEmoji');
+                await ReactNativeAsyncStorage.removeItem('selectedEmojiDate');
+
                 console.log('User Token saved!');
+
+                // Update user data context
+                updateUserData({ uid: response.user.uid });
 
                 // Check if it's the first time login with provisional password
                 if (userData.User.provisionalPassword) {
@@ -154,8 +161,6 @@ const LoginPatient = () => {
                 navigation.navigate('PatientDashboard');
                 alert('User logged-in successfully');
 
-                // Update user data context
-                updateUserData({ uid: response.user.uid });
 
                 setLoading(false);
             } else {
