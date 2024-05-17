@@ -90,7 +90,7 @@ const SecretWordGame = ({ selectedDate }) => {
                     id: id,
                     gamePracticeScore: scoreToSave,
                     game: 'Secret Word',
-                    date: new Date().toLocaleDateString('en-GB'),
+                    date: selectedDate.toLocaleDateString('en-GB'),
                     timeDurationOfPractice: duration.toFixed(2),
                     weekCommencing: getMonday(new Date()).toLocaleDateString('en-GB'),
                 },

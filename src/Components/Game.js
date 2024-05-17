@@ -385,7 +385,7 @@ const Game = () => {
                             <View style={styles.gameOptionContainer}>
                                 <View style={styles.gameInfo}>
                                     <Text style={styles.gameName}>Reaction Test</Text>
-                                    <Text style={styles.gameDescription}> Press the shapes quickly!</Text>
+                                    <Text style={styles.gameDescription}>Press the shapes quickly!</Text>
                                     {bestScore && bestScore['Reaction Test'] !== null && (
                                         <Text style={styles.gameDescription}>Best Score: {bestScore['Reaction Test']}</Text>
                                     )}
