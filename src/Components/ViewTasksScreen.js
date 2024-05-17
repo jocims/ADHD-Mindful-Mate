@@ -246,6 +246,8 @@ const ViewTasksScreen = () => {
                     console.error('Error updating task status:', error);
                     alert('Error updating task status.');
                 }
+            } else {
+                alert('No new status selected.');
             }
         } else {
             alert('Please select a task.');
